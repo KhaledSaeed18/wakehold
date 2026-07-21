@@ -91,4 +91,30 @@ struct WakeControllerTests {
         controller.setSuppressed(true)   // a guardrail pauses the hold, but the session is still active
         #expect(fired == 0)
     }
+
+    @Test func defaultsToKeepingTheDisplayAwake() {
+        let controller = WakeController()
+        controller.add(MockSession(isActive: true))
+        #expect(controller.keepDisplayAwake)
+        #expect(controller.heldScope == .display)
+    }
+
+    @Test func lettingTheDisplaySleepReScopesTheLiveAssertion() {
+        let controller = WakeController()
+        controller.add(MockSession(isActive: true))
+        #expect(controller.heldScope == .display)
+        controller.setKeepDisplayAwake(false)
+        #expect(controller.isHoldingAssertion)   // still awake, just no longer holding the screen
+        #expect(controller.heldScope == .system)
+        controller.setKeepDisplayAwake(true)
+        #expect(controller.heldScope == .display)
+    }
+
+    @Test func displayPreferenceAppliesToTheNextAcquire() {
+        let controller = WakeController()
+        controller.setKeepDisplayAwake(false)    // set before any session exists
+        #expect(controller.heldScope == nil)     // nothing held yet, so nothing to re-scope
+        controller.add(MockSession(isActive: true))
+        #expect(controller.heldScope == .system)
+    }
 }

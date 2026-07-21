@@ -9,6 +9,7 @@ import Observation
 public final class WakeController {
     public private(set) var sessions: [any WakeSession] = []
     public private(set) var isSuppressed = false
+    public private(set) var keepDisplayAwake = true
 
     // Fired when the last active session ends (some-active to none-active), so the app can run a
     // post-session action. Independent of suppression: a guardrail pausing the hold is not an end.
@@ -26,6 +27,10 @@ public final class WakeController {
     // Read-only view of whether the IOKit assertion is currently held. Exposed so the reconcile
     // invariant (isHoldingAssertion == isAwake) can be asserted directly in tests.
     var isHoldingAssertion: Bool { assertion != nil }
+
+    // Scope of the live assertion, or nil when none is held. Lets tests check the display/system
+    // default without reaching into IOKit.
+    var heldScope: PowerAssertion.Scope? { assertion?.scope }
 
     public func add(_ session: any WakeSession) {
         sessions.append(session)
@@ -53,15 +58,26 @@ public final class WakeController {
         reconcile()
     }
 
+    // Whether the hold also keeps the screen lit (ADR-019). False lets the display sleep while the
+    // system stays awake, for unattended work. reconcile() re-scopes any live assertion in place.
+    public func setKeepDisplayAwake(_ enabled: Bool) {
+        guard enabled != keepDisplayAwake else { return }
+        keepDisplayAwake = enabled
+        reconcile()
+    }
+
     // Single choke point. Acquire on the first active session, release when the last one ends or a
     // guardrail suppresses, refresh the reason while held, and fire the end hook on the last exit.
     private func reconcile() {
         let active = sessions.contains { $0.isActive }
         if active && !isSuppressed {
-            if assertion == nil {
-                acquire()
+            if let assertion, assertion.scope == scope {
+                assertion.updateReason(reason)
             } else {
-                assertion?.updateReason(reason)
+                // Nothing held, or held at the wrong scope after a display-preference change: an
+                // assertion's type is fixed at creation, so re-acquire rather than mutate.
+                release()
+                acquire()
             }
         } else {
             release()
@@ -72,9 +88,11 @@ public final class WakeController {
         wasActive = active
     }
 
+    private var scope: PowerAssertion.Scope { keepDisplayAwake ? .display : .system }
+
     private func acquire() {
         do {
-            assertion = try PowerAssertion.acquire(scope: .system, name: assertionName, reason: reason)
+            assertion = try PowerAssertion.acquire(scope: scope, name: assertionName, reason: reason)
         } catch {
             log.error("failed to acquire power assertion: \(String(describing: error), privacy: .public)")
         }
