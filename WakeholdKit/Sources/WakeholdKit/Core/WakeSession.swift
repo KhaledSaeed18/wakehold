@@ -10,6 +10,18 @@ public enum SessionKind {
     case command(pid: pid_t, label: String)
     case agent(label: String)
     case calendar(eventID: String)
+
+    // Short stable name for the control endpoint's /status payload.
+    public var name: String {
+        switch self {
+        case .manual: "manual"
+        case .process: "process"
+        case .port: "port"
+        case .command: "command"
+        case .agent: "agent"
+        case .calendar: "calendar"
+        }
+    }
 }
 
 // A wake source with a lifecycle. isActive is event-driven where the platform allows it and
