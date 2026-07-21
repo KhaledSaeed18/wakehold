@@ -71,4 +71,24 @@ struct WakeControllerTests {
         #expect(controller.isAwake)
         #expect(controller.isHoldingAssertion)
     }
+
+    @Test func onSessionsEmptiedFiresWhenLastSessionEnds() {
+        let controller = WakeController()
+        var fired = 0
+        controller.onSessionsEmptied = { fired += 1 }
+        let session = MockSession(isActive: true)
+        controller.add(session)
+        #expect(fired == 0)
+        controller.remove(session.id)
+        #expect(fired == 1)
+    }
+
+    @Test func onSessionsEmptiedIgnoresSuppression() {
+        let controller = WakeController()
+        var fired = 0
+        controller.onSessionsEmptied = { fired += 1 }
+        controller.add(MockSession(isActive: true))
+        controller.setSuppressed(true)   // a guardrail pauses the hold, but the session is still active
+        #expect(fired == 0)
+    }
 }
