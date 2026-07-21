@@ -65,6 +65,11 @@ public final class ControlServer {
         var egid: gid_t = 0
         guard getpeereid(conn, &euid, &egid) == 0, euid == ownerUID else { return }
 
+        // One serial queue serves every client, so a single stalled or silent peer must not
+        // block its read indefinitely and wedge the endpoint for everyone else.
+        var timeout = timeval(tv_sec: 2, tv_usec: 0)
+        setsockopt(conn, SOL_SOCKET, SO_RCVTIMEO, &timeout, socklen_t(MemoryLayout<timeval>.size))
+
         guard let request = readRequest(conn) else {
             writeAll(conn, HTTP.serialize(.error(400, "bad request")))
             return
@@ -78,15 +83,17 @@ public final class ControlServer {
     }
 
     private func readRequest(_ fd: Int32) -> Request? {
+        // Bounds a drip-feeding client that resets the per-read SO_RCVTIMEO on every byte.
+        let deadline = Date(timeIntervalSinceNow: 5)
         var buffer = Data()
         var chunk = [UInt8](repeating: 0, count: 4096)
-        while buffer.count < 64 * 1024 {
+        while buffer.count < 64 * 1024, Date() < deadline {
             if let request = HTTP.parse(buffer) { return request }
             let n = read(fd, &chunk, chunk.count)
             guard n > 0 else { return HTTP.parse(buffer) }
             buffer.append(contentsOf: chunk[0..<n])
         }
-        return nil
+        return HTTP.parse(buffer)
     }
 
     deinit {
