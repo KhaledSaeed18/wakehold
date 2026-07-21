@@ -24,17 +24,7 @@ public final class ControlServer {
         guard fd >= 0 else { throw WakeholdError.endpointFailed("socket") }
 
         unlink(path)   // clear a stale socket from a previous run
-        var addr = sockaddr_un()
-        addr.sun_family = sa_family_t(AF_UNIX)
-        let capacity = MemoryLayout.size(ofValue: addr.sun_path)
-        path.withCString { cstr in
-            withUnsafeMutablePointer(to: &addr.sun_path) {
-                $0.withMemoryRebound(to: CChar.self, capacity: capacity) {
-                    _ = strncpy($0, cstr, capacity - 1)
-                }
-            }
-        }
-
+        var addr = unixSocketAddress(path: path)
         let bound = withUnsafePointer(to: &addr) {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
                 bind(fd, $0, socklen_t(MemoryLayout<sockaddr_un>.size))
@@ -97,19 +87,6 @@ public final class ControlServer {
             buffer.append(contentsOf: chunk[0..<n])
         }
         return nil
-    }
-
-    private func writeAll(_ fd: Int32, _ data: Data) {
-        data.withUnsafeBytes { raw in
-            guard var pointer = raw.baseAddress else { return }
-            var remaining = raw.count
-            while remaining > 0 {
-                let n = Darwin.write(fd, pointer, remaining)
-                guard n > 0 else { break }
-                pointer = pointer.advanced(by: n)
-                remaining -= n
-            }
-        }
     }
 
     deinit {
