@@ -31,6 +31,14 @@ public final class WakeController {
         reconcile()
     }
 
+    // Replace a session sharing this id with an updated copy (used when a session's polled
+    // liveness changes), then reconcile. The array mutation notifies observers.
+    func update(_ session: any WakeSession) {
+        guard let index = sessions.firstIndex(where: { $0.id == session.id }) else { return }
+        sessions[index] = session
+        reconcile()
+    }
+
     // Single choke point. Acquire on the first active session, release when the last one ends,
     // and refresh the human-readable reason while the assertion stays held.
     private func reconcile() {

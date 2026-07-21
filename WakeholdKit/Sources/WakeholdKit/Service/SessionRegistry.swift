@@ -6,11 +6,17 @@ import Foundation
 @MainActor
 public final class SessionRegistry {
     private let wake: WakeController
+    private let portPollInterval: TimeInterval
     private var processSources: [UUID: DispatchSourceProcess] = [:]
+    private var portSessions: [UUID: PortSession] = [:]
+    private var portTimer: DispatchSourceTimer?
 
-    public init(wake: WakeController) {
+    public init(wake: WakeController, portPollInterval: TimeInterval = 10) {
         self.wake = wake
+        self.portPollInterval = portPollInterval
     }
+
+    // MARK: Process
 
     // Start watching a live process. Returns the session id, or nil if the pid is not alive.
     public func startProcess(pid: pid_t, label: String) -> UUID? {
@@ -36,9 +42,53 @@ public final class SessionRegistry {
         return id
     }
 
-    // Remove a session by id. Idempotent.
+    // MARK: Port
+
+    public func startPort(_ port: UInt16, label: String) -> UUID {
+        let session = PortSession(port: port, label: label, isListening: isPortListening(port))
+        portSessions[session.id] = session
+        wake.add(session)
+        startPollingIfNeeded()
+        return session.id
+    }
+
+    private func startPollingIfNeeded() {
+        guard portTimer == nil, !portSessions.isEmpty else { return }
+        let timer = DispatchSource.makeTimerSource(queue: .main)
+        timer.schedule(deadline: .now() + portPollInterval, repeating: portPollInterval)
+        timer.setEventHandler { [weak self] in
+            MainActor.assumeIsolated { self?.pollPorts() }
+        }
+        portTimer = timer
+        timer.resume()
+    }
+
+    private func pollPorts() {
+        // Snapshot so mutating portSessions during the loop is safe.
+        for (id, session) in portSessions {
+            let listening = isPortListening(session.port)
+            guard listening != session.isListening else { continue }
+            var updated = session
+            updated.isListening = listening
+            portSessions[id] = updated
+            wake.update(updated)
+        }
+    }
+
+    private func stopPollingIfIdle() {
+        guard portSessions.isEmpty else { return }
+        portTimer?.cancel()
+        portTimer = nil
+    }
+
+    // MARK: Lifecycle
+
+    // Remove a session by id. Idempotent across every source type.
     public func end(_ id: UUID) {
         cancelSource(id)
+        if portSessions.removeValue(forKey: id) != nil {
+            stopPollingIfIdle()
+        }
         wake.remove(id)
     }
 
@@ -55,5 +105,6 @@ public final class SessionRegistry {
         for source in processSources.values {
             source.cancel()
         }
+        portTimer?.cancel()
     }
 }
