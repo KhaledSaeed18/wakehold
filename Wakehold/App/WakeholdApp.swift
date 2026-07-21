@@ -7,6 +7,7 @@ struct WakeholdApp: App {
     @State private var manual: ManualSessionController
     @State private var registry: SessionRegistry
     @State private var guardrails: GuardrailController
+    @State private var clock: MenuBarClock
     @State private var launch = LaunchAtLogin()
     @State private var server: ControlServer?
 
@@ -17,6 +18,7 @@ struct WakeholdApp: App {
         _manual = State(initialValue: ManualSessionController(wake: controller))
         _registry = State(initialValue: SessionRegistry(wake: controller))
         _guardrails = State(initialValue: GuardrailController(controller: controller, monitor: monitor))
+        _clock = State(initialValue: MenuBarClock(controller: controller))
         _server = State(initialValue: nil)
     }
 
@@ -24,7 +26,7 @@ struct WakeholdApp: App {
         MenuBarExtra {
             MenuBarView(controller: controller, manual: manual)
         } label: {
-            Image(systemName: EyeIcon.systemImageName(isAwake: controller.isAwake))
+            MenuBarLabel(controller: controller, clock: clock)
                 .task { startup() }
         }
 
@@ -38,6 +40,8 @@ struct WakeholdApp: App {
         startEndpoint()
         guardrails.start()
         Hotkey.register(manual: manual)
+        manual.onChange = { [clock] in clock.sync() }
+        clock.sync()
     }
 
     // The endpoint shares the one WakeController with the menu, so sessions opened over the socket
