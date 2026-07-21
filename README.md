@@ -80,7 +80,8 @@ Requires macOS 14 or later and Xcode 16 or later.
 git clone https://github.com/KhaledSaeed18/wakehold
 cd wakehold
 open Wakehold.xcodeproj                    # build and run the menu-bar app
-swift build --package-path WakeholdKit     # build the CLI and run the kit tests
+swift build --package-path WakeholdKit     # build the CLI
+swift test --package-path WakeholdKit      # run the kit tests
 ```
 
 Wakehold is a menu-bar app with no Dock icon. Look for the eye mark in the menu bar after launch.
