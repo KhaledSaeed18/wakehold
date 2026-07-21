@@ -2,7 +2,7 @@ import Foundation
 import IOKit.pwr_mgt
 import UserNotifications
 
-// The real end-action mechanisms. All user-space or one-time TCC (ADR-014): no root helper. This
+// The real end-action mechanisms. All user-space or one-time TCC: no root helper. This
 // is the only place that sleeps the machine or scripts System Events.
 public struct SystemActions: SystemActing {
     private let log = Log.make("SystemActions")

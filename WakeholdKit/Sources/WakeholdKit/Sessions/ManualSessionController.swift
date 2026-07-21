@@ -2,7 +2,6 @@ import Foundation
 
 // Owns the single manual/duration session and its expiry. The menu drives this; it in turn
 // drives WakeController through add/remove, so the controller never learns about manual timers.
-// This is the Phase 0 stand-in for the Phase 2 SessionRegistry (ADR-016).
 @MainActor
 public final class ManualSessionController {
     private let wake: WakeController

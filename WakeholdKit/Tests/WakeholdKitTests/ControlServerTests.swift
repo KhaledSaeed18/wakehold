@@ -45,7 +45,7 @@ struct ControlServerTests {
         #expect(response.contains("404"))
     }
 
-    // The real hook scenario: a curl one-liner over --unix-socket (ADR-011).
+    // The real hook scenario: a curl one-liner over --unix-socket.
     @Test func respondsToCurlOverUnixSocket() async throws {
         let wake = WakeController()
         let registry = SessionRegistry(wake: wake)

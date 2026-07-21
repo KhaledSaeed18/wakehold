@@ -2,7 +2,7 @@ import Foundation
 
 // The lifecycle shape of every wake source: manual timer, watched process, listening port,
 // wrapped command, agent lease, running app, or calendar event. A new session type is a new case
-// here plus one file in Sessions/, never a new wake code path (ADR-001).
+// here plus one file in Sessions/, never a new wake code path.
 public enum SessionKind {
     case manual(until: Date?)          // nil = indefinite
     case process(pid: pid_t)

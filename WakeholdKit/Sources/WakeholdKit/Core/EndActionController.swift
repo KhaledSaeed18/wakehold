@@ -1,7 +1,7 @@
 import Foundation
 
 // Runs an armed post-session action once when the last session ends, with a cancelable grace
-// countdown before the interrupting ones. Armed per occasion: it fires once then disarms (ADR-014).
+// countdown before the interrupting ones. Armed per occasion: it fires once then disarms.
 @MainActor
 @Observable
 public final class EndActionController {

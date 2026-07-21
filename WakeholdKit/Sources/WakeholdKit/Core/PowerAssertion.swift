@@ -5,10 +5,10 @@ import os
 // holds one live assertion. deinit releases it, and the kernel drops every assertion when the
 // process exits, so a leaked or crashed handle can never keep the machine awake past our life.
 final class PowerAssertion {
-    // Display: keep the system running and the screen lit. The default, and the point of the app
-    // (ADR-019). Costs more power, which the battery guardrails and the opt-out below address.
+    // Display: keep the system running and the screen lit. The default, and the point of the app.
+    // Costs more power, which the battery guardrails and the opt-out below address.
     // System: block idle system sleep but let the display sleep. For unattended work.
-    // PreventSystemSleep is deliberately absent: AC-only, and it fights user intent (ADR-012).
+    // PreventSystemSleep is deliberately absent: AC-only, and it fights user intent.
     enum Scope: Equatable {
         case system
         case display

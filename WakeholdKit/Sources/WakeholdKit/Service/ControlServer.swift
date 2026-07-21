@@ -1,8 +1,8 @@
 import Foundation
 import Darwin
 
-// The control endpoint over a Unix domain socket (ADR-011). NWListener cannot bind a UDS, so this
-// uses POSIX AF_UNIX sockets directly with a DispatchSource to accept connections (ADR-018). The
+// The control endpoint over a Unix domain socket. NWListener cannot bind a UDS, so this
+// uses POSIX AF_UNIX sockets directly with a DispatchSource to accept connections. The
 // 0600 socket scopes access to the user; getpeereid is defense in depth against a same-mode peer.
 public final class ControlServer {
     private let path: String

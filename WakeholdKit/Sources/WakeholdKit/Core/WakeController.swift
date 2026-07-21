@@ -58,7 +58,7 @@ public final class WakeController {
         reconcile()
     }
 
-    // Whether the hold also keeps the screen lit (ADR-019). False lets the display sleep while the
+    // Whether the hold also keeps the screen lit. False lets the display sleep while the
     // system stays awake, for unattended work. reconcile() re-scopes any live assertion in place.
     public func setKeepDisplayAwake(_ enabled: Bool) {
         guard enabled != keepDisplayAwake else { return }
