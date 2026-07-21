@@ -10,6 +10,8 @@ public final class SessionRegistry {
     private var processSources: [UUID: DispatchSourceProcess] = [:]
     private var portSessions: [UUID: PortSession] = [:]
     private var portTimer: DispatchSourceTimer?
+    private var leaseTTL: [UUID: TimeInterval] = [:]
+    private var leaseTasks: [UUID: Task<Void, Never>] = [:]
 
     public init(wake: WakeController, portPollInterval: TimeInterval = 10) {
         self.wake = wake
@@ -81,6 +83,42 @@ public final class SessionRegistry {
         portTimer = nil
     }
 
+    // MARK: Agent leases
+
+    // Open an agent lease that holds for ttl seconds unless renewed.
+    public func startAgent(label: String, ttl: TimeInterval) -> UUID {
+        let session = AgentSession(label: label)
+        let id = session.id
+        leaseTTL[id] = ttl
+        wake.add(session)
+        scheduleLeaseExpiry(id)
+        return id
+    }
+
+    // Reset a lease's TTL clock. Returns false if the id is not a known lease.
+    public func renew(_ id: UUID) -> Bool {
+        guard leaseTTL[id] != nil else { return false }
+        scheduleLeaseExpiry(id)
+        return true
+    }
+
+    private func scheduleLeaseExpiry(_ id: UUID) {
+        leaseTasks[id]?.cancel()
+        guard let ttl = leaseTTL[id] else { return }
+        leaseTasks[id] = Task { [weak self] in
+            try? await Task.sleep(for: .seconds(ttl))
+            guard !Task.isCancelled else { return }
+            self?.expireLease(id)
+        }
+    }
+
+    private func expireLease(_ id: UUID) {
+        guard leaseTTL[id] != nil else { return }
+        leaseTasks[id] = nil
+        leaseTTL[id] = nil
+        wake.remove(id)
+    }
+
     // MARK: Lifecycle
 
     // Remove a session by id. Idempotent across every source type.
@@ -89,6 +127,8 @@ public final class SessionRegistry {
         if portSessions.removeValue(forKey: id) != nil {
             stopPollingIfIdle()
         }
+        leaseTasks.removeValue(forKey: id)?.cancel()
+        leaseTTL.removeValue(forKey: id)
         wake.remove(id)
     }
 
@@ -106,5 +146,8 @@ public final class SessionRegistry {
             source.cancel()
         }
         portTimer?.cancel()
+        for task in leaseTasks.values {
+            task.cancel()
+        }
     }
 }
