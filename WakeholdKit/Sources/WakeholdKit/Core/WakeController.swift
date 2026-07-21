@@ -11,9 +11,15 @@ public final class WakeController {
     public private(set) var isSuppressed = false
     public private(set) var keepDisplayAwake = true
 
-    // Fired when the last active session ends (some-active to none-active), so the app can run a
-    // post-session action. Independent of suppression: a guardrail pausing the hold is not an end.
+    // Fired when the last session is removed while sessions were active (some-active to
+    // none-active, with no sessions left present), so the app can run a post-session action. A
+    // present-but-inactive session (a port between polls) is a pause, not an end, so it does not
+    // fire this. Independent of suppression: a guardrail pausing the hold is not an end.
     public var onSessionsEmptied: (@MainActor () -> Void)?
+
+    // Fired on the none-active to some-active edge, used to cancel a pending post-session action
+    // that was armed by a transient inactivity that has now resumed.
+    public var onSessionsResumed: (@MainActor () -> Void)?
 
     private var assertion: PowerAssertion?
     private var wasActive = false
@@ -82,8 +88,11 @@ public final class WakeController {
         } else {
             release()
         }
-        if wasActive && !active {
+        if wasActive && !active && sessions.isEmpty {
             onSessionsEmptied?()
+        }
+        if !wasActive && active {
+            onSessionsResumed?()
         }
         wasActive = active
     }
