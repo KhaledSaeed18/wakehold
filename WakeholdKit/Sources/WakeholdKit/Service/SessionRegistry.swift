@@ -12,6 +12,7 @@ public final class SessionRegistry {
     private var portTimer: DispatchSourceTimer?
     private var leaseTTL: [UUID: TimeInterval] = [:]
     private var leaseTasks: [UUID: Task<Void, Never>] = [:]
+    private var leaseKeys: [String: UUID] = [:]
 
     public init(wake: WakeController, portPollInterval: TimeInterval = 10) {
         self.wake = wake
@@ -85,11 +86,17 @@ public final class SessionRegistry {
 
     // MARK: Agent leases
 
-    // Open an agent lease that holds for ttl seconds unless renewed.
-    public func startAgent(label: String, ttl: TimeInterval) -> UUID {
+    // Open an agent lease that holds for ttl seconds unless renewed. A key (the agent's own
+    // session id) makes the lease addressable by stateless hooks: a repeated start renews it.
+    public func startAgent(key: String? = nil, label: String, ttl: TimeInterval) -> UUID {
+        if let key, let existing = leaseKeys[key] {
+            _ = renew(existing)
+            return existing
+        }
         let session = AgentSession(label: label)
         let id = session.id
         leaseTTL[id] = ttl
+        if let key { leaseKeys[key] = id }
         wake.add(session)
         scheduleLeaseExpiry(id)
         return id
@@ -100,6 +107,16 @@ public final class SessionRegistry {
         guard leaseTTL[id] != nil else { return false }
         scheduleLeaseExpiry(id)
         return true
+    }
+
+    public func renew(key: String) -> Bool {
+        guard let id = leaseKeys[key] else { return false }
+        return renew(id)
+    }
+
+    public func endKey(_ key: String) {
+        guard let id = leaseKeys.removeValue(forKey: key) else { return }
+        end(id)
     }
 
     private func scheduleLeaseExpiry(_ id: UUID) {
@@ -116,6 +133,7 @@ public final class SessionRegistry {
         guard leaseTTL[id] != nil else { return }
         leaseTasks[id] = nil
         leaseTTL[id] = nil
+        leaseKeys = leaseKeys.filter { $0.value != id }
         wake.remove(id)
     }
 
@@ -129,6 +147,7 @@ public final class SessionRegistry {
         }
         leaseTasks.removeValue(forKey: id)?.cancel()
         leaseTTL.removeValue(forKey: id)
+        leaseKeys = leaseKeys.filter { $0.value != id }
         wake.remove(id)
     }
 

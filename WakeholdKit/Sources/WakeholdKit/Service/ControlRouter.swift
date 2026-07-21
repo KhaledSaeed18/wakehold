@@ -23,7 +23,7 @@ extension Response {
 }
 
 // Maps control-endpoint requests to registry actions. The one place that knows the wire contract;
-// the server below only moves bytes.
+// the server only moves bytes.
 @MainActor
 final class ControlRouter {
     private let wake: WakeController
@@ -51,7 +51,7 @@ final class ControlRouter {
         }
         switch req.kind {
         case "agent":
-            return .id(registry.startAgent(label: req.label ?? "agent", ttl: req.ttl ?? 600))
+            return .id(registry.startAgent(key: req.key, label: req.label ?? "agent", ttl: req.ttl ?? 600))
         case "process":
             guard let pid = req.pid else { return .error(400, "process requires pid") }
             guard let id = registry.startProcess(pid: pid, label: req.label ?? "pid \(pid)") else {
@@ -70,12 +70,29 @@ final class ControlRouter {
     }
 
     private func renew(_ body: Data) -> Response {
-        guard let id = decodeID(body) else { return .error(400, "invalid request body") }
+        guard let ref = try? JSONDecoder().decode(RefRequest.self, from: body) else {
+            return .error(400, "invalid request body")
+        }
+        if let key = ref.key {
+            return registry.renew(key: key) ? .ok() : .error(404, "unknown session")
+        }
+        guard let idString = ref.id, let id = UUID(uuidString: idString) else {
+            return .error(400, "invalid request body")
+        }
         return registry.renew(id) ? .ok() : .error(404, "unknown session")
     }
 
     private func end(_ body: Data) -> Response {
-        guard let id = decodeID(body) else { return .error(400, "invalid request body") }
+        guard let ref = try? JSONDecoder().decode(RefRequest.self, from: body) else {
+            return .error(400, "invalid request body")
+        }
+        if let key = ref.key {
+            registry.endKey(key)
+            return .ok()
+        }
+        guard let idString = ref.id, let id = UUID(uuidString: idString) else {
+            return .error(400, "invalid request body")
+        }
         registry.end(id)
         return .ok()
     }
@@ -85,10 +102,5 @@ final class ControlRouter {
             SessionInfo(id: $0.id.uuidString, label: $0.label, kind: $0.kind.name, active: $0.isActive)
         }
         return .json(200, StatusResponse(awake: wake.isAwake, sessions: sessions))
-    }
-
-    private func decodeID(_ body: Data) -> UUID? {
-        guard let req = try? JSONDecoder().decode(IDRequest.self, from: body) else { return nil }
-        return UUID(uuidString: req.id)
     }
 }

@@ -18,16 +18,26 @@ public final class ControlClient {
         try startSession(["kind": "port", "port": Int(port), "label": label])
     }
 
-    public func startAgent(label: String, ttl: TimeInterval) throws -> UUID {
-        try startSession(["kind": "agent", "label": label, "ttl": ttl])
+    public func startAgent(key: String? = nil, label: String, ttl: TimeInterval) throws -> UUID {
+        var json: [String: Any] = ["kind": "agent", "label": label, "ttl": ttl]
+        if let key { json["key"] = key }
+        return try startSession(json)
     }
 
     public func renew(_ id: UUID) throws {
         _ = try send("POST", "/session/renew", json: ["id": id.uuidString])
     }
 
+    public func renew(key: String) throws {
+        _ = try send("POST", "/session/renew", json: ["key": key])
+    }
+
     public func end(_ id: UUID) throws {
         _ = try send("POST", "/session/end", json: ["id": id.uuidString])
+    }
+
+    public func end(key: String) throws {
+        _ = try send("POST", "/session/end", json: ["key": key])
     }
 
     public func off() throws {

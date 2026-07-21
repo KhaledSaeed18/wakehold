@@ -9,10 +9,18 @@ struct StartRequest: Decodable {
     let ttl: TimeInterval?
     let pid: Int32?
     let port: Int?
+    let key: String?
 }
 
 struct IDRequest: Decodable {
     let id: String
+}
+
+// A reference to a session by server id or by client key. Stateless agent hooks use the key
+// (the agent's own session id) so renew and end can find the lease start opened.
+struct RefRequest: Decodable {
+    let id: String?
+    let key: String?
 }
 
 struct IDResponse: Codable {
