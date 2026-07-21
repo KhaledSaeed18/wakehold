@@ -1,71 +1,126 @@
-# Wakehold
+<div align="center">
 
-**Never closes.** A session-aware wake controller for macOS.
+<img src="https://shieldcn.dev/header/graph.svg?title=Wakehold&subtitle=Session-aware%20wake%20control%20for%20macOS&theme=cyan&logo=lu:Eye&size=lg&align=center" width="820" alt="Wakehold" />
 
-Your Mac stays awake exactly as long as your work is alive: a running process, a listening
-port, a wrapped command, a Claude Code session, or a manual timer. When the work ends, Wakehold
-lets go.
+<p>
+  <img src="https://shieldcn.dev/badge/platform-macOS%2014%2B-cyan.svg?variant=secondary&logo=apple&logoColor=ffffff" alt="Platform: macOS 14+" />
+  <img src="https://shieldcn.dev/badge/Swift-6-orange.svg?variant=secondary&logo=swift&logoColor=ffffff" alt="Swift 6" />
+  <img src="https://shieldcn.dev/badge/interface-menu%20bar%20%2B%20CLI-cyan.svg?variant=secondary" alt="Interface: menu bar + CLI" />
+  <a href="#install"><img src="https://shieldcn.dev/badge/install-Homebrew-cyan.svg?variant=secondary&logo=homebrew&logoColor=ffffff" alt="Install: Homebrew" /></a>
+  <a href="LICENSE"><img src="https://shieldcn.dev/badge/license-MIT-green.svg?variant=secondary" alt="License: MIT" /></a>
+  <a href="https://github.com/KhaledSaeed18/wakehold/stargazers"><img src="https://shieldcn.dev/github/stars/KhaledSaeed18/wakehold.svg" alt="GitHub stars" /></a>
+</p>
 
-Not a coffee-cup toggle. Wakehold models the real intent: an active work *session* that holds the
-machine open and releases automatically.
+<strong>Holds. Then lets go.</strong>
 
-## Features (planned)
+</div>
 
-- Manual keep-awake with durations (1h / 2h / 3h / ∞)
-- Stay awake while a **process** (PID) is alive
-- Stay awake while a **port** is in use (your dev server)
-- **Command wrapper:** `wakehold -- pnpm build`: awake until it exits
-- **Agent sessions** (Claude Code, Codex CLI, Gemini CLI, Cursor) via hook snippets and a
-  local control endpoint
-- **Post-session actions:** when the last session ends, optionally sleep the display, sleep
-  the Mac, shut down, or notify
-- Power guardrails: auto-release on unplug, low battery, or Low Power Mode
-- Menu-bar app + CLI + local control endpoint (Unix socket)
+Wakehold keeps your Mac awake for exactly as long as your work is alive, then lets it sleep. A
+running process, a listening port, a wrapped command, an agent session, or a plain timer: each is a
+*session* that holds the machine open. When the last one ends, the hold releases on its own.
 
-## Status
+Most keep-awake tools are a coffee-cup switch you flip on and forget to flip off. Wakehold models
+the actual intent. You do not tell it "stay awake"; you tell it what to watch, and it stays awake
+while that thing runs.
 
-Early development. See `docs/ROADMAP.md`.
+## Why Wakehold
+
+- **It follows your work, not a timer.** Keep the Mac awake while `pnpm build` runs, while your dev
+  server holds `:3000`, while a Claude Code session is active, or while a chosen app is open. The
+  moment the work ends, the hold ends.
+- **The screen stays on.** By default Wakehold keeps the display lit, not just the system. Turn that
+  off for unattended work and the system stays awake while the screen sleeps.
+- **It cleans up after itself.** When the last session ends it can sleep the display, sleep the Mac,
+  shut down, restart, or notify. "Run the agent overnight, shut down when it finishes" is one switch.
+- **It is legible.** Every hold shows up in `pmset -g assertions` with a human-readable reason. No
+  mystery wakeups.
+- **One tool, many clients.** A menu-bar app, a `wakehold` CLI, and a local control endpoint that any
+  script or agent can open a session against.
+
+## Features
+
+| Session source | Stays awake while ... |
+|----------------|-----------------------|
+| Manual         | a timer runs, or indefinitely |
+| Process        | a PID is alive |
+| Port           | something listens on a port (your dev server) |
+| Command        | a wrapped command runs: `wakehold -- pnpm build` |
+| Agent          | an agent session is active (Claude Code, Codex, Gemini, Cursor) |
+| App            | a chosen app is running |
+
+On top of the sources:
+
+- **Post-session actions**: notify, sleep the display, sleep the Mac, shut down, or restart when the
+  last session ends. Armed per occasion, shown in the menu, cancelable.
+- **Power guardrails**: release on battery, below a battery percentage, or in Low Power Mode.
+- **Keep the display on** by default, with a one-switch opt-out.
+- **Custom durations**: define your own quick-pick durations and a default.
+- Global toggle shortcut, a live countdown in the menu bar, and launch at login.
+
+## How it works
+
+Everything is a **session** with a lifecycle. The wake assertion is a derived value: the Mac is
+awake if and only if some session is active and no guardrail is suppressing. Nothing flips the
+assertion directly; a single controller reconciles one IOKit power assertion to match the session
+set.
+
+Liveness is event-driven where the platform allows it. A process session watches the PID with a
+`DispatchSource` and releases the instant it exits, with no polling loop. Agent sessions are leases
+with a TTL, renewed on activity, so a crash without a goodbye still releases within the TTL.
+
+The keystone is a **local control endpoint**: a Unix domain socket under Application Support, mode
+0600, peer-checked. It is not a TCP port, so it is unreachable from the browser and scoped to your
+user by the filesystem. The CLI and every agent hook are just clients that open, renew, and close
+sessions over it. `curl --unix-socket` speaks to it directly, which keeps hook one-liners trivial.
 
 ## Install
 
-Once released, via a personal Homebrew tap:
+### Homebrew (once released)
 
 ```bash
 brew install --cask KhaledSaeed18/wakehold/wakehold
 ```
 
-This installs the menu-bar app and puts the `wakehold` CLI on your PATH. Otherwise, build from
-source below.
+This installs the menu-bar app and puts the `wakehold` CLI on your PATH.
 
-## Build
+### Build from source
 
-Requires macOS 14+, Xcode 16+.
+Requires macOS 14 or later and Xcode 16 or later.
 
 ```bash
 git clone https://github.com/KhaledSaeed18/wakehold
 cd wakehold
-open Wakehold.xcodeproj                    # the menu-bar app
-swift build --package-path WakeholdKit     # the wakehold CLI and WakeholdKit tests
+open Wakehold.xcodeproj                    # build and run the menu-bar app
+swift build --package-path WakeholdKit     # build the CLI and run the kit tests
 ```
 
-## CLI
+Wakehold is a menu-bar app with no Dock icon. Look for the eye mark in the menu bar after launch.
 
-The `wakehold` CLI talks to the running app over its local control endpoint:
+## Usage
+
+### Menu bar
+
+Click the eye to open the menu: pick a duration, keep awake while an app runs, arm a post-session
+action, or open Settings. The mark carries a diagonal slash when nothing is holding the Mac awake.
+
+### CLI
+
+The `wakehold` CLI talks to the running app over the local endpoint:
 
 ```bash
-wakehold -- pnpm build        # hold while the command runs, release on exit
-wakehold --keep 51234         # hold while process 51234 is alive
-wakehold --keep :3000         # hold while something listens on :3000
-wakehold status               # show what is holding the Mac awake
-wakehold off                  # release sessions opened over the endpoint
+wakehold -- pnpm build     # hold while the command runs, release on exit
+wakehold --keep 51234      # hold while process 51234 is alive
+wakehold --keep :3000      # hold while something listens on :3000
+wakehold status            # show what is holding the Mac awake
+wakehold off               # release sessions opened over the endpoint
 ```
 
-## Agent hooks
+### Agent hooks
 
-Agent CLIs keep the Mac awake through `wakehold hook`, which reads the tool's event JSON on
-stdin and opens a renewing lease keyed by the agent's session id. If the app is not running the
-hook does nothing, so it never gets in the agent's way, and the lease expires on its own if the
-agent crashes without a goodbye.
+Agent CLIs keep the Mac awake through `wakehold hook`, which reads the tool's event JSON on stdin
+and opens a renewing lease keyed by the agent's session id. If the app is not running the hook does
+nothing, so it never blocks the agent, and the lease expires on its own if the agent crashes without
+a goodbye.
 
 **Claude Code** (`~/.claude/settings.json`, or a project `.claude/settings.json`):
 
@@ -92,6 +147,45 @@ three commands so their event JSON reaches `wakehold hook` on stdin:
 `wakehold hook` finds the session id under `session_id`, `sessionId`, or `id`, and labels the
 session with the working directory, so the same commands work across tools.
 
+## Configuration
+
+Settings has four tabs:
+
+- **General**: keep the display on (default on), launch at login, and a shortcut to the macOS
+  notification settings.
+- **Durations**: add and remove quick-pick durations, and set the default.
+- **Battery**: release on battery, release below a battery percentage, and release in Low Power Mode.
+- **About**: version and links.
+
+## Architecture
+
+Two layers with a clean seam:
+
+- **`WakeholdKit`**, a local Swift package: the session registry, the IOKit assertion, and the
+  control endpoint. No SwiftUI. Builds and is tested headless with `swift test`.
+- **The app**, a SwiftUI menu-bar target: it observes the controller and sends intent, and never
+  touches IOKit.
+
+IOKit lives in one file (`PowerAssertion`); the controller is the only decider. A new session type
+is one file conforming to `WakeSession`, wired through the registry, with the controller untouched.
+See [CLAUDE.md](CLAUDE.md) for the full map and the design rules.
+
+## Development
+
+```bash
+swift test --package-path WakeholdKit                                 # kit + CLI tests
+swift build --package-path WakeholdKit -c release --product wakehold  # the CLI
+xcodebuild -project Wakehold.xcodeproj -scheme Wakehold build         # the app
+```
+
+If Xcode is installed but is not the active command-line toolchain, prefix these with
+`DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer`.
+
+## Requirements
+
+- macOS 14 (Sonoma) or later
+- Apple Silicon or Intel
+
 ## License
 
-MIT
+MIT. See [LICENSE](LICENSE).
