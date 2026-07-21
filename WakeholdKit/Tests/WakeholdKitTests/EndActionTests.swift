@@ -21,7 +21,7 @@ struct EndActionTests {
         #expect(controller.pending == nil)
     }
 
-    @Test func destructiveActionWarnsThenRunsAfterGrace() async {
+    @Test func destructiveActionWarnsThenRunsAfterGrace() async throws {
         let spy = SpyActions()
         let controller = EndActionController(executor: spy, graceDuration: 0.2)
         controller.arm(.systemSleep)
@@ -29,7 +29,7 @@ struct EndActionTests {
         #expect(controller.pending == .systemSleep)
         #expect(!spy.warnings.isEmpty)              // warned first
         #expect(spy.ran.isEmpty)                    // not yet
-        try? await Task.sleep(for: .seconds(0.5))
+        try await pollUntil(timeout: 5) { !spy.ran.isEmpty }
         #expect(spy.ran == [.systemSleep])
         #expect(controller.pending == nil)
     }

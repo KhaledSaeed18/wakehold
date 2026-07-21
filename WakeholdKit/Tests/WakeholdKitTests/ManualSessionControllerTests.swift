@@ -50,12 +50,12 @@ struct ManualSessionControllerTests {
         #expect(!manual.isRunning)
     }
 
-    @Test func timedSessionExpiresAtTarget() async {
+    @Test func timedSessionExpiresAtTarget() async throws {
         let wake = WakeController()
         let manual = ManualSessionController(wake: wake)
         manual.start(ManualSession(label: "1 hour", until: Date(timeIntervalSinceNow: 0.3)))
         #expect(wake.isAwake)
-        try? await Task.sleep(for: .seconds(0.8))
+        try await pollUntil(timeout: 5) { wake.sessions.isEmpty }
         #expect(!wake.isAwake)
         #expect(wake.sessions.isEmpty)
     }

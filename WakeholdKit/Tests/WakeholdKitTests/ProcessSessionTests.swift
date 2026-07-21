@@ -21,7 +21,7 @@ struct ProcessSessionTests {
 
         // Killing it should fire the dispatch source and remove the session.
         proc.terminate()
-        try await pollUntil(timeout: 5) { !wake.isAwake }
+        try await pollUntil(timeout: 5) { wake.sessions.isEmpty }
         #expect(!wake.isAwake)
         #expect(!wake.isHoldingAssertion)
         #expect(wake.sessions.isEmpty)
