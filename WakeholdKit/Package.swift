@@ -9,9 +9,11 @@ let package = Package(
     platforms: [.macOS(.v14)],
     products: [
         .library(name: "WakeholdKit", targets: ["WakeholdKit"]),
+        .executable(name: "wakehold", targets: ["wakehold"]),
     ],
     targets: [
         .target(name: "WakeholdKit"),
+        .executableTarget(name: "wakehold", dependencies: ["WakeholdKit"]),
         .testTarget(name: "WakeholdKitTests", dependencies: ["WakeholdKit"]),
     ],
     swiftLanguageModes: [.v5]
