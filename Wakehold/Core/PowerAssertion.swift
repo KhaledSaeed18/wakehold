@@ -22,7 +22,7 @@ final class PowerAssertion {
 
     let scope: Scope
     private var id: IOPMAssertionID = 0
-    private let log = Logger(subsystem: "app.wakehold.Wakehold", category: "PowerAssertion")
+    private let log = Log.make("PowerAssertion")
 
     private init(scope: Scope, id: IOPMAssertionID) {
         self.scope = scope
