@@ -59,4 +59,16 @@ struct WakeControllerTests {
         #expect(!controller.isAwake)
         #expect(!controller.isHoldingAssertion)
     }
+
+    @Test func suppressionReleasesThenResumes() {
+        let controller = WakeController()
+        controller.add(MockSession(isActive: true))
+        #expect(controller.isHoldingAssertion)
+        controller.setSuppressed(true)
+        #expect(!controller.isAwake)
+        #expect(!controller.isHoldingAssertion)
+        controller.setSuppressed(false)
+        #expect(controller.isAwake)
+        #expect(controller.isHoldingAssertion)
+    }
 }
