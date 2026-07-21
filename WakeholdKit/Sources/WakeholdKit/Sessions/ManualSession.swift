@@ -33,7 +33,7 @@ public struct ManualSession: WakeSession {
 }
 
 // The fixed choices offered in the menu. interval is nil for the indefinite case.
-public enum ManualDuration: CaseIterable, Identifiable, Equatable {
+public enum ManualDuration: String, CaseIterable, Identifiable, Equatable {
     case oneHour
     case twoHours
     case threeHours

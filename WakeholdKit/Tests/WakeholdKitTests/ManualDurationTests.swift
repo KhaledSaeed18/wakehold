@@ -19,4 +19,11 @@ struct ManualDurationTests {
     @Test func allCasesCoverEveryChoice() {
         #expect(ManualDuration.allCases.count == 4)
     }
+
+    // The raw values persist via @AppStorage, so they must stay stable across releases.
+    @Test func rawValuesAreStableForPersistence() {
+        #expect(ManualDuration.oneHour.rawValue == "oneHour")
+        #expect(ManualDuration(rawValue: "twoHours") == .twoHours)
+        #expect(ManualDuration(rawValue: "bogus") == nil)
+    }
 }
