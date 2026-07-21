@@ -20,7 +20,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 ## Phase 2, Watchers + the keystone endpoint
 - [x] Process session via `DispatchSource.makeProcessSource(... .exit)`, with PID-exists
       recheck after arming and start-time capture against PID reuse.
-- [ ] Port session (connect-attempt poll, coarse interval, suspended when unused).
+- [x] Port session (connect-attempt poll, coarse interval, suspended when unused).
 - [ ] **Local control endpoint** on a Unix domain socket (0600, `getpeereid` check):
       `/session/start`, `/session/renew`, `/session/end`, `/status`. Lease TTL expiry.
 **Teaches:** GCD dispatch sources, Network.framework. UNLOCKS CLI + hooks + remote at once.
