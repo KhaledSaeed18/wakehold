@@ -35,9 +35,9 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 **Teaches:** Process API, IOKit power-source callbacks, SwiftPM deps, MenuBarExtra limits.
 
 ## Phase 4, Integrations + end actions
-- [ ] Claude Code hooks: SessionStart → /session/start, Stop/PostToolUse → /session/renew,
+- [x] Claude Code hooks: SessionStart → /session/start, Stop/PostToolUse → /session/renew,
       SessionEnd → /session/end. Copy-paste snippet in README.
-- [ ] Hook snippets for Codex CLI, Gemini CLI, Cursor (same contract).
+- [x] Hook snippets for Codex CLI, Gemini CLI, Cursor (same contract).
 - [ ] Post-session actions: notify, display sleep, system sleep (`IOPMSleepSystem`),
       shut down / restart (System Events AppleScript, `NSAppleEventsUsageDescription`).
       Armed per occasion, visible in menu bar, cancelable, grace countdown.
