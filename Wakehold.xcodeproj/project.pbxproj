@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		000000000000000000000011 /* WakeholdKit in Frameworks */ = {isa = PBXBuildFile; productRef = 000000000000000000000013 /* WakeholdKit */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		000000000000000000000004 /* Wakehold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wakehold.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				000000000000000000000011 /* WakeholdKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +82,9 @@
 				000000000000000000000005 /* Wakehold */,
 			);
 			name = Wakehold;
+			packageProductDependencies = (
+				000000000000000000000013 /* WakeholdKit */,
+			);
 			productName = Wakehold;
 			productReference = 000000000000000000000004 /* Wakehold.app */;
 			productType = "com.apple.product-type.application";
@@ -105,6 +113,9 @@
 			);
 			mainGroup = 000000000000000000000002;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				000000000000000000000012 /* XCLocalSwiftPackageReference "WakeholdKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 000000000000000000000003 /* Products */;
 			projectDirPath = "";
@@ -316,6 +327,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		000000000000000000000012 /* XCLocalSwiftPackageReference "WakeholdKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = WakeholdKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		000000000000000000000013 /* WakeholdKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WakeholdKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 000000000000000000000001 /* Project object */;
 }

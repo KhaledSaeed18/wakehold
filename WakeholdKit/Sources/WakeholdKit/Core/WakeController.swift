@@ -6,14 +6,16 @@ import Observation
 // reconcile() settle the assertion. Nothing outside here touches the assertion or IOKit.
 @MainActor
 @Observable
-final class WakeController {
-    private(set) var sessions: [any WakeSession] = []
+public final class WakeController {
+    public private(set) var sessions: [any WakeSession] = []
 
     private var assertion: PowerAssertion?
     private let assertionName = "Wakehold"
     private let log = Log.make("WakeController")
 
-    var isAwake: Bool { sessions.contains { $0.isActive } }
+    public init() {}
+
+    public var isAwake: Bool { sessions.contains { $0.isActive } }
 
     // Read-only view of whether the IOKit assertion is currently held. Exposed so the reconcile
     // invariant (isHoldingAssertion == isAwake) can be asserted directly in tests.

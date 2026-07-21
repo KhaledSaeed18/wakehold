@@ -1,4 +1,5 @@
 import SwiftUI
+import WakeholdKit
 
 // Contents of the menu-bar dropdown. A pure observer of the controller: it reads state and sends
 // intent, never touching the assertion or IOKit. Rendered in the default menu style, so these

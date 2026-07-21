@@ -1,4 +1,5 @@
 import SwiftUI
+import WakeholdKit
 
 @main
 struct WakeholdApp: App {
