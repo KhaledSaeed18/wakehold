@@ -115,3 +115,18 @@ countdown before destructive ones. Nothing requiring root (scheduled wake) ships
 **Why:** "run the agent overnight, shut down when done" is the headline gap no competitor
 covers. All chosen actions are unprivileged or one-time-TCC (System Events AppleScript).
 **Rejected:** sticky global end actions (surprise shutdowns destroy trust); root helpers.
+
+## ADR-015, Micro-commit workflow (supersedes ADR-009's approval clause)
+**Decision:** every small, self-contained unit of work (one type, one file group, one behavior,
+one doc update) is committed immediately without prior approval. Push to origin main when a
+feature or roadmap checkbox is complete; one push may carry several micro-commits. Everything
+goes straight to main: no branches, no PRs for now. Never force-push, never rewrite pushed
+history. Commit-message hygiene from ADR-009 stays in force (conventional-commit style, no
+AI/agent/tool attribution, the human is the sole author of record).
+**Why:** planning is done and build work produces many small, reviewable diffs. Gating each on
+manual approval stalls throughput without adding review value when the diffs are already small
+enough to read at a glance. Pushing per completed checkbox keeps origin current at natural
+boundaries.
+**Rejected:** approval before every commit (ADR-009's original stance, too slow for build work);
+batching a session's work into one large commit (unreviewable, mixes concerns); feature branches
+and PRs (needless overhead for a solo project at this stage).
