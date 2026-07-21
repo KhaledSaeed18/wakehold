@@ -158,3 +158,14 @@ dependency. Widening the boundary API to public is the intended use of access co
 **Rejected:** an app-hosted test target (needs the GUI app as host, does not run headlessly, and
 does not realize the no-UI seam); a dynamic framework target in the xcodeproj (more project
 surface and needs embedding, while a static package library links with none).
+
+## ADR-018, Control endpoint on POSIX AF_UNIX sockets, not NWListener
+**Decision:** the control server is POSIX `AF_UNIX` sockets with a `DispatchSource` accepting
+connections, a minimal HTTP/1.1 parser, and a getpeereid uid check. It is not Network.framework.
+**Why:** ADR-011 fixed the transport as a Unix domain socket. `NWListener` cannot bind or listen
+on a UDS; it is built around IP endpoints and ports. POSIX sockets are the only way to listen on
+a filesystem socket, and a `DispatchSource` keeps the accept loop event-driven with no polling
+thread. curl's `--unix-socket` speaks HTTP/1.1 over the socket, so a small parser keeps hook
+one-liners trivial. CONVENTIONS §4's earlier "NWListener" note predated this and is corrected.
+**Rejected:** NWListener (cannot bind a UDS); a localhost TCP NWListener (reopens the browser and
+local-process attack surface that ADR-011 closed).

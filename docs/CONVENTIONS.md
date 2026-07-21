@@ -98,7 +98,8 @@ Every piece of code has one home. Never mix layers.
 - **Sessions**: one file per session source (process, port, command, agent, calendar). Each
   conforms to `WakeSession` and reports liveness. Adding a feature means adding a file here, not
   editing the controller.
-- **Service**: the control endpoint (`NWListener`), request routing, the session registry glue.
+- **Service**: the control endpoint (a UDS listener on POSIX sockets, ADR-018), request routing,
+  the session registry glue.
 - **CLI**: a thin client over the service. No wake logic of its own.
 - **UI**: `MenuBarExtra`, menu content, settings scene. Observes the controller only.
 - **App**: `@main`, wiring, launch-at-login.
