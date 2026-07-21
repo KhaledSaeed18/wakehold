@@ -2,12 +2,13 @@ import Foundation
 import Observation
 
 // The only place that decides when the Mac stays awake. The assertion is a derived value:
-// awake iff any session is active. Callers mutate the session set through add/remove and let
-// reconcile() settle the assertion. Nothing outside here touches the assertion or IOKit.
+// awake iff any session is active and no power guardrail is suppressing. Callers mutate the
+// session set through add/remove and let reconcile() settle the assertion.
 @MainActor
 @Observable
 public final class WakeController {
     public private(set) var sessions: [any WakeSession] = []
+    public private(set) var isSuppressed = false
 
     private var assertion: PowerAssertion?
     private let assertionName = "Wakehold"
@@ -15,7 +16,7 @@ public final class WakeController {
 
     public init() {}
 
-    public var isAwake: Bool { sessions.contains { $0.isActive } }
+    public var isAwake: Bool { !isSuppressed && sessions.contains { $0.isActive } }
 
     // Read-only view of whether the IOKit assertion is currently held. Exposed so the reconcile
     // invariant (isHoldingAssertion == isAwake) can be asserted directly in tests.
@@ -39,8 +40,16 @@ public final class WakeController {
         reconcile()
     }
 
-    // Single choke point. Acquire on the first active session, release when the last one ends,
-    // and refresh the human-readable reason while the assertion stays held.
+    // Global power-guardrail suppression: while suppressed no session holds the assertion, but the
+    // sessions remain so the hold resumes when the guardrail clears (e.g. back on AC power).
+    public func setSuppressed(_ suppressed: Bool) {
+        guard suppressed != isSuppressed else { return }
+        isSuppressed = suppressed
+        reconcile()
+    }
+
+    // Single choke point. Acquire on the first active session, release when the last one ends or
+    // a guardrail suppresses, and refresh the human-readable reason while the assertion is held.
     private func reconcile() {
         guard isAwake else {
             release()
