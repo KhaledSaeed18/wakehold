@@ -10,7 +10,12 @@ public final class WakeController {
     public private(set) var sessions: [any WakeSession] = []
     public private(set) var isSuppressed = false
 
+    // Fired when the last active session ends (some-active to none-active), so the app can run a
+    // post-session action. Independent of suppression: a guardrail pausing the hold is not an end.
+    public var onSessionsEmptied: (@MainActor () -> Void)?
+
     private var assertion: PowerAssertion?
+    private var wasActive = false
     private let assertionName = "Wakehold"
     private let log = Log.make("WakeController")
 
@@ -48,18 +53,23 @@ public final class WakeController {
         reconcile()
     }
 
-    // Single choke point. Acquire on the first active session, release when the last one ends or
-    // a guardrail suppresses, and refresh the human-readable reason while the assertion is held.
+    // Single choke point. Acquire on the first active session, release when the last one ends or a
+    // guardrail suppresses, refresh the reason while held, and fire the end hook on the last exit.
     private func reconcile() {
-        guard isAwake else {
-            release()
-            return
-        }
-        if assertion == nil {
-            acquire()
+        let active = sessions.contains { $0.isActive }
+        if active && !isSuppressed {
+            if assertion == nil {
+                acquire()
+            } else {
+                assertion?.updateReason(reason)
+            }
         } else {
-            assertion?.updateReason(reason)
+            release()
         }
+        if wasActive && !active {
+            onSessionsEmptied?()
+        }
+        wasActive = active
     }
 
     private func acquire() {
