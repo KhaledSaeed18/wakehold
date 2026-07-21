@@ -19,10 +19,17 @@ The full style and structure guide lives in `docs/CONVENTIONS.md`. Read it befor
 
 ## Git rules (hard)
 
-- Never commit or push without being asked. Stage and describe changes, then wait for approval.
-- Commit messages describe the change only. Never add a co-author trailer, never mention an AI,
-  agent, assistant, or tool as author or contributor. No "Generated with", no "Co-Authored-By".
-- Conventional-commit style: `type(scope): summary`. Imperative mood, lower case, no trailing period.
+- Micro-commits: every small, self-contained unit of work gets its own commit immediately (one
+  type, one file group, one behavior, one doc update). Never batch unrelated changes into one
+  commit. Commits must be small enough to review at a glance.
+- Push cadence: commit locally as you go, push to origin main when a feature or roadmap checkbox
+  is complete. One push may carry multiple micro-commits.
+- Everything goes directly to main. No branches, no PRs for now.
+- Commit messages: conventional-commit style, `type(scope): summary`, imperative mood, lower case,
+  no trailing period. Body only when the why is not obvious from the diff.
+- Strictly forbidden in commits: co-author trailers, "Generated with", any mention of an AI, agent,
+  assistant, or tool as author or contributor. The human is the sole author of record.
+- Never force-push. Never rewrite pushed history.
 
 ## Platform rules (hard)
 
