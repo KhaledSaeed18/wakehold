@@ -18,7 +18,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 **Teaches:** app lifecycle, settings surface.
 
 ## Phase 2, Watchers + the keystone endpoint
-- [ ] Process session via `DispatchSource.makeProcessSource(... .exit)`, with PID-exists
+- [x] Process session via `DispatchSource.makeProcessSource(... .exit)`, with PID-exists
       recheck after arming and start-time capture against PID reuse.
 - [ ] Port session (connect-attempt poll, coarse interval, suspended when unused).
 - [ ] **Local control endpoint** on a Unix domain socket (0600, `getpeereid` check):
