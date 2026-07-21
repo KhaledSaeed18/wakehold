@@ -27,19 +27,19 @@ public final class WakeController {
     // invariant (isHoldingAssertion == isAwake) can be asserted directly in tests.
     var isHoldingAssertion: Bool { assertion != nil }
 
-    func add(_ session: any WakeSession) {
+    public func add(_ session: any WakeSession) {
         sessions.append(session)
         reconcile()
     }
 
-    func remove(_ id: UUID) {
+    public func remove(_ id: UUID) {
         sessions.removeAll { $0.id == id }
         reconcile()
     }
 
     // Replace a session sharing this id with an updated copy (used when a session's polled
     // liveness changes), then reconcile. The array mutation notifies observers.
-    func update(_ session: any WakeSession) {
+    public func update(_ session: any WakeSession) {
         guard let index = sessions.firstIndex(where: { $0.id == session.id }) else { return }
         sessions[index] = session
         reconcile()
