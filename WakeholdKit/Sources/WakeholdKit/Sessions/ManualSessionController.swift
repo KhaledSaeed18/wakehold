@@ -36,6 +36,9 @@ public final class ManualSessionController {
         }
     }
 
+    // Whether a manual session is currently running, for the toggle hotkey.
+    public var isRunning: Bool { currentID != nil }
+
     // Anchor removal to the absolute target date, not an accumulated countdown. isActive already
     // guarantees correctness; this timer just nudges the controller to release near the target.
     private func scheduleExpiry(for session: ManualSession) {
