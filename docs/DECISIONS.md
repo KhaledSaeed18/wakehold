@@ -130,3 +130,16 @@ boundaries.
 **Rejected:** approval before every commit (ADR-009's original stance, too slow for build work);
 batching a session's work into one large commit (unreviewable, mixes concerns); feature branches
 and PRs (needless overhead for a solo project at this stage).
+
+## ADR-016, Manual session orchestration in a coordinator, not the controller
+**Decision:** the single manual/duration session and its expiry timer live in a small
+`ManualSessionController` (@MainActor) that drives `WakeController` through add/remove.
+WakeController stays generic: it never learns that manual timers exist.
+**Why:** keeps the controller a pure session-to-assertion engine (ADR-001, CONVENTIONS §4/§10)
+and foreshadows the Phase 2 SessionRegistry, which will own session creation for every source the
+same way. Manual is just the first source to get a coordinator. Expiry is anchored to the
+absolute target Date (isActive reads the wall clock); the timer only nudges release, so a late
+fire or a sleep/wake cannot hold the Mac past the target.
+**Rejected:** manual state and expiry stored on WakeController (couples the generic core to one
+session type); a self-scheduling class ManualSession (sessions stay value types; expiry is
+orchestration, not session data).
