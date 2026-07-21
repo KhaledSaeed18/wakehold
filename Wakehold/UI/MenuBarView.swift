@@ -7,6 +7,7 @@ import WakeholdKit
 struct MenuBarView: View {
     let controller: WakeController
     let manual: ManualSessionController
+    @AppStorage("lastManualDuration") private var lastDuration: ManualDuration = .oneHour
 
     var body: some View {
         status
@@ -14,7 +15,10 @@ struct MenuBarView: View {
         Divider()
 
         ForEach(ManualDuration.allCases) { duration in
-            Button(duration.menuTitle) { manual.start(duration) }
+            Button(duration.menuTitle) {
+                lastDuration = duration
+                manual.start(duration)
+            }
         }
 
         if controller.isAwake {
@@ -22,6 +26,10 @@ struct MenuBarView: View {
         }
 
         Divider()
+
+        SettingsLink {
+            Text("Settings…")
+        }
 
         Button("Quit Wakehold") {
             NSApplication.shared.terminate(nil)

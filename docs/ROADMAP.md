@@ -12,7 +12,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 **Teaches:** assertion lifecycle, MenuBarExtra scene, the session→assertion derivation.
 
 ## Phase 1, State that survives
-- [ ] `@AppStorage` for last-used duration + prefs.
+- [x] `@AppStorage` for last-used duration + prefs.
 - [x] Launch-at-login via `SMAppService.mainApp.register()`.
 - [x] Settings scene (free ⌘, in SwiftUI).
 **Teaches:** app lifecycle, settings surface.
