@@ -132,6 +132,14 @@ public final class SessionRegistry {
         wake.remove(id)
     }
 
+    // End every session this registry owns (process, port, agent). The manual timer is separate.
+    public func endAll() {
+        let ids = Set(processSources.keys).union(portSessions.keys).union(leaseTTL.keys)
+        for id in ids {
+            end(id)
+        }
+    }
+
     private func handleExit(_ id: UUID) {
         cancelSource(id)
         wake.remove(id)

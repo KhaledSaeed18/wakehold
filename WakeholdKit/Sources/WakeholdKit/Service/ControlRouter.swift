@@ -40,6 +40,7 @@ final class ControlRouter {
         case ("POST", "/session/renew"): return renew(request.body)
         case ("POST", "/session/end"): return end(request.body)
         case ("GET", "/status"): return status()
+        case ("POST", "/off"): registry.endAll(); return .ok()
         default: return .error(404, "not found")
         }
     }
