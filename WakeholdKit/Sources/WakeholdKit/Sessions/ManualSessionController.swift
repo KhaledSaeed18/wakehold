@@ -16,9 +16,10 @@ public final class ManualSessionController {
         self.wake = wake
     }
 
-    // Manual is a single toggle: a new choice replaces any running manual session.
-    public func start(_ duration: ManualDuration) {
-        start(ManualSession(duration: duration))
+    // Manual is a single toggle: a new choice replaces any running manual session. seconds nil
+    // means indefinite.
+    public func start(label: String, seconds: TimeInterval?) {
+        start(ManualSession(label: label, seconds: seconds))
     }
 
     // Start a pre-built session. The shape future session sources will use, and the seam tests
