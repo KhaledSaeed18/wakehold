@@ -27,14 +27,14 @@ struct ErrorResponse: Codable {
     let error: String
 }
 
-struct StatusResponse: Codable {
-    let awake: Bool
-    let sessions: [SessionInfo]
+public struct StatusResponse: Codable {
+    public let awake: Bool
+    public let sessions: [SessionInfo]
 }
 
-struct SessionInfo: Codable {
-    let id: String
-    let label: String
-    let kind: String
-    let active: Bool
+public struct SessionInfo: Codable {
+    public let id: String
+    public let label: String
+    public let kind: String
+    public let active: Bool
 }
