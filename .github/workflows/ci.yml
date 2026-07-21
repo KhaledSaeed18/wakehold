@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  kit:
+    name: Kit tests
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app || sudo xcode-select -s /Applications/Xcode.app
+      - name: Test WakeholdKit
+        run: swift test --package-path WakeholdKit
+
+  app:
+    name: App build
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Select Xcode
+        run: sudo xcode-select -s /Applications/Xcode_16.2.app || sudo xcode-select -s /Applications/Xcode.app
+      - name: Build Wakehold
+        run: >
+          xcodebuild -project Wakehold.xcodeproj -scheme Wakehold
+          -configuration Debug CODE_SIGNING_ALLOWED=NO
+          -clonedSourcePackagesDirPath .swiftpm-packages build
