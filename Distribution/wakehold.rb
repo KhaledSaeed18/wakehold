@@ -12,7 +12,7 @@ cask "wakehold" do
   depends_on macos: ">= :sonoma"
 
   app "Wakehold.app"
-  binary "#{appdir}/Wakehold.app/Contents/MacOS/wakehold"
+  binary "#{appdir}/Wakehold.app/Contents/Helpers/wakehold"
 
   zap trash: [
     "~/Library/Application Support/Wakehold",

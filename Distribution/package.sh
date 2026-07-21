@@ -24,12 +24,15 @@ xcodebuild -project Wakehold.xcodeproj -scheme Wakehold -configuration Release \
   clean build
 
 echo "==> Building the wakehold CLI (Release)"
+# The CLI goes in Contents/Helpers, not Contents/MacOS: the filesystem is case-insensitive, so a
+# wakehold binary next to the app's own Wakehold executable would collide and overwrite it.
 swift build --package-path WakeholdKit -c release --product wakehold
-cp "WakeholdKit/.build/release/wakehold" "$APP/Contents/MacOS/wakehold"
+mkdir -p "$APP/Contents/Helpers"
+cp "WakeholdKit/.build/release/wakehold" "$APP/Contents/Helpers/wakehold"
 
 echo "==> Re-signing (embedded CLI first, then the app)"
 codesign --force --options runtime --timestamp --sign "$DEVELOPER_ID_APP" \
-  "$APP/Contents/MacOS/wakehold"
+  "$APP/Contents/Helpers/wakehold"
 codesign --force --options runtime --timestamp --entitlements "$ENTITLEMENTS" \
   --sign "$DEVELOPER_ID_APP" "$APP"
 
