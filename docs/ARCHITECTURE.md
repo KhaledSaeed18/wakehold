@@ -54,10 +54,11 @@ final class WakeController {
 }
 ```
 
-- Assertion type: `kIOPMAssertionTypePreventUserIdleSystemSleep` (system) by default: the
-  display still sleeps, which is correct for unattended work. A per-session flag adds
-  `PreventUserIdleDisplaySleep` ("keep screen on too"). Never use `PreventSystemSleep`: it is
-  AC-only and fights user intent.
+- Assertion type: `kIOPMAssertionTypePreventUserIdleDisplaySleep` (display) by default, so the
+  screen stays lit (ADR-019). A "Keep the display on" preference set to false swaps in
+  `PreventUserIdleSystemSleep`, which lets the display sleep while the system stays awake, for
+  unattended work. The type is fixed at creation, so the controller re-acquires when the
+  preference changes. Never use `PreventSystemSleep`: it is AC-only and fights user intent.
 - Set `kIOPMAssertionNameKey` and `HumanReadableReason` (e.g. "holding 2 sessions: node :3000,
   claude-code") so `pmset -g assertions` is self-explanatory.
 - No assertion survives a lid close; clamshell mode with an external display works because

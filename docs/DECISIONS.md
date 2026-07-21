@@ -169,3 +169,19 @@ thread. curl's `--unix-socket` speaks HTTP/1.1 over the socket, so a small parse
 one-liners trivial. CONVENTIONS §4's earlier "NWListener" note predated this and is corrected.
 **Rejected:** NWListener (cannot bind a UDS); a localhost TCP NWListener (reopens the browser and
 local-process attack surface that ADR-011 closed).
+
+## ADR-019, Keep the display on by default (supersedes ADR-012's default)
+**Decision:** the default hold is `PreventUserIdleDisplaySleep`, so the screen stays lit. Letting
+the display sleep while the system stays awake (`PreventUserIdleSystemSleep`) becomes an opt-out,
+a single "Keep the display on" preference (registered to true), applied to the controller by the
+same preference bridge that applies the guardrails. `PreventSystemSleep` is still never used.
+**Why:** the product owner set keeping the screen awake as the core behavior, not an advanced
+opt-in. Every comparable tool (KeepingYouAwake, Amphetamine, Caffeine) keeps the display on by
+default, and users read "keep awake" as "keep the screen on"; a dimming screen reads as a bug. The
+engine already carried both scopes (ADR-012), so this is a default flip plus one preference.
+**Trade-off:** more battery draw at rest than a system-only hold. The battery guardrails (release
+on battery, low battery, Low Power Mode) already bound that, and the opt-out covers unattended
+work where the screen is not needed. An assertion's type is fixed at creation, so toggling the
+preference re-acquires rather than mutates the live assertion.
+**Amends ADR-012:** its "default is system-sleep, display is a per-session opt-in" is reversed;
+the lid-closed decision in ADR-012 stands.

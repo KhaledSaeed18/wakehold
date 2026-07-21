@@ -40,7 +40,8 @@ local control endpoint** that anything can open/close a session against.
 - **Calendar** (stretch): awake during EventKit events / focus blocks.
 
 ## Session modifiers (policy, orthogonal to session type)
-- **Display**: per session, keep the display on too, or let it sleep (default: let it sleep).
+- **Display**: keep the display on (default), or let it sleep while the system stays awake, for
+  unattended work. See ADR-019.
 - **Power guardrails**: auto-release when unplugged, below a battery percentage, or when Low
   Power Mode is on. KeepingYouAwake made these table stakes; battery drain is the category's
   top complaint. Later additions from the competitor set: pause on thermal pressure,
