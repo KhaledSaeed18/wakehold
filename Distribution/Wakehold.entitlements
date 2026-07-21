@@ -2,7 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<!-- No App Sandbox (ADR-003): process, port, and command features need it off. -->
+	<!-- No App Sandbox: process, port, and command features need it off. -->
 	<!-- Under the hardened runtime, sending Apple Events to System Events (shut down / restart)
 	     needs this entitlement; the one-time TCC Automation prompt still gates it at runtime. -->
 	<key>com.apple.security.automation.apple-events</key>
