@@ -26,6 +26,17 @@ machine open and releases automatically.
 
 Early development. See `docs/ROADMAP.md`.
 
+## Install
+
+Once released, via a personal Homebrew tap:
+
+```bash
+brew install --cask KhaledSaeed18/wakehold/wakehold
+```
+
+This installs the menu-bar app and puts the `wakehold` CLI on your PATH. Otherwise, build from
+source below.
+
 ## Build
 
 Requires macOS 14+, Xcode 16+.

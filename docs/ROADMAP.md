@@ -48,7 +48,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 - [ ] Calendar sessions via EventKit (stretch).
 - [ ] Sign + notarize (Developer ID, hardened runtime, staple).
 - [ ] GitHub Releases (DMG/zip) + personal Homebrew tap.
-- [ ] README with per-tool hook snippets.
+- [x] README with per-tool hook snippets.
 - [ ] Sparkle 2 updates (optional; `brew upgrade` is the v1 path).
 
 ## Phase 6, Category parity (post-1.0, each item optional)
