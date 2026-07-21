@@ -48,13 +48,13 @@ WakeholdKit/                         local Swift package; builds and tests headl
       Log.swift                      shared os.Logger factory
     Sessions/                        one file per source; each conforms to WakeSession
       ManualSession.swift            timer or indefinite hold
-      ManualSessionController.swift  orchestrates the single manual session and its expiry (ADR-016)
+      ManualSessionController.swift  orchestrates the single manual session and its expiry
       ProcessSession.swift           alive while a PID is alive (DispatchSource, not polling)
       PortSession.swift              alive while something listens on a port (coarse poll)
-      AgentSession.swift             a renewing lease opened over the endpoint (ADR-013)
+      AgentSession.swift             a renewing lease opened over the endpoint
       AppSession.swift               alive while a bundle id is running
     Service/
-      ControlServer.swift            POSIX AF_UNIX listener + accept loop (ADR-018)
+      ControlServer.swift            POSIX AF_UNIX listener + accept loop
       ControlRouter.swift            maps requests to registry calls
       ControlMessages.swift          request / response payloads
       ControlClient.swift            client side of the endpoint (used by the CLI)
@@ -128,32 +128,34 @@ before pushing; verify the app with a clean `xcodebuild ... build`.
   loops. Suspend any coarse poll (ports) when no session of that kind exists.
 - The assertion dies with the process, and that is correct. Do not persist a "was awake" flag.
   Reconstruct intent from live session sources on launch.
-- Keeping the display on is the default (ADR-019). A preference can let the display sleep while the
-  system stays awake. `PreventSystemSleep` is never used.
+- Keeping the display on is the default. A preference can let the display sleep while the system
+  stays awake. `PreventSystemSleep` is never used.
 
 ## Key decisions
 
-These are the durable decisions the code cites. History predating this file is in git.
+The durable design choices and the why behind them. History is in git.
 
-- **ADR-001**: one wake code path. A new session type is a new `SessionKind` case plus one file in
+- **One wake code path.** A new session type is a new `SessionKind` case plus one file in
   `Sessions/`, never a new branch through the controller.
-- **ADR-011**: the control endpoint is a Unix domain socket, not a TCP port. A localhost port is
-  reachable from the browser (DNS rebinding, form-POST CSRF) and from any local process; a UDS is
-  not, and the filesystem scopes it to the user (mode 0600, `getpeereid` check).
-- **ADR-012**: never use `PreventSystemSleep` (AC-only, fights user intent). Keep-awake with the lid
-  closed and no external display is out of scope; it needs a privileged root helper and is deferred.
-- **ADR-013**: agent and remote sessions are leases with a TTL, renewed on activity. End hooks do
-  not fire on a crash or SIGKILL, so the lease, not the goodbye, is the source of truth.
-- **ADR-014**: post-session actions are user-space or one-time-TCC only. Nothing needs root.
-- **ADR-016**: the single manual session's lifecycle and expiry live in `ManualSessionController`,
-  not in `WakeController`. The controller stays a pure reconcile engine.
-- **ADR-017**: the non-UI layers are a local Swift package, `WakeholdKit`, so they build and test
+- **Unix-socket endpoint.** The control endpoint is a Unix domain socket, not a TCP port. A
+  localhost port is reachable from the browser (DNS rebinding, form-POST CSRF) and from any local
+  process; a UDS is not, and the filesystem scopes it to the user (mode 0600, `getpeereid` check).
+- **No PreventSystemSleep.** It is AC-only and fights user intent. Keep-awake with the lid closed
+  and no external display is out of scope; it needs a privileged root helper and is deferred.
+- **Leased agent sessions.** Agent and remote sessions are leases with a TTL, renewed on activity.
+  End hooks do not fire on a crash or SIGKILL, so the lease, not the goodbye, is the source of truth.
+- **User-space end actions.** Post-session actions are user-space or one-time-TCC only; nothing
+  needs root.
+- **Manual session in its own coordinator.** The single manual session's lifecycle and expiry live
+  in `ManualSessionController`, not in `WakeController`, so the controller stays a pure reconcile
+  engine.
+- **WakeholdKit package.** The non-UI layers are a local Swift package, so they build and test
   without the app and could split into a helper later.
-- **ADR-018**: the endpoint is POSIX `AF_UNIX` sockets with a `DispatchSource` accept loop and a
-  minimal HTTP/1.1 parser. `NWListener` cannot bind a UDS; curl's `--unix-socket` keeps hooks trivial.
-- **ADR-019**: keep the display on by default (`PreventUserIdleDisplaySleep`); letting the display
-  sleep is the opt-out. An assertion's type is fixed at creation, so changing the preference
-  re-acquires. Supersedes ADR-012's original system-sleep default.
+- **POSIX sockets, not NWListener.** The endpoint uses `AF_UNIX` sockets with a `DispatchSource`
+  accept loop and a minimal HTTP/1.1 parser. `NWListener` cannot bind a UDS; curl's `--unix-socket`
+  keeps hooks trivial.
+- **Display on by default.** The hold takes `PreventUserIdleDisplaySleep`; letting the display sleep
+  is the opt-out. An assertion's type is fixed at creation, so changing the preference re-acquires.
 
 When you make an architectural decision, record the why in the commit body and update the relevant
 rule here if it changes one.
