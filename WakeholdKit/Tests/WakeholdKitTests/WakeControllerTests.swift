@@ -4,7 +4,7 @@ import Foundation
 
 // A controllable stand-in so the reconcile invariant can be driven without real processes or ports.
 private struct MockSession: WakeSession {
-    let id = UUID()
+    var id = UUID()
     var label = "mock"
     var kind: SessionKind = .agent(label: "mock")
     var isActive: Bool
@@ -116,5 +116,52 @@ struct WakeControllerTests {
         #expect(controller.heldScope == nil)     // nothing held yet, so nothing to re-scope
         controller.add(MockSession(isActive: true))
         #expect(controller.heldScope == .system)
+    }
+
+    @Test func presentSessionGoingInactiveDoesNotFireEmptied() {
+        let controller = WakeController()
+        var emptied = 0
+        controller.onSessionsEmptied = { emptied += 1 }
+        let session = MockSession(isActive: true)
+        controller.add(session)
+        controller.update(MockSession(id: session.id, isActive: false))
+        #expect(emptied == 0)
+        #expect(!controller.isHoldingAssertion)
+    }
+
+    @Test func presentSessionGoingActiveAgainReacquiresAndFiresResumed() {
+        let controller = WakeController()
+        let session = MockSession(isActive: true)
+        controller.add(session)
+        controller.update(MockSession(id: session.id, isActive: false))
+        var resumed = 0
+        controller.onSessionsResumed = { resumed += 1 }
+        #expect(resumed == 0)
+        controller.update(MockSession(id: session.id, isActive: true))
+        #expect(controller.isHoldingAssertion)
+        #expect(resumed == 1)
+    }
+
+    @Test func removingLastSessionWhileActiveFiresEmptied() {
+        let controller = WakeController()
+        var emptied = 0
+        controller.onSessionsEmptied = { emptied += 1 }
+        let session = MockSession(isActive: true)
+        controller.add(session)
+        controller.remove(session.id)
+        #expect(emptied == 1)
+    }
+
+    @Test func suppressionToggleFiresNeitherHook() {
+        let controller = WakeController()
+        controller.add(MockSession(isActive: true))
+        var emptied = 0
+        var resumed = 0
+        controller.onSessionsEmptied = { emptied += 1 }
+        controller.onSessionsResumed = { resumed += 1 }
+        controller.setSuppressed(true)
+        controller.setSuppressed(false)
+        #expect(emptied == 0)
+        #expect(resumed == 0)
     }
 }
