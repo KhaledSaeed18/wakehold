@@ -7,16 +7,16 @@ extension KeyboardShortcuts.Name {
 }
 
 // Registers the global toggle shortcut. It mirrors the menu: stop the running manual session, or
-// start the last-used duration.
+// start the default duration.
 @MainActor
 enum Hotkey {
-    static func register(manual: ManualSessionController) {
+    static func register(manual: ManualSessionController, durations: DurationStore) {
         KeyboardShortcuts.onKeyUp(for: .toggleWakehold) {
             if manual.isRunning {
                 manual.stop()
             } else {
-                let stored = UserDefaults.standard.string(forKey: "lastManualDuration")
-                manual.start(stored.flatMap(ManualDuration.init(rawValue:)) ?? .oneHour)
+                let duration = durations.defaultDuration
+                manual.start(label: duration.label, seconds: duration.seconds)
             }
         }
     }

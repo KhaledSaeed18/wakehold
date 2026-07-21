@@ -9,18 +9,15 @@ struct MenuBarView: View {
     let manual: ManualSessionController
     let endActions: EndActionController
     let apps: AppSessionController
-    @AppStorage("lastManualDuration") private var lastDuration: ManualDuration = .oneHour
+    let durations: DurationStore
 
     var body: some View {
         status
 
         Divider()
 
-        ForEach(ManualDuration.allCases) { duration in
-            Button(duration.menuTitle) {
-                lastDuration = duration
-                manual.start(duration)
-            }
+        ForEach(durations.durations) { duration in
+            Button(duration.label) { manual.start(label: duration.label, seconds: duration.seconds) }
         }
 
         if controller.isAwake {

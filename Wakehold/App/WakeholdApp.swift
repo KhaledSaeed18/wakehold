@@ -10,6 +10,7 @@ struct WakeholdApp: App {
     @State private var guardrails: GuardrailController
     @State private var clock: MenuBarClock
     @State private var apps: AppSessionController
+    @State private var durations = DurationStore()
     @State private var endActions = EndActionController()
     @State private var launch = LaunchAtLogin()
     @State private var server: ControlServer?
@@ -28,14 +29,14 @@ struct WakeholdApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            MenuBarView(controller: controller, manual: manual, endActions: endActions, apps: apps)
+            MenuBarView(controller: controller, manual: manual, endActions: endActions, apps: apps, durations: durations)
         } label: {
             MenuBarLabel(controller: controller, clock: clock)
                 .task { startup() }
         }
 
         Settings {
-            SettingsView(launch: launch)
+            SettingsView(launch: launch, durations: durations)
         }
     }
 
@@ -43,7 +44,7 @@ struct WakeholdApp: App {
     private func startup() {
         startEndpoint()
         guardrails.start()
-        Hotkey.register(manual: manual)
+        Hotkey.register(manual: manual, durations: durations)
         manual.onChange = { [clock] in clock.sync() }
         clock.sync()
         controller.onSessionsEmptied = { [endActions] in endActions.fire() }
