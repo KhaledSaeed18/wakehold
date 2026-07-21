@@ -13,8 +13,8 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 
 ## Phase 1, State that survives
 - [ ] `@AppStorage` for last-used duration + prefs.
-- [ ] Launch-at-login via `SMAppService.mainApp.register()`.
-- [ ] Settings scene (free ⌘, in SwiftUI).
+- [x] Launch-at-login via `SMAppService.mainApp.register()`.
+- [x] Settings scene (free ⌘, in SwiftUI).
 **Teaches:** app lifecycle, settings surface.
 
 ## Phase 2, Watchers + the keystone endpoint

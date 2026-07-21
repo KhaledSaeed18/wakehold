@@ -5,6 +5,7 @@ import WakeholdKit
 struct WakeholdApp: App {
     @State private var controller: WakeController
     @State private var manual: ManualSessionController
+    @State private var launch = LaunchAtLogin()
 
     init() {
         let controller = WakeController()
@@ -17,6 +18,10 @@ struct WakeholdApp: App {
             MenuBarView(controller: controller, manual: manual)
         } label: {
             Image(systemName: EyeIcon.systemImageName(isAwake: controller.isAwake))
+        }
+
+        Settings {
+            SettingsView(launch: launch)
         }
     }
 }
