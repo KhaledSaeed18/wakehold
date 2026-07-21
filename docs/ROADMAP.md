@@ -26,8 +26,8 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 **Teaches:** GCD dispatch sources, Network.framework. UNLOCKS CLI + hooks + remote at once.
 
 ## Phase 3, Developer surface
-- [ ] CLI client: `wakehold -- <cmd>`, `wakehold --keep <pid|:port>`, `wakehold status|off`.
-- [ ] Command session (spawn via `Process`, release on `terminationHandler`).
+- [x] CLI client: `wakehold -- <cmd>`, `wakehold --keep <pid|:port>`, `wakehold status|off`.
+- [x] Command session (spawn via `Process`, release on `terminationHandler`).
 - [ ] Power guardrails: auto-release guarded sessions on unplug, below a battery threshold,
       or in Low Power Mode (`IOPSNotificationCreateRunLoopSource`).
 - [ ] Global hotkey (KeyboardShortcuts package by Sindre Sorhus).
