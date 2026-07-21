@@ -63,6 +63,82 @@ struct ControlServerTests {
         #expect(output.contains("\"id\""))
         #expect(wake.isAwake)
     }
+
+    @Test func silentClientDoesNotWedgeTheEndpoint() async throws {
+        let wake = WakeController()
+        let registry = SessionRegistry(wake: wake)
+        let path = socketPath()
+        let server = ControlServer(path: path, wake: wake, registry: registry)
+        try server.start()
+        defer { server.stop() }
+
+        // Connect and send nothing; hold the connection open across the whole test.
+        let silentFD = try connectUnixSocket(path: path)
+        defer { close(silentFD) }
+
+        // A normal client on a second connection must still be served promptly, not stuck
+        // behind the silent one on the server's single accept/handle queue.
+        let status = try await Task.detached {
+            try sendUnixHTTP(path: path, method: "GET", uri: "/status", body: nil)
+        }.value
+        #expect(status.contains("200 OK"))
+    }
+
+    @Test func partialHeaderThenCloseGetsRejectedAndDoesNotWedgeTheEndpoint() async throws {
+        let wake = WakeController()
+        let registry = SessionRegistry(wake: wake)
+        let path = socketPath()
+        let server = ControlServer(path: path, wake: wake, registry: registry)
+        try server.start()
+        defer { server.stop() }
+
+        let partialFD = try connectUnixSocket(path: path)
+        let partial = Data("GET /sta".utf8)
+        _ = partial.withUnsafeBytes { Darwin.write(partialFD, $0.baseAddress, $0.count) }
+
+        var response = Data()
+        var chunk = [UInt8](repeating: 0, count: 4096)
+        while true {
+            let n = read(partialFD, &chunk, chunk.count)
+            guard n > 0 else { break }
+            response.append(contentsOf: chunk[0..<n])
+        }
+        close(partialFD)
+        let partialResponse = String(data: response, encoding: .utf8) ?? ""
+        #expect(partialResponse.contains("400") || partialResponse.isEmpty)
+
+        let status = try await Task.detached {
+            try sendUnixHTTP(path: path, method: "GET", uri: "/status", body: nil)
+        }.value
+        #expect(status.contains("200 OK"))
+    }
+}
+
+// Opens a raw connected socket to the control endpoint without writing anything.
+private func connectUnixSocket(path: String) throws -> Int32 {
+    let fd = socket(AF_UNIX, SOCK_STREAM, 0)
+    guard fd >= 0 else { throw POSIXError(.ECONNREFUSED) }
+
+    var addr = sockaddr_un()
+    addr.sun_family = sa_family_t(AF_UNIX)
+    let capacity = MemoryLayout.size(ofValue: addr.sun_path)
+    path.withCString { cstr in
+        withUnsafeMutablePointer(to: &addr.sun_path) {
+            $0.withMemoryRebound(to: CChar.self, capacity: capacity) {
+                _ = strncpy($0, cstr, capacity - 1)
+            }
+        }
+    }
+    let connected = withUnsafePointer(to: &addr) {
+        $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+            connect(fd, $0, socklen_t(MemoryLayout<sockaddr_un>.size))
+        }
+    }
+    guard connected == 0 else {
+        close(fd)
+        throw POSIXError(.ECONNREFUSED)
+    }
+    return fd
 }
 
 // Runs curl and returns its stdout.
