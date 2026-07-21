@@ -6,7 +6,6 @@
   <img src="https://shieldcn.dev/badge/platform-macOS%2014%2B-cyan.svg?variant=secondary&logo=apple&logoColor=ffffff" alt="Platform: macOS 14+" />
   <img src="https://shieldcn.dev/badge/Swift-6-orange.svg?variant=secondary&logo=swift&logoColor=ffffff" alt="Swift 6" />
   <img src="https://shieldcn.dev/badge/interface-menu%20bar%20%2B%20CLI-cyan.svg?variant=secondary" alt="Interface: menu bar + CLI" />
-  <a href="#install"><img src="https://shieldcn.dev/badge/install-Homebrew-cyan.svg?variant=secondary&logo=homebrew&logoColor=ffffff" alt="Install: Homebrew" /></a>
   <a href="LICENSE"><img src="https://shieldcn.dev/badge/license-MIT-green.svg?variant=secondary" alt="License: MIT" /></a>
   <a href="https://github.com/KhaledSaeed18/wakehold/stargazers"><img src="https://shieldcn.dev/github/stars/KhaledSaeed18/wakehold.svg" alt="GitHub stars" /></a>
 </p>
@@ -74,16 +73,6 @@ user by the filesystem. The CLI and every agent hook are just clients that open,
 sessions over it. `curl --unix-socket` speaks to it directly, which keeps hook one-liners trivial.
 
 ## Install
-
-### Homebrew (once released)
-
-```bash
-brew install --cask KhaledSaeed18/wakehold/wakehold
-```
-
-This installs the menu-bar app and puts the `wakehold` CLI on your PATH.
-
-### Build from source
 
 Requires macOS 14 or later and Xcode 16 or later.
 
