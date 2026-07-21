@@ -85,7 +85,6 @@ Wakehold/                            app target: SwiftUI, menu bar only (LSUIEle
   Supporting/Info.plist             LSUIElement=true, usage strings
 
 Wakehold.xcodeproj                  app target; links WakeholdKit
-Distribution/                       Wakehold.entitlements, package.sh, notarize.sh, wakehold.rb
 Design/                             render-icon.swift, render-menubar.swift (icon generators)
 ```
 
@@ -163,8 +162,7 @@ rule here if it changes one.
 ## Platform rules (hard)
 
 - Swift and SwiftUI, macOS 14+. Use `@Observable`, `MenuBarExtra`, `SMAppService`.
-- Do NOT enable App Sandbox. Distributed outside the App Store; the sandbox breaks the process,
-  port, and command features.
+- Do NOT enable App Sandbox: the process, port, and command features need access it forbids.
 - `LSUIElement = true`: menu bar only, no Dock icon.
 
 ## Code conventions
