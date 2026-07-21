@@ -38,7 +38,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 - [x] Claude Code hooks: SessionStart → /session/start, Stop/PostToolUse → /session/renew,
       SessionEnd → /session/end. Copy-paste snippet in README.
 - [x] Hook snippets for Codex CLI, Gemini CLI, Cursor (same contract).
-- [ ] Post-session actions: notify, display sleep, system sleep (`IOPMSleepSystem`),
+- [x] Post-session actions: notify, display sleep, system sleep (`IOPMSleepSystem`),
       shut down / restart (System Events AppleScript, `NSAppleEventsUsageDescription`).
       Armed per occasion, visible in menu bar, cancelable, grace countdown.
 **Teaches:** hook wiring against your own endpoint, TCC/Automation consent, AppleScript bridge.

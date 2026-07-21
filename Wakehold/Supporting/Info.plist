@@ -24,5 +24,7 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string></string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Wakehold uses System Events to shut down or restart when your last session ends, if you arm that action.</string>
 </dict>
 </plist>

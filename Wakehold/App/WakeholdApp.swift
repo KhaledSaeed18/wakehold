@@ -1,4 +1,5 @@
 import SwiftUI
+import UserNotifications
 import WakeholdKit
 
 @main
@@ -8,6 +9,7 @@ struct WakeholdApp: App {
     @State private var registry: SessionRegistry
     @State private var guardrails: GuardrailController
     @State private var clock: MenuBarClock
+    @State private var endActions = EndActionController()
     @State private var launch = LaunchAtLogin()
     @State private var server: ControlServer?
 
@@ -24,7 +26,7 @@ struct WakeholdApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            MenuBarView(controller: controller, manual: manual)
+            MenuBarView(controller: controller, manual: manual, endActions: endActions)
         } label: {
             MenuBarLabel(controller: controller, clock: clock)
                 .task { startup() }
@@ -42,6 +44,8 @@ struct WakeholdApp: App {
         Hotkey.register(manual: manual)
         manual.onChange = { [clock] in clock.sync() }
         clock.sync()
+        controller.onSessionsEmptied = { [endActions] in endActions.fire() }
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { _, _ in }
     }
 
     // The endpoint shares the one WakeController with the menu, so sessions opened over the socket

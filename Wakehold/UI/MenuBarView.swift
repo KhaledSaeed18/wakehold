@@ -7,6 +7,7 @@ import WakeholdKit
 struct MenuBarView: View {
     let controller: WakeController
     let manual: ManualSessionController
+    let endActions: EndActionController
     @AppStorage("lastManualDuration") private var lastDuration: ManualDuration = .oneHour
 
     var body: some View {
@@ -27,6 +28,15 @@ struct MenuBarView: View {
 
         Divider()
 
+        Menu("When last session ends") {
+            ForEach(PostSessionAction.allCases) { action in
+                Button(action.menuTitle) { endActions.arm(action) }
+            }
+        }
+        endActionStatus
+
+        Divider()
+
         SettingsLink {
             Text("Settings…")
         }
@@ -35,6 +45,15 @@ struct MenuBarView: View {
             NSApplication.shared.terminate(nil)
         }
         .keyboardShortcut("q")
+    }
+
+    @ViewBuilder
+    private var endActionStatus: some View {
+        if let pending = endActions.pending {
+            Button("Cancel: \(pending.menuTitle)") { endActions.cancelPending() }
+        } else if endActions.armed != .none {
+            Text("When done: \(endActions.armed.menuTitle)")
+        }
     }
 
     @ViewBuilder
