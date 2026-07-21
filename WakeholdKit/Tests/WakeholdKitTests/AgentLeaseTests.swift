@@ -42,4 +42,26 @@ struct AgentLeaseTests {
         #expect(!wake.isAwake)
         #expect(wake.sessions.isEmpty)
     }
+
+    @Test func keyedStartIsIdempotentAndRenewable() {
+        let wake = WakeController()
+        let registry = SessionRegistry(wake: wake)
+        let first = registry.startAgent(key: "sess-1", label: "claude", ttl: 60)
+        let second = registry.startAgent(key: "sess-1", label: "claude", ttl: 60)
+        #expect(first == second)                 // same key reuses the one lease
+        #expect(wake.sessions.count == 1)
+        #expect(registry.renew(key: "sess-1"))
+        #expect(!registry.renew(key: "missing"))
+    }
+
+    @Test func endKeyStopsTheKeyedLease() {
+        let wake = WakeController()
+        let registry = SessionRegistry(wake: wake)
+        _ = registry.startAgent(key: "sess-2", label: "claude", ttl: 60)
+        #expect(wake.isAwake)
+        registry.endKey("sess-2")
+        #expect(!wake.isAwake)
+        #expect(wake.sessions.isEmpty)
+        #expect(!registry.renew(key: "sess-2"))   // the key is gone
+    }
 }

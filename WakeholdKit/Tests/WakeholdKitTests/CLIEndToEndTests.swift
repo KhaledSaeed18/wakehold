@@ -39,9 +39,26 @@ struct CLIEndToEndTests {
         try await pollUntil(timeout: 3) { !wake.isAwake }
         #expect(!wake.isAwake)
     }
+
+    @Test func hookStartAndEndKeyedBySessionId() async throws {
+        let wake = WakeController()
+        let registry = SessionRegistry(wake: wake)
+        let path = "/tmp/wh-\(UUID().uuidString.prefix(8)).sock"
+        let server = ControlServer(path: path, wake: wake, registry: registry)
+        try server.start()
+        defer { server.stop() }
+
+        let event = #"{"session_id":"abc123","cwd":"/Users/me/project","hook_event_name":"SessionStart"}"#
+        _ = try await Task.detached { try runCLI(["hook", "start"], socket: path, stdin: event) }.value
+        #expect(wake.isAwake)
+        #expect(wake.sessions.contains { $0.label == "project" })   // cwd basename becomes the label
+
+        _ = try await Task.detached { try runCLI(["hook", "end"], socket: path, stdin: event) }.value
+        #expect(!wake.isAwake)
+    }
 }
 
-private func runCLI(_ args: [String], socket: String) throws -> String {
+private func runCLI(_ args: [String], socket: String, stdin: String? = nil) throws -> String {
     let process = Process()
     process.executableURL = URL(fileURLWithPath: cliBinaryPath)
     process.arguments = args
@@ -51,7 +68,15 @@ private func runCLI(_ args: [String], socket: String) throws -> String {
     let output = Pipe()
     process.standardOutput = output
     process.standardError = Pipe()
-    try process.run()
+    if let stdin {
+        let input = Pipe()
+        process.standardInput = input
+        try process.run()
+        input.fileHandleForWriting.write(Data(stdin.utf8))
+        try? input.fileHandleForWriting.close()
+    } else {
+        try process.run()
+    }
     process.waitUntilExit()
     return String(data: output.fileHandleForReading.readDataToEndOfFile(), encoding: .utf8) ?? ""
 }
