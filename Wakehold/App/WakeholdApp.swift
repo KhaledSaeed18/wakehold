@@ -9,6 +9,7 @@ struct WakeholdApp: App {
     @State private var registry: SessionRegistry
     @State private var guardrails: GuardrailController
     @State private var clock: MenuBarClock
+    @State private var apps: AppSessionController
     @State private var endActions = EndActionController()
     @State private var launch = LaunchAtLogin()
     @State private var server: ControlServer?
@@ -21,12 +22,13 @@ struct WakeholdApp: App {
         _registry = State(initialValue: SessionRegistry(wake: controller))
         _guardrails = State(initialValue: GuardrailController(controller: controller, monitor: monitor))
         _clock = State(initialValue: MenuBarClock(controller: controller))
+        _apps = State(initialValue: AppSessionController(wake: controller))
         _server = State(initialValue: nil)
     }
 
     var body: some Scene {
         MenuBarExtra {
-            MenuBarView(controller: controller, manual: manual, endActions: endActions)
+            MenuBarView(controller: controller, manual: manual, endActions: endActions, apps: apps)
         } label: {
             MenuBarLabel(controller: controller, clock: clock)
                 .task { startup() }

@@ -8,6 +8,7 @@ struct MenuBarView: View {
     let controller: WakeController
     let manual: ManualSessionController
     let endActions: EndActionController
+    let apps: AppSessionController
     @AppStorage("lastManualDuration") private var lastDuration: ManualDuration = .oneHour
 
     var body: some View {
@@ -27,6 +28,15 @@ struct MenuBarView: View {
         }
 
         Divider()
+
+        Menu("While an app runs") {
+            ForEach(apps.runningApps()) { app in
+                Toggle(app.name, isOn: Binding(
+                    get: { apps.watchedBundleIDs.contains(app.bundleID) },
+                    set: { _ in apps.toggle(bundleID: app.bundleID, name: app.name) }
+                ))
+            }
+        }
 
         Menu("When last session ends") {
             ForEach(PostSessionAction.allCases) { action in

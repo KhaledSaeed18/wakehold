@@ -44,7 +44,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 **Teaches:** hook wiring against your own endpoint, TCC/Automation consent, AppleScript bridge.
 
 ## Phase 5, Later sources + ship
-- [ ] App sessions (NSWorkspace launch/terminate, bundle id).
+- [x] App sessions (NSWorkspace launch/terminate, bundle id).
 - [ ] Calendar sessions via EventKit (stretch).
 - [ ] Sign + notarize (Developer ID, hardened runtime, staple).
 - [ ] GitHub Releases (DMG/zip) + personal Homebrew tap.
