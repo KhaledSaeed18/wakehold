@@ -77,10 +77,17 @@ struct ControlServerTests {
         defer { close(silentFD) }
 
         // A normal client on a second connection must still be served promptly, not stuck
-        // behind the silent one on the server's single accept/handle queue.
-        let status = try await Task.detached {
-            try sendUnixHTTP(path: path, method: "GET", uri: "/status", body: nil)
-        }.value
+        // behind the silent one on the server's single accept/handle queue. Dispatched to
+        // DispatchQueue.global() rather than Task.detached: Swift Testing's cooperative pool
+        // is width-limited and shared across parallel suites, so blocking a pool thread for
+        // the ~2 second timeout would starve unrelated timing-sensitive tests.
+        let status = try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global().async {
+                continuation.resume(with: Result {
+                    try sendUnixHTTP(path: path, method: "GET", uri: "/status", body: nil)
+                })
+            }
+        }
         #expect(status.contains("200 OK"))
     }
 
@@ -92,24 +99,37 @@ struct ControlServerTests {
         try server.start()
         defer { server.stop() }
 
-        let partialFD = try connectUnixSocket(path: path)
-        let partial = Data("GET /sta".utf8)
-        _ = partial.withUnsafeBytes { Darwin.write(partialFD, $0.baseAddress, $0.count) }
+        // The whole write-then-read-to-EOF sequence blocks for up to the server's timeout, so
+        // it is dispatched off the cooperative pool for the same reason as the silent-client
+        // test above.
+        let partialResponse = try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<String, Error>) in
+            DispatchQueue.global().async {
+                continuation.resume(with: Result {
+                    let partialFD = try connectUnixSocket(path: path)
+                    defer { close(partialFD) }
+                    let partial = Data("GET /sta".utf8)
+                    _ = partial.withUnsafeBytes { Darwin.write(partialFD, $0.baseAddress, $0.count) }
 
-        var response = Data()
-        var chunk = [UInt8](repeating: 0, count: 4096)
-        while true {
-            let n = read(partialFD, &chunk, chunk.count)
-            guard n > 0 else { break }
-            response.append(contentsOf: chunk[0..<n])
+                    var response = Data()
+                    var chunk = [UInt8](repeating: 0, count: 4096)
+                    while true {
+                        let n = read(partialFD, &chunk, chunk.count)
+                        guard n > 0 else { break }
+                        response.append(contentsOf: chunk[0..<n])
+                    }
+                    return String(data: response, encoding: .utf8) ?? ""
+                })
+            }
         }
-        close(partialFD)
-        let partialResponse = String(data: response, encoding: .utf8) ?? ""
         #expect(partialResponse.contains("400") || partialResponse.isEmpty)
 
-        let status = try await Task.detached {
-            try sendUnixHTTP(path: path, method: "GET", uri: "/status", body: nil)
-        }.value
+        let status = try await withCheckedThrowingContinuation { continuation in
+            DispatchQueue.global().async {
+                continuation.resume(with: Result {
+                    try sendUnixHTTP(path: path, method: "GET", uri: "/status", body: nil)
+                })
+            }
+        }
         #expect(status.contains("200 OK"))
     }
 }
