@@ -7,7 +7,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 - [x] IOKit power-assertion wrapper (acquire/release, both System and Display variants).
 - [x] `WakeController` (`@Observable`) + `WakeSession` protocol + `SessionKind`.
 - [x] `MenuBarExtra` with open/closed eye states (template image).
-- [ ] Manual/duration sessions: 1h / 2h / 3h / ∞, `Date`-target countdown (compute remaining on
+- [x] Manual/duration sessions: 1h / 2h / 3h / ∞, `Date`-target countdown (compute remaining on
       tick, don't trust a naive Timer).
 **Teaches:** assertion lifecycle, MenuBarExtra scene, the session→assertion derivation.
 
