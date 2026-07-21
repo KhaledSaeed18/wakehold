@@ -1,7 +1,7 @@
 import AppKit
 
-// Renders the Wakehold app icon per docs/BRAND.md: a lidless-eye mark (almond outline + Signal
-// Cyan iris) on a dark rounded square. Pure geometry, no rendered eyeball.
+// Renders the Wakehold app icon per the brand mark in CLAUDE.md: a lidless-eye mark (almond
+// outline + Signal Cyan iris) on a dark rounded square. Pure geometry, no rendered eyeball.
 let side = 1024
 let cs = CGColorSpaceCreateDeviceRGB()
 guard let ctx = CGContext(data: nil, width: side, height: side, bitsPerComponent: 8,

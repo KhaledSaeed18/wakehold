@@ -14,7 +14,7 @@ public struct PowerState: Equatable {
 }
 
 // The user's power policy: when should sessions stop holding the Mac awake. Battery drain is the
-// category's top complaint, so these matter even though they are opt-in (RESEARCH.md).
+// category's top complaint, so these matter even though they are opt-in.
 public struct PowerGuardrail: Equatable {
     public var releaseOnBattery: Bool
     public var batteryThreshold: Int?        // release below this percent; nil = no threshold
