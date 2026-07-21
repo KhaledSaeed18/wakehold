@@ -16,10 +16,14 @@ enum HTTP {
         guard fields.count >= 2 else { return nil }
 
         var contentLength = 0
+        var sawContentLength = false
         for line in header.components(separatedBy: "\r\n").dropFirst()
         where line.lowercased().hasPrefix("content-length:") {
+            guard !sawContentLength else { return nil }
+            sawContentLength = true
             let value = line.dropFirst("content-length:".count).trimmingCharacters(in: .whitespaces)
-            contentLength = Int(value) ?? 0
+            guard let length = Int(value), (0...64 * 1024).contains(length) else { return nil }
+            contentLength = length
         }
 
         let bodyStart = range.upperBound
