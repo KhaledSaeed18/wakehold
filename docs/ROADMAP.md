@@ -5,7 +5,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 ## Phase 0, Core loop
 - [x] Xcode project, SwiftUI app, `LSUIElement = true`, macOS 14 target, no sandbox.
 - [x] IOKit power-assertion wrapper (acquire/release, both System and Display variants).
-- [ ] `WakeController` (`@Observable`) + `WakeSession` protocol + `SessionKind`.
+- [x] `WakeController` (`@Observable`) + `WakeSession` protocol + `SessionKind`.
 - [ ] `MenuBarExtra` with open/closed eye states (template image).
 - [ ] Manual/duration sessions: 1h / 2h / 3h / ∞, `Date`-target countdown (compute remaining on
       tick, don't trust a naive Timer).
