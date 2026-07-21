@@ -5,4 +5,7 @@ enum WakeholdError: Error {
     // IOKit refused to create the power assertion. Carries the raw IOReturn code (an Int32),
     // kept as a plain integer so IOKit stays confined to PowerAssertion.
     case assertionFailed(code: Int32)
+
+    // A control-endpoint socket step (socket/bind/listen) failed. Carries which one.
+    case endpointFailed(String)
 }
