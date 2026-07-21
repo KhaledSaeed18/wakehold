@@ -130,40 +130,35 @@ a duplicated date-format: extract on the second sighting.
 
 ## 7. Project structure
 
-An Xcode app is organized by groups that map to the layers above. Suggested layout; keep folders
-and Xcode groups in sync.
+The non-UI layers live in a local Swift package, `WakeholdKit`, that the app (and later the CLI)
+links; the SwiftUI app target stays thin (ADR-017). Suggested layout; keep folders, Xcode groups,
+and package sources in sync.
 
-    Wakehold/
+    WakeholdKit/                      // local Swift package: builds and tests without the UI
+      Package.swift
+      Sources/WakeholdKit/
+        Core/
+          WakeController.swift        // @MainActor, owns the assertion, reconcile()
+          WakeSession.swift           // protocol + SessionKind enum
+          PowerAssertion.swift        // IOKit wrapper, the only IOKit caller
+          WakeholdError.swift         // typed errors
+          Log.swift                   // shared Logger factory
+        Sessions/                     // ManualSession + ManualSessionController; process/port/... later
+        Service/                      // (later) control endpoint, router, registry (UDS, ADR-011)
+      Tests/WakeholdKitTests/         // reconcile invariant, session behavior; run with swift test
+
+    Wakehold/                         // app target: SwiftUI, menu bar only
       App/
-        WakeholdApp.swift            // @main, scene wiring
-        AppDelegate.swift           // only if needed for lifecycle hooks
-      Core/
-        WakeController.swift        // @MainActor, owns the assertion, reconcile()
-        WakeSession.swift           // protocol + SessionKind enum
-        PowerAssertion.swift        // IOKit wrapper, the only IOKit caller
-        WakeholdError.swift          // typed errors
-      Sessions/
-        ManualSession.swift
-        ProcessSession.swift
-        PortSession.swift
-        CommandSession.swift
-        AgentSession.swift
-      Service/
-        ControlServer.swift         // NWListener on 127.0.0.1
-        ControlRouter.swift         // request -> session start/end/status
-        SessionRegistry.swift       // glue between service and controller
+        WakeholdApp.swift             // @main, scene wiring
       UI/
         MenuBarView.swift
-        SessionRowView.swift
-        SettingsView.swift
-        EyeIcon.swift               // open/closed/timed states
-      CLI/                          // separate target
-        main.swift
-        Client.swift                // thin client over ControlServer
+        EyeIcon.swift                 // open/closed/timed states; SessionRowView, SettingsView later
       Resources/
-        Assets.xcassets             // menu-bar template icons, app icon
+        Assets.xcassets               // menu-bar template icons, app icon
       Supporting/
-        Info.plist                  // LSUIElement=true
+        Info.plist                    // LSUIElement=true
+
+    Wakehold.xcodeproj                // app target; links the WakeholdKit package
 
 Keep files small and single-purpose. If `MenuBarView.swift` grows past a screen, extract rows and
 sections into their own files. One type per file is the default.

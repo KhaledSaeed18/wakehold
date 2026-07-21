@@ -143,3 +143,18 @@ fire or a sleep/wake cannot hold the Mac past the target.
 **Rejected:** manual state and expiry stored on WakeController (couples the generic core to one
 session type); a self-scheduling class ManualSession (sessions stay value types; expiry is
 orchestration, not session data).
+
+## ADR-017, Extract WakeholdKit as a local Swift package
+**Decision:** the non-UI layers (Core, Sessions, and later Service) live in a local Swift package
+`WakeholdKit` that the app links statically. Its app-facing API is public; internals
+(PowerAssertion, Log, WakeholdError) stay internal. Unit tests live in the package and run
+headlessly with `swift test`.
+**Why:** CONVENTIONS §9 requires the Core and Service to be "unit-tested without the UI." A
+separate module makes that literal: the logic builds and tests with no app host and no SwiftUI,
+so the reconcile invariant and session behavior are validated in isolation and in CI. It also
+realizes the load-bearing service/UI seam (ARCHITECTURE) and gives the future CLI target the same
+dependency. Widening the boundary API to public is the intended use of access control
+(CONVENTIONS §3), not a workaround.
+**Rejected:** an app-hosted test target (needs the GUI app as host, does not run headlessly, and
+does not realize the no-UI seam); a dynamic framework target in the xcodeproj (more project
+surface and needs embedding, while a static package library links with none).
