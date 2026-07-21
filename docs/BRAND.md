@@ -18,8 +18,8 @@ a circular iris. Must survive as an 18px monochrome menu-bar template image.
 
 States:
 - **Open / active (awake):** full almond, iris centered/visible. Active iris glows accent color.
-- **Closed / inactive:** almond collapses to a single downward arc ⌢, no iris. Reads "resting",
-  NOT "error" (never use X-es).
+- **Closed / inactive:** the open eye with a diagonal slash through it (an "off" read). Chosen
+  over a resting-arc: at 18px a single arc read as an eyebrow, the slashed eye reads instantly.
 - **Timed (optional):** iris + thin arc/lash accent, signals countdown vs indefinite.
 
 Construction: 24×24 grid, 2px inset safe area, ~2px stroke, iris ≈ ⅓ eye width. Menu-bar version

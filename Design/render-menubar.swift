@@ -37,6 +37,26 @@ case "open":
     ctx.addPath(p); ctx.strokePath()
     let r = ew / 6
     ctx.fillEllipse(in: CGRect(x: cx - r, y: cy - r, width: r * 2, height: r * 2))
+case "slash":
+    // The open eye with a diagonal slash cutting through it: the "off" state.
+    let p = CGMutablePath()
+    p.move(to: L)
+    p.addQuadCurve(to: R, control: CGPoint(x: cx, y: cy + eh))
+    p.addQuadCurve(to: L, control: CGPoint(x: cx, y: cy - eh))
+    p.closeSubpath()
+    ctx.addPath(p); ctx.strokePath()
+    let r = ew / 6
+    ctx.fillEllipse(in: CGRect(x: cx - r, y: cy - r, width: r * 2, height: r * 2))
+    let a = CGPoint(x: S * 0.18, y: S * 0.30)
+    let b = CGPoint(x: S * 0.82, y: S * 0.70)
+    ctx.setLineCap(.round)
+    ctx.setBlendMode(.clear)                 // carve a gap around the slash
+    ctx.setLineWidth(stroke * 2.3)
+    ctx.move(to: a); ctx.addLine(to: b); ctx.strokePath()
+    ctx.setBlendMode(.normal)
+    ctx.setStrokeColor(black)
+    ctx.setLineWidth(stroke)
+    ctx.move(to: a); ctx.addLine(to: b); ctx.strokePath()
 case "lens":
     // A flattened almond, no iris: the same eye, closed.
     let lh = S * 0.17
