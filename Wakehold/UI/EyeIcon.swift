@@ -1,9 +1,8 @@
-// The menu-bar mark. Phase 0 uses SF Symbols, which are monochrome templates macOS tints, so
-// open vs closed reads instantly at 18px. The custom almond-arc mark from BRAND.md replaces
-// these names later without touching the scene, so the icon decision stays in one place.
+// The menu-bar mark: the custom lidless-eye template images from the asset catalog (BRAND). macOS
+// tints the template, so open vs closed reads instantly in monochrome. Open when awake (almond +
+// iris, watching), a flattened almond when idle (resting, no iris, never an X).
 enum EyeIcon {
-    // `eye` for awake (open, watching), `eye.slash` for idle (resting).
-    static func systemImageName(isAwake: Bool) -> String {
-        isAwake ? "eye" : "eye.slash"
+    static func imageName(isAwake: Bool) -> String {
+        isAwake ? "EyeOpen" : "EyeClosed"
     }
 }

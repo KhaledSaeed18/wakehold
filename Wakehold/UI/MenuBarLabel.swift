@@ -7,11 +7,11 @@ struct MenuBarLabel: View {
     let clock: MenuBarClock
 
     var body: some View {
-        let icon = EyeIcon.systemImageName(isAwake: controller.isAwake)
+        let icon = EyeIcon.imageName(isAwake: controller.isAwake)
         if let title = clock.title {
-            Label(title, systemImage: icon)
+            Label(title, image: icon)
         } else {
-            Image(systemName: icon)
+            Image(icon)
         }
     }
 }
