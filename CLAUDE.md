@@ -18,7 +18,7 @@ controller reconciles the IOKit assertion to match.
 
 The menu bar is one client that visualizes sessions and offers a manual override. The real product
 is the **session registry plus the local control endpoint** that any tool can open and close a
-session against. The CLI, agent hooks, CI scripts, and remote clients are all just clients of that
+session against. The CLI, agent hooks, and CI scripts are all just clients of that
 endpoint.
 
 Positioning: the keep-awake category uses a coffee metaphor and ships binary toggles. Wakehold
