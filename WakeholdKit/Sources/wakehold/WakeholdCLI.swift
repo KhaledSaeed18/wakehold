@@ -29,6 +29,9 @@ struct WakeholdCLI {
         case "off":
             try client.off()
             print("Released endpoint sessions.")
+        case "hook":
+            guard args.count >= 2 else { throw CLIError.usage("hook needs start, renew, or end") }
+            try hook(args[1], client: client)
         case "--keep":
             guard args.count >= 2 else { throw CLIError.usage("--keep needs a pid or :port") }
             try keep(args[1], client: client)
@@ -77,6 +80,41 @@ struct WakeholdCLI {
         exit(process.terminationStatus)
     }
 
+    // Agent hook lifecycle: read the tool's event JSON on stdin and key the lease by the agent's
+    // own session id, so renew and end find the lease start opened. A missing endpoint is not an
+    // error: a hook must never break the agent, so an unreachable Wakehold just exits quietly.
+    static func hook(_ action: String, client: ControlClient) throws {
+        let input = FileHandle.standardInput.readDataToEndOfFile()
+        let json = (try? JSONSerialization.jsonObject(with: input)) as? [String: Any] ?? [:]
+        guard let key = firstString(json, ["session_id", "sessionId", "session", "id"]) else {
+            throw CLIError.failure("no session id in hook input")
+        }
+        do {
+            switch action {
+            case "start":
+                let cwd = firstString(json, ["cwd", "workingDirectory", "working_dir", "project_dir"])
+                let label = cwd.map { ($0 as NSString).lastPathComponent } ?? "agent"
+                let ttl = TimeInterval(ProcessInfo.processInfo.environment["WAKEHOLD_TTL"] ?? "") ?? 900
+                _ = try client.startAgent(key: key, label: label, ttl: ttl)
+            case "renew":
+                try client.renew(key: key)
+            case "end":
+                try client.end(key: key)
+            default:
+                throw CLIError.usage("hook needs start, renew, or end")
+            }
+        } catch WakeholdError.endpointUnreachable {
+            // Wakehold is not running; a hook stays out of the way.
+        }
+    }
+
+    static func firstString(_ json: [String: Any], _ keys: [String]) -> String? {
+        for key in keys {
+            if let value = json[key] as? String, !value.isEmpty { return value }
+        }
+        return nil
+    }
+
     static func printStatus(_ status: StatusResponse) {
         guard !status.sessions.isEmpty else {
             print("Nothing's keeping you awake.")
@@ -98,6 +136,7 @@ struct WakeholdCLI {
           wakehold --keep :<port>    hold while something listens on a port
           wakehold status            show what is holding the Mac awake
           wakehold off               release sessions opened over the endpoint
+          wakehold hook <phase>      agent hook lifecycle (start/renew/end), reads stdin JSON
         """)
     }
 
