@@ -28,7 +28,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 ## Phase 3, Developer surface
 - [x] CLI client: `wakehold -- <cmd>`, `wakehold --keep <pid|:port>`, `wakehold status|off`.
 - [x] Command session (spawn via `Process`, release on `terminationHandler`).
-- [ ] Power guardrails: auto-release guarded sessions on unplug, below a battery threshold,
+- [x] Power guardrails: auto-release guarded sessions on unplug, below a battery threshold,
       or in Low Power Mode (`IOPSNotificationCreateRunLoopSource`).
 - [ ] Global hotkey (KeyboardShortcuts package by Sindre Sorhus).
 - [ ] Live remaining-time in menu bar title (expect possible NSStatusItem refactor: see ADR-006).
