@@ -51,6 +51,7 @@ struct WakeholdApp: App {
         manual.onChange = { [clock] in clock.sync() }
         clock.sync()
         controller.onSessionsEmptied = { [endActions] in endActions.fire() }
+        controller.onSessionsResumed = { [endActions] in endActions.cancelPending() }
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { _, _ in }
     }
 
