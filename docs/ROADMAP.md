@@ -30,7 +30,7 @@ Build phases in order. Each phase teaches a distinct chunk of the macOS platform
 - [x] Command session (spawn via `Process`, release on `terminationHandler`).
 - [x] Power guardrails: auto-release guarded sessions on unplug, below a battery threshold,
       or in Low Power Mode (`IOPSNotificationCreateRunLoopSource`).
-- [ ] Global hotkey (KeyboardShortcuts package by Sindre Sorhus).
+- [x] Global hotkey (KeyboardShortcuts package by Sindre Sorhus).
 - [ ] Live remaining-time in menu bar title (expect possible NSStatusItem refactor: see ADR-006).
 **Teaches:** Process API, IOKit power-source callbacks, SwiftPM deps, MenuBarExtra limits.
 

@@ -1,4 +1,5 @@
 import SwiftUI
+import KeyboardShortcuts
 import WakeholdKit
 
 // The ⌘, preferences window. A pure observer: it reads and writes preferences, never wake state.
@@ -22,6 +23,8 @@ struct SettingsView: View {
                         Text(duration.menuTitle).tag(duration)
                     }
                 }
+
+                KeyboardShortcuts.Recorder("Toggle shortcut", name: .toggleWakehold)
             }
 
             Section("Power guardrails") {

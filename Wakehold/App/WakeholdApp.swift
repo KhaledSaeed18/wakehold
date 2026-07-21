@@ -37,6 +37,7 @@ struct WakeholdApp: App {
     private func startup() {
         startEndpoint()
         guardrails.start()
+        Hotkey.register(manual: manual)
     }
 
     // The endpoint shares the one WakeController with the menu, so sessions opened over the socket
