@@ -3,3 +3,13 @@
 
 # Code editor directories
 .vscode/
+
+# Xcode build output
+build/
+DerivedData/
+
+# Xcode user-specific state (keep shared schemes and project files tracked)
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
