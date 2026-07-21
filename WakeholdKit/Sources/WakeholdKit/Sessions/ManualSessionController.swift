@@ -9,6 +9,9 @@ public final class ManualSessionController {
     private var currentID: UUID?
     private var expiry: Task<Void, Never>?
 
+    // Fired after the manual session starts, stops, or expires, so the UI can update its clock.
+    public var onChange: (@MainActor () -> Void)?
+
     public init(wake: WakeController) {
         self.wake = wake
     }
@@ -21,13 +24,22 @@ public final class ManualSessionController {
     // Start a pre-built session. The shape future session sources will use, and the seam tests
     // use to inject a near-instant target.
     func start(_ session: ManualSession) {
-        stop()
+        clear()
         currentID = session.id
         wake.add(session)
         scheduleExpiry(for: session)
+        onChange?()
     }
 
     public func stop() {
+        clear()
+        onChange?()
+    }
+
+    // Whether a manual session is currently running, for the toggle hotkey.
+    public var isRunning: Bool { currentID != nil }
+
+    private func clear() {
         expiry?.cancel()
         expiry = nil
         if let id = currentID {
@@ -35,9 +47,6 @@ public final class ManualSessionController {
             currentID = nil
         }
     }
-
-    // Whether a manual session is currently running, for the toggle hotkey.
-    public var isRunning: Bool { currentID != nil }
 
     // Anchor removal to the absolute target date, not an accumulated countdown. isActive already
     // guarantees correctness; this timer just nudges the controller to release near the target.
@@ -59,5 +68,6 @@ public final class ManualSessionController {
         wake.remove(id)
         currentID = nil
         expiry = nil
+        onChange?()
     }
 }
