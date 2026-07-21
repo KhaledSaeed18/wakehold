@@ -1,16 +1,14 @@
 import Foundation
 
 // The lifecycle shape of every wake source: manual timer, watched process, listening port,
-// wrapped command, agent lease, running app, or calendar event. A new session type is a new case
-// here plus one file in Sessions/, never a new wake code path.
+// agent lease, or running app. A new session type is a new case here plus one file in
+// Sessions/, never a new wake code path.
 public enum SessionKind {
     case manual(until: Date?)          // nil = indefinite
     case process(pid: pid_t)
     case port(UInt16)
-    case command(pid: pid_t, label: String)
     case agent(label: String)
     case app(bundleID: String)
-    case calendar(eventID: String)
 
     // Short stable name for the control endpoint's /status payload.
     public var name: String {
@@ -18,10 +16,8 @@ public enum SessionKind {
         case .manual: "manual"
         case .process: "process"
         case .port: "port"
-        case .command: "command"
         case .agent: "agent"
         case .app: "app"
-        case .calendar: "calendar"
         }
     }
 }
