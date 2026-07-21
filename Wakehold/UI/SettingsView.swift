@@ -24,10 +24,16 @@ struct SettingsView: View {
 
 private struct GeneralTab: View {
     let launch: LaunchAtLogin
+    @AppStorage(GuardrailKeys.keepDisplayAwake) private var keepDisplayAwake = true
     @Environment(\.openURL) private var openURL
 
     var body: some View {
         Form {
+            Section {
+                Toggle("Keep the display on", isOn: $keepDisplayAwake)
+            } footer: {
+                Text("On, the screen stays lit while a session holds. Off, the system stays awake but the display can sleep, for unattended work.")
+            }
             Toggle("Launch at login", isOn: Binding(
                 get: { launch.isEnabled },
                 set: { launch.setEnabled($0) }

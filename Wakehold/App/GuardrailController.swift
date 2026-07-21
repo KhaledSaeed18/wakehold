@@ -5,11 +5,14 @@ enum GuardrailKeys {
     static let releaseOnBattery = "releaseOnBattery"
     static let releaseOnLowPowerMode = "releaseOnLowPowerMode"
     static let batteryThreshold = "batteryThreshold"
+    // Not a guardrail: whether the hold keeps the screen lit. Registered to true (see WakeholdApp).
+    static let keepDisplayAwake = "keepDisplayAwake"
 }
 
-// Applies the power guardrails: watches the PowerMonitor and the guardrail preferences and
-// suppresses the controller's assertion when the policy says to. It lives in the app because it
-// reads UI preferences; the policy itself (PowerGuardrail) is in the kit and is unit-tested.
+// Applies the power preferences to the controller: watches the PowerMonitor and the preferences,
+// suppresses the assertion when a guardrail says to, and sets whether the hold keeps the display
+// on. It lives in the app because it reads UI preferences; the guardrail policy itself
+// (PowerGuardrail) is in the kit and is unit-tested.
 @MainActor
 final class GuardrailController {
     private let controller: WakeController
@@ -35,6 +38,7 @@ final class GuardrailController {
 
     private func evaluate() {
         let defaults = UserDefaults.standard
+        controller.setKeepDisplayAwake(defaults.bool(forKey: GuardrailKeys.keepDisplayAwake))
         let threshold = defaults.integer(forKey: GuardrailKeys.batteryThreshold)
         let guardrail = PowerGuardrail(
             releaseOnBattery: defaults.bool(forKey: GuardrailKeys.releaseOnBattery),

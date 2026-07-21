@@ -16,6 +16,9 @@ struct WakeholdApp: App {
     @State private var server: ControlServer?
 
     init() {
+        // Keeping the display on is the default; UserDefaults.bool reads unset keys as false, so
+        // register the true default before anything reads it.
+        UserDefaults.standard.register(defaults: [GuardrailKeys.keepDisplayAwake: true])
         let controller = WakeController()
         let monitor = PowerMonitor()
         _controller = State(initialValue: controller)
