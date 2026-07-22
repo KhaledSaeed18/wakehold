@@ -25,6 +25,7 @@ struct SettingsView: View {
 private struct GeneralTab: View {
     let launch: LaunchAtLogin
     @AppStorage(GuardrailKeys.keepDisplayAwake) private var keepDisplayAwake = true
+    @AppStorage(LaunchKeys.activateOnLaunch) private var activateOnLaunch = false
     @Environment(\.openURL) private var openURL
 
     var body: some View {
@@ -34,10 +35,15 @@ private struct GeneralTab: View {
             } footer: {
                 Text("On, the screen stays lit while a session holds. Off, the system stays awake but the display can sleep, for unattended work.")
             }
-            Toggle("Launch at login", isOn: Binding(
-                get: { launch.isEnabled },
-                set: { launch.setEnabled($0) }
-            ))
+            Section {
+                Toggle("Launch at login", isOn: Binding(
+                    get: { launch.isEnabled },
+                    set: { launch.setEnabled($0) }
+                ))
+                Toggle("Activate on launch", isOn: $activateOnLaunch)
+            } footer: {
+                Text("Activate on launch opens a hold with the default duration each time Wakehold starts.")
+            }
             Button("Open notification settings…") {
                 if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension") {
                     openURL(url)

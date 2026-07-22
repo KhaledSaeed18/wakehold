@@ -2,6 +2,12 @@ import ServiceManagement
 import Observation
 import WakeholdKit
 
+enum LaunchKeys {
+    // Whether opening Wakehold also opens a hold with the default duration. Distinct from the login
+    // item: this governs what the app does on launch, not whether it launches. Unset reads false.
+    static let activateOnLaunch = "activateOnLaunch"
+}
+
 // Wraps the login-item registration for the main app. isEnabled mirrors the system's actual
 // status, so the Settings toggle always reflects reality even if registration is refused (an
 // unsigned or non-installed build cannot register a login item).

@@ -53,6 +53,17 @@ struct WakeholdApp: App {
         controller.onSessionsEmptied = { [endActions] in endActions.fire() }
         controller.onSessionsResumed = { [endActions] in endActions.cancelPending() }
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { _, _ in }
+        activateOnLaunchIfEnabled()
+    }
+
+    // Activate on launch: open the default-duration hold as the app starts, the same as picking the
+    // default from the menu. Runs last in startup() so guardrails.start() can immediately suppress
+    // it on battery, and so onChange is already wired to refresh the menu-bar countdown.
+    @MainActor
+    private func activateOnLaunchIfEnabled() {
+        guard UserDefaults.standard.bool(forKey: LaunchKeys.activateOnLaunch) else { return }
+        let duration = durations.defaultDuration
+        manual.start(label: duration.label, seconds: duration.seconds)
     }
 
     // The endpoint shares the one WakeController with the menu, so sessions opened over the socket
