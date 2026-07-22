@@ -73,9 +73,31 @@ struct MenuBarView: View {
         if !inspector.holds.isEmpty {
             Section("Also keeping it awake") {
                 ForEach(inspector.holds) { hold in
-                    Label(hold.processName, systemImage: hold.keepsDisplayAwake ? "sun.max" : "cpu")
+                    holdRow(hold)
                 }
             }
+        }
+    }
+
+    // Process name over its assertion reason, when the process gave one. Names and reasons come from
+    // the system verbatim, so they are never treated as localization keys.
+    @ViewBuilder
+    private func holdRow(_ hold: ProcessHold) -> some View {
+        let icon = hold.keepsDisplayAwake ? "sun.max" : "cpu"
+        if let reason = hold.displayReason {
+            Label {
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(verbatim: hold.processName)
+                    Text(verbatim: reason)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .lineLimit(1)
+                }
+            } icon: {
+                Image(systemName: icon)
+            }
+        } else {
+            Label(hold.processName, systemImage: icon)
         }
     }
 
