@@ -40,6 +40,15 @@ public struct ProcessHold: Sendable, Equatable, Identifiable {
         self.keepsDisplayAwake = keepsDisplayAwake
         self.reason = reason
     }
+
+    // Some processes give a shouty all-caps reason (caffeinate does); sentence-case those for
+    // display, and leave normal mixed-case reasons exactly as the system wrote them.
+    public var displayReason: String? {
+        guard let reason, reason.contains(where: \.isLetter), !reason.contains(where: \.isLowercase) else {
+            return reason
+        }
+        return reason.prefix(1).uppercased() + reason.dropFirst().lowercased()
+    }
 }
 
 public enum SystemAssertions {

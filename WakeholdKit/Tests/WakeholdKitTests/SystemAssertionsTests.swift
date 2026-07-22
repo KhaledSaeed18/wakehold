@@ -67,6 +67,17 @@ struct SystemAssertionsTests {
         #expect(holds.first?.processName == "coreaudiod")
     }
 
+    @Test func displayReasonSentenceCasesShoutyReasons() {
+        let shouty = ProcessHold(pid: 1, processName: "caffeinate", keepsDisplayAwake: true,
+                                 reason: "THE CAFFEINATE TOOL IS PREVENTING SLEEP.")
+        #expect(shouty.displayReason == "The caffeinate tool is preventing sleep.")
+        let normal = ProcessHold(pid: 2, processName: "zoom.us", keepsDisplayAwake: true,
+                                 reason: "video conference in progress")
+        #expect(normal.displayReason == "video conference in progress")   // mixed case is untouched
+        let none = ProcessHold(pid: 3, processName: "x", keepsDisplayAwake: false, reason: nil)
+        #expect(none.displayReason == nil)
+    }
+
     @Test func holdsSortDisplayKeepersFirstThenByName() {
         let input = [
             SystemAssertion(pid: 1, processName: "zeta", scope: .display, reason: nil),
