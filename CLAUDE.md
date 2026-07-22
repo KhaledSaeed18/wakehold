@@ -104,15 +104,17 @@ DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer swift test --package-pa
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   swift build --package-path WakeholdKit -c release --product wakehold
 
-# The app (open in Xcode, or from the command line):
+# The app plus its unit tests (WakeholdTests, a Swift Testing bundle hosted by the app):
 DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer \
   xcodebuild -project Wakehold.xcodeproj -scheme Wakehold -configuration Debug \
-  CODE_SIGNING_ALLOWED=NO build
+  -destination 'platform=macOS' CODE_SIGNING_ALLOWED=NO test
 ```
 
-The `KeyboardShortcuts` remote package needs network on first resolve; pin a clone dir with
-`-clonedSourcePackagesDirPath` when building the app offline. Verify the kit with `swift test`
-before pushing; verify the app with a clean `xcodebuild ... build`.
+The kit stays the headless seam and holds most coverage; `WakeholdTests` covers only app-layer logic
+that cannot move to the kit (`WakeDuration` labels, `DurationStore`). The `KeyboardShortcuts` remote
+package needs network on first resolve; pin a clone dir with `-clonedSourcePackagesDirPath` when
+building the app offline. Verify the kit with `swift test` and the app with a clean `xcodebuild ...
+test` before pushing.
 
 ## Architecture rules (hard)
 

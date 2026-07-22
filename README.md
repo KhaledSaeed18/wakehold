@@ -168,7 +168,7 @@ See [CLAUDE.md](CLAUDE.md) for the full map and the design rules.
 ```bash
 swift test --package-path WakeholdKit                                 # kit + CLI tests
 swift build --package-path WakeholdKit -c release --product wakehold  # the CLI
-xcodebuild -project Wakehold.xcodeproj -scheme Wakehold build         # the app
+xcodebuild -project Wakehold.xcodeproj -scheme Wakehold test          # the app + its unit tests
 ```
 
 If Xcode is installed but is not the active command-line toolchain, prefix these with
