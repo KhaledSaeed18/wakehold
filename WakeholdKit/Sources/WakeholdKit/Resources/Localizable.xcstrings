@@ -33,7 +33,7 @@
     },
     "Wakehold will %@ in %llds. Open the menu to cancel." : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "سينفّذ Wakehold %@ خلال %lld ثانية. افتح القائمة للإلغاء." } }
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "سيقوم Wakehold ب%@ خلال %lld ثانية. افتح القائمة للإلغاء." } }
       }
     }
   },
