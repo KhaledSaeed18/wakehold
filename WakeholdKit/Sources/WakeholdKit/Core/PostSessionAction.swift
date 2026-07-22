@@ -21,12 +21,12 @@ public enum PostSessionAction: String, CaseIterable, Identifiable, Equatable {
 
     public var menuTitle: String {
         switch self {
-        case .none: "Nothing"
-        case .notify: "Notify me"
-        case .displaySleep: "Sleep the display"
-        case .systemSleep: "Sleep"
-        case .shutDown: "Shut down"
-        case .restart: "Restart"
+        case .none: String(localized: "Nothing", bundle: .module)
+        case .notify: String(localized: "Notify me", bundle: .module)
+        case .displaySleep: String(localized: "Sleep the display", bundle: .module)
+        case .systemSleep: String(localized: "Sleep", bundle: .module)
+        case .shutDown: String(localized: "Shut down", bundle: .module)
+        case .restart: String(localized: "Restart", bundle: .module)
         }
     }
 }

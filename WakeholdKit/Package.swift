@@ -6,13 +6,16 @@ import PackageDescription
 // link this. Swift 5 language mode matches the app target for now.
 let package = Package(
     name: "WakeholdKit",
+    defaultLocalization: "en",
     platforms: [.macOS(.v14)],
     products: [
         .library(name: "WakeholdKit", targets: ["WakeholdKit"]),
         .executable(name: "wakehold", targets: ["wakehold"]),
     ],
     targets: [
-        .target(name: "WakeholdKit"),
+        // The action titles and the grace notice are user-facing, so this target carries a String
+        // Catalog and reads it through Bundle.module.
+        .target(name: "WakeholdKit", resources: [.process("Resources/Localizable.xcstrings")]),
         .executableTarget(name: "wakehold", dependencies: ["WakeholdKit"]),
         .testTarget(name: "WakeholdKitTests", dependencies: ["WakeholdKit"]),
     ],

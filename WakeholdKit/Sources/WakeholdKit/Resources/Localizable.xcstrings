@@ -1,0 +1,41 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Nothing" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "لا شيء" } }
+      }
+    },
+    "Notify me" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "أبلغني" } }
+      }
+    },
+    "Restart" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إعادة التشغيل" } }
+      }
+    },
+    "Shut down" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إيقاف التشغيل" } }
+      }
+    },
+    "Sleep" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إسبات" } }
+      }
+    },
+    "Sleep the display" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إنامة الشاشة" } }
+      }
+    },
+    "Wakehold will %@ in %llds. Open the menu to cancel." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "سينفّذ Wakehold %@ خلال %lld ثانية. افتح القائمة للإلغاء." } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

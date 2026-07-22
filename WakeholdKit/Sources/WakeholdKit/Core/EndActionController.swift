@@ -32,7 +32,9 @@ public final class EndActionController {
             return
         }
         pending = action
-        executor.warn("Wakehold will \(action.menuTitle.lowercased()) in \(Int(graceDuration))s. Open the menu to cancel.")
+        let name = action.menuTitle.lowercased()
+        let seconds = Int(graceDuration)
+        executor.warn(String(localized: "Wakehold will \(name) in \(seconds)s. Open the menu to cancel.", bundle: .module))
         graceTask = Task { [weak self, graceDuration] in
             try? await Task.sleep(for: .seconds(graceDuration))
             guard !Task.isCancelled else { return }
