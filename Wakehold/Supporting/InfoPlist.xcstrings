@@ -1,14 +1,44 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "CFBundleName" : {
+      "comment" : "Bundle name",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Wakehold"
+          }
+        }
+      }
+    },
     "NSAppleEventsUsageDescription" : {
       "extractionState" : "manual",
       "localizations" : {
         "ar" : {
-          "stringUnit" : { "state" : "translated", "value" : "يستخدم Wakehold أحداث النظام لإيقاف التشغيل أو إعادة التشغيل عند انتهاء آخر جلسة، إذا فعّلت هذا الإجراء." }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يستخدم Wakehold أحداث النظام لإيقاف التشغيل أو إعادة التشغيل عند انتهاء آخر جلسة، إذا فعّلت هذا الإجراء."
+          }
         },
         "en" : {
-          "stringUnit" : { "state" : "translated", "value" : "Wakehold uses System Events to shut down or restart when your last session ends, if you arm that action." }
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Wakehold uses System Events to shut down or restart when your last session ends, if you arm that action."
+          }
+        }
+      }
+    },
+    "NSHumanReadableCopyright" : {
+      "comment" : "Copyright (human-readable)",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : ""
+          }
         }
       }
     }
