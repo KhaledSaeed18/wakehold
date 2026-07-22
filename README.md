@@ -54,7 +54,7 @@ On top of the sources:
 - **Power guardrails**: release on battery, below a battery percentage, or in Low Power Mode.
 - **Keep the display on** by default, with a one-switch opt-out.
 - **Custom durations**: define your own quick-pick durations and a default.
-- Global toggle shortcut, a live countdown in the menu bar, and launch at login.
+- Global toggle shortcut, a live countdown in the menu bar, launch at login, and activate on launch.
 
 ## How it works
 
@@ -141,8 +141,8 @@ session with the working directory, so the same commands work across tools.
 
 Settings has four tabs:
 
-- **General**: keep the display on (default on), launch at login, and a shortcut to the macOS
-  notification settings.
+- **General**: keep the display on (default on), launch at login, activate on launch (open the
+  default hold when Wakehold starts), and a shortcut to the macOS notification settings.
 - **Durations**: add and remove quick-pick durations, and set the default.
 - **Battery**: release on battery, release below a battery percentage, and release in Low Power Mode.
 - **About**: version and links.
