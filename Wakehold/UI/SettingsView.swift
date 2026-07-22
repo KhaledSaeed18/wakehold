@@ -117,7 +117,7 @@ private struct BatteryTab: View {
                         get: { Double(batteryThreshold) },
                         set: { batteryThreshold = Int($0.rounded()) }
                     ), in: 5...90, step: 5)
-                    Text("\(batteryThreshold)%").monospacedDigit().frame(width: 44, alignment: .trailing)
+                    Text(verbatim: "\(batteryThreshold)%").monospacedDigit().frame(width: 44, alignment: .trailing)
                 }
             }
 
@@ -128,8 +128,8 @@ private struct BatteryTab: View {
 }
 
 private struct AboutTab: View {
-    private var version: String {
-        (Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String).map { "Version \($0)" } ?? ""
+    private var versionNumber: String? {
+        Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     }
 
     var body: some View {
@@ -137,8 +137,10 @@ private struct AboutTab: View {
             Image(nsImage: NSApplication.shared.applicationIconImage)
                 .resizable()
                 .frame(width: 56, height: 56)
-            Text("Wakehold").font(.title2)
-            Text(version).foregroundStyle(.secondary)
+            Text(verbatim: "Wakehold").font(.title2)
+            if let versionNumber {
+                Text("Version \(versionNumber)").foregroundStyle(.secondary)
+            }
             if let url = URL(string: "https://github.com/KhaledSaeed18/wakehold") {
                 Link("github.com/KhaledSaeed18/wakehold", destination: url)
             }

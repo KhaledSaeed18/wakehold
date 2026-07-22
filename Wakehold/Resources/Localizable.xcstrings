@@ -1,0 +1,151 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "About" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "حول" } }
+      }
+    },
+    "Activate on launch" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التفعيل عند التشغيل" } }
+      }
+    },
+    "Activate on launch opens a hold with the default duration each time Wakehold starts." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يفتح التفعيل عند التشغيل جلسةً بالمدة الافتراضية في كل مرة يبدأ فيها Wakehold." } }
+      }
+    },
+    "Add" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إضافة" } }
+      }
+    },
+    "Add a duration" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إضافة مدة" } }
+      }
+    },
+    "Awake" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مستيقظ" } }
+      }
+    },
+    "Battery" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "البطارية" } }
+      }
+    },
+    "Cancel: %@" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إلغاء: %@" } }
+      }
+    },
+    "default" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "افتراضي" } }
+      }
+    },
+    "Durations" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "المُدد" } }
+      }
+    },
+    "General" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عام" } }
+      }
+    },
+    "Keep the display on" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إبقاء الشاشة قيد التشغيل" } }
+      }
+    },
+    "Launch at login" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التشغيل عند تسجيل الدخول" } }
+      }
+    },
+    "Nothing's keeping you awake." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "لا شيء يُبقيك مستيقظًا." } }
+      }
+    },
+    "On, the screen stays lit while a session holds. Off, the system stays awake but the display can sleep, for unattended work." : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عند التشغيل، تبقى الشاشة مضاءة أثناء استمرار الجلسة. عند الإيقاف، يبقى النظام مستيقظًا بينما يمكن للشاشة أن تنام، للعمل دون إشراف." } }
+      }
+    },
+    "Open notification settings…" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "فتح إعدادات الإشعارات…" } }
+      }
+    },
+    "Quit Wakehold" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إنهاء Wakehold" } }
+      }
+    },
+    "Release below a battery level" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التحرير تحت مستوى معيّن للبطارية" } }
+      }
+    },
+    "Release in Low Power Mode" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التحرير في وضع الطاقة المنخفضة" } }
+      }
+    },
+    "Release on battery" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التحرير عند استخدام البطارية" } }
+      }
+    },
+    "Set default" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعيين كافتراضي" } }
+      }
+    },
+    "Settings…" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "الإعدادات…" } }
+      }
+    },
+    "Turn off" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إيقاف" } }
+      }
+    },
+    "Version %@" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "الإصدار %@" } }
+      }
+    },
+    "When done: %@" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عند الانتهاء: %@" } }
+      }
+    },
+    "When last session ends" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عند انتهاء آخر جلسة" } }
+      }
+    },
+    "While an app runs" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "أثناء تشغيل تطبيق" } }
+      }
+    },
+    "%lld h" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lld س" } }
+      }
+    },
+    "%lld m" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lld د" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}
