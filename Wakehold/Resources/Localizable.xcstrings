@@ -3,7 +3,12 @@
   "strings" : {
     "%lld h" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lld س" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld س"
+          }
+        }
       }
     },
     "%lld hours" : {
@@ -11,20 +16,60 @@
         "ar" : {
           "variations" : {
             "plural" : {
-              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld ساعات" } },
-              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld ساعة" } },
-              "one" : { "stringUnit" : { "state" : "translated", "value" : "ساعة واحدة" } },
-              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld ساعة" } },
-              "two" : { "stringUnit" : { "state" : "translated", "value" : "ساعتان" } },
-              "zero" : { "stringUnit" : { "state" : "translated", "value" : "%lld ساعة" } }
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld ساعات"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld ساعة"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "ساعة واحدة"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld ساعة"
+                }
+              },
+              "two" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "ساعتان"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld ساعة"
+                }
+              }
             }
           }
         },
         "en" : {
           "variations" : {
             "plural" : {
-              "one" : { "stringUnit" : { "state" : "translated", "value" : "%lld hour" } },
-              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld hours" } }
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld hour"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld hours"
+                }
+              }
             }
           }
         }
@@ -32,7 +77,12 @@
     },
     "%lld m" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lld د" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld د"
+          }
+        }
       }
     },
     "%lld minutes" : {
@@ -40,20 +90,60 @@
         "ar" : {
           "variations" : {
             "plural" : {
-              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld دقائق" } },
-              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld دقيقة" } },
-              "one" : { "stringUnit" : { "state" : "translated", "value" : "دقيقة واحدة" } },
-              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld دقيقة" } },
-              "two" : { "stringUnit" : { "state" : "translated", "value" : "دقيقتان" } },
-              "zero" : { "stringUnit" : { "state" : "translated", "value" : "%lld دقيقة" } }
+              "few" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld دقائق"
+                }
+              },
+              "many" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld دقيقة"
+                }
+              },
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "دقيقة واحدة"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld دقيقة"
+                }
+              },
+              "two" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "دقيقتان"
+                }
+              },
+              "zero" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld دقيقة"
+                }
+              }
             }
           }
         },
         "en" : {
           "variations" : {
             "plural" : {
-              "one" : { "stringUnit" : { "state" : "translated", "value" : "%lld minute" } },
-              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld minutes" } }
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld minute"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld minutes"
+                }
+              }
             }
           }
         }
@@ -61,149 +151,298 @@
     },
     "%lldh %lldm" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lldس %lldد" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lldس %lldد"
+          }
+        }
       }
     },
     "About" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "حول" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حول"
+          }
+        }
       }
     },
     "Activate on launch" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التفعيل عند التشغيل" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التفعيل عند التشغيل"
+          }
+        }
       }
     },
     "Activate on launch opens a hold with the default duration each time Wakehold starts." : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "يفتح التفعيل عند التشغيل جلسةً بالمدة الافتراضية في كل مرة يبدأ فيها Wakehold." } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يفتح التفعيل عند التشغيل جلسةً بالمدة الافتراضية في كل مرة يبدأ فيها Wakehold."
+          }
+        }
       }
     },
     "Add" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إضافة" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة"
+          }
+        }
       }
     },
     "Add a duration" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إضافة مدة" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إضافة مدة"
+          }
+        }
       }
     },
     "Awake" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "مستيقظ" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مستيقظ"
+          }
+        }
       }
     },
     "Battery" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "البطارية" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البطارية"
+          }
+        }
       }
     },
     "Cancel: %@" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إلغاء: %@" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إلغاء: %@"
+          }
+        }
       }
     },
     "default" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "افتراضي" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتراضي"
+          }
+        }
       }
     },
     "Durations" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "المُدد" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المُدد"
+          }
+        }
       }
     },
     "General" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عام" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عام"
+          }
+        }
       }
+    },
+    "github.com/KhaledSaeed18/wakehold" : {
+      "comment" : "A link to the repository for Wakehold.",
+      "isCommentAutoGenerated" : true
     },
     "Indefinite" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "غير محدد" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "غير محدد"
+          }
+        }
       }
     },
     "Keep the display on" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إبقاء الشاشة قيد التشغيل" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إبقاء الشاشة مضاءة"
+          }
+        }
       }
     },
     "Launch at login" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التشغيل عند تسجيل الدخول" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التشغيل عند تسجيل الدخول"
+          }
+        }
       }
     },
     "Nothing's keeping you awake." : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "لا شيء يُبقيك مستيقظًا." } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا شيء يُبقيك مستيقظًا."
+          }
+        }
       }
     },
     "On, the screen stays lit while a session holds. Off, the system stays awake but the display can sleep, for unattended work." : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عند التشغيل، تبقى الشاشة مضاءة أثناء استمرار الجلسة. عند الإيقاف، يبقى النظام مستيقظًا بينما يمكن للشاشة أن تنام، للعمل دون إشراف." } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عند التشغيل، تبقى الشاشة مضاءة أثناء استمرار الجلسة. عند الإيقاف، يبقى النظام مستيقظًا بينما يمكن للشاشة أن تنام، للعمل دون إشراف."
+          }
+        }
       }
     },
     "Open notification settings…" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "فتح إعدادات الإشعارات…" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "فتح إعدادات الإشعارات…"
+          }
+        }
       }
     },
     "Quit Wakehold" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إنهاء Wakehold" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إنهاء Wakehold"
+          }
+        }
       }
     },
     "Release below a battery level" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التحرير تحت مستوى معيّن للبطارية" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التحرير تحت مستوى بطارية معيّن"
+          }
+        }
       }
     },
     "Release in Low Power Mode" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التحرير في وضع الطاقة المنخفضة" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التحرير في وضع الطاقة المنخفضة"
+          }
+        }
       }
     },
     "Release on battery" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "التحرير عند استخدام البطارية" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التحرير عند استخدام البطارية"
+          }
+        }
       }
     },
     "Set default" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "تعيين كافتراضي" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تعيين كافتراضي"
+          }
+        }
       }
     },
     "Settings…" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "الإعدادات…" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإعدادات…"
+          }
+        }
       }
     },
     "Turn off" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "إيقاف" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إيقاف"
+          }
+        }
       }
     },
     "Version %@" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "الإصدار %@" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإصدار %@"
+          }
+        }
       }
     },
     "When done: %@" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عند الانتهاء: %@" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عند الانتهاء: %@"
+          }
+        }
       }
     },
     "When last session ends" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "عند انتهاء آخر جلسة" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عند انتهاء آخر جلسة"
+          }
+        }
       }
     },
     "While an app runs" : {
       "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "أثناء تشغيل تطبيق" } }
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أثناء تشغيل تطبيق"
+          }
+        }
       }
     }
   },
-  "version" : "1.0"
+  "version" : "1.1"
 }
