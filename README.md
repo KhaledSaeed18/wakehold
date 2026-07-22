@@ -31,8 +31,9 @@ while that thing runs.
   off for unattended work and the system stays awake while the screen sleeps.
 - **It cleans up after itself.** When the last session ends it can sleep the display, sleep the Mac,
   shut down, restart, or notify. "Run the agent overnight, shut down when it finishes" is one switch.
-- **It is legible.** Every hold shows up in `pmset -g assertions` with a human-readable reason. No
-  mystery wakeups.
+- **It is legible.** The menu shows every reason your Mac is awake, Wakehold's own holds and any
+  other app's (a call, audio playing, a stray `caffeinate`), each named with the process that set it.
+  Every hold also lands in `pmset -g assertions`. No mystery wakeups.
 - **One tool, many clients.** A menu-bar app, a `wakehold` CLI, and a local control endpoint that any
   script or agent can open a session against.
 
@@ -53,6 +54,8 @@ On top of the sources:
   last session ends. Armed per occasion, shown in the menu, cancelable.
 - **Power guardrails**: release on battery, below a battery percentage, or in Low Power Mode.
 - **Keep the display on** by default, with a one-switch opt-out.
+- **See what's keeping it awake**: the menu lists every other process holding the Mac open, not just
+  Wakehold's own sessions, so you can tell why it will not sleep.
 - **Custom durations**: define your own quick-pick durations and a default.
 - **English and Arabic**: the menu and settings are localized, with the layout mirrored for
   right-to-left.

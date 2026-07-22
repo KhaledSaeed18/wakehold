@@ -38,7 +38,8 @@ WakeholdKit/                         local Swift package; builds and tests headl
     Core/
       WakeController.swift           @MainActor, owns the assertion, reconcile(); the only decider
       WakeSession.swift              WakeSession protocol + SessionKind enum
-      PowerAssertion.swift           IOKit wrapper; the ONLY file importing IOKit
+      PowerAssertion.swift           IOKit wrapper for Wakehold's own hold (acquire / release)
+      SystemAssertions.swift         read-only IOKit read of every process's sleep holds
       PowerMonitor.swift             power source / battery / Low Power Mode state, event-driven
       PowerGuardrail.swift           pure policy: does the current power state suppress the hold
       PostSessionAction.swift        the end-of-session action enum (notify, sleep, shut down, ...)
@@ -73,6 +74,7 @@ Wakehold/                            app target: SwiftUI, menu bar only (LSUIEle
     DurationStore.swift              the user's editable durations + the default, persisted
     GuardrailController.swift        bridges power preferences to the controller (suppress, display)
     AppSessionController.swift       NSWorkspace watcher for app sessions
+    AssertionInspector.swift         polls SystemAssertions for other processes' holds, for the menu
     Hotkey.swift                     global toggle shortcut (KeyboardShortcuts package)
     LaunchAtLogin.swift              SMAppService wrapper
   UI/
@@ -120,8 +122,9 @@ test` before pushing.
 
 - Two layers, one seam: the session service (`WakeholdKit`) and the menu-bar UI. Keep the seam even
   while both live in-process. The service must build and test without the UI.
-- IOKit assertion logic lives only in `PowerAssertion`, driven only by `WakeController`. Views never
-  import IOKit and never call acquire or release.
+- IOKit lives in two files: `PowerAssertion` (acquires and releases Wakehold's own hold, driven only
+  by `WakeController`) and `SystemAssertions` (a read-only read of every process's holds, acquiring
+  nothing). No other file imports IOKit. Views never import IOKit and never call acquire or release.
 - The assertion is derived: awake iff any session `isActive` and not suppressed. Never toggle the
   assertion from the UI. Mutate the session set and let `reconcile()` settle it. `reconcile()` is
   the single choke point; it also fires the post-session action on the last active-to-idle edge.
