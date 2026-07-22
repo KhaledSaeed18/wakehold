@@ -11,15 +11,17 @@ struct WakeDuration: Codable, Identifiable, Equatable {
         self.seconds = seconds
     }
 
+    // Localized: plural agreement (English "1 minute"/"5 minutes", Arabic's six forms) lives in the
+    // String Catalog, so this drops the manual singular check and reads through String(localized:).
     var label: String {
-        guard let seconds else { return "Indefinite" }
+        guard let seconds else { return String(localized: "Indefinite") }
         let total = Int(seconds.rounded())
         let hours = total / 3600
         let minutes = (total % 3600) / 60
         switch (hours, minutes) {
-        case (0, let m): return m == 1 ? "1 minute" : "\(m) minutes"
-        case (let h, 0): return h == 1 ? "1 hour" : "\(h) hours"
-        case (let h, let m): return "\(h)h \(m)m"
+        case (0, let m): return String(localized: "\(m) minutes")
+        case (let h, 0): return String(localized: "\(h) hours")
+        case (let h, let m): return String(localized: "\(h)h \(m)m")
         }
     }
 

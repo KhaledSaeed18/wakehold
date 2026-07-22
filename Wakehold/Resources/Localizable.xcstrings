@@ -1,6 +1,69 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%lld h" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lld س" } }
+      }
+    },
+    "%lld hours" : {
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld ساعات" } },
+              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld ساعة" } },
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "ساعة واحدة" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld ساعة" } },
+              "two" : { "stringUnit" : { "state" : "translated", "value" : "ساعتان" } },
+              "zero" : { "stringUnit" : { "state" : "translated", "value" : "%lld ساعة" } }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "%lld hour" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld hours" } }
+            }
+          }
+        }
+      }
+    },
+    "%lld m" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lld د" } }
+      }
+    },
+    "%lld minutes" : {
+      "localizations" : {
+        "ar" : {
+          "variations" : {
+            "plural" : {
+              "few" : { "stringUnit" : { "state" : "translated", "value" : "%lld دقائق" } },
+              "many" : { "stringUnit" : { "state" : "translated", "value" : "%lld دقيقة" } },
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "دقيقة واحدة" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld دقيقة" } },
+              "two" : { "stringUnit" : { "state" : "translated", "value" : "دقيقتان" } },
+              "zero" : { "stringUnit" : { "state" : "translated", "value" : "%lld دقيقة" } }
+            }
+          }
+        },
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : { "stringUnit" : { "state" : "translated", "value" : "%lld minute" } },
+              "other" : { "stringUnit" : { "state" : "translated", "value" : "%lld minutes" } }
+            }
+          }
+        }
+      }
+    },
+    "%lldh %lldm" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lldس %lldد" } }
+      }
+    },
     "About" : {
       "localizations" : {
         "ar" : { "stringUnit" : { "state" : "translated", "value" : "حول" } }
@@ -54,6 +117,11 @@
     "General" : {
       "localizations" : {
         "ar" : { "stringUnit" : { "state" : "translated", "value" : "عام" } }
+      }
+    },
+    "Indefinite" : {
+      "localizations" : {
+        "ar" : { "stringUnit" : { "state" : "translated", "value" : "غير محدد" } }
       }
     },
     "Keep the display on" : {
@@ -134,16 +202,6 @@
     "While an app runs" : {
       "localizations" : {
         "ar" : { "stringUnit" : { "state" : "translated", "value" : "أثناء تشغيل تطبيق" } }
-      }
-    },
-    "%lld h" : {
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lld س" } }
-      }
-    },
-    "%lld m" : {
-      "localizations" : {
-        "ar" : { "stringUnit" : { "state" : "translated", "value" : "%lld د" } }
       }
     }
   },
