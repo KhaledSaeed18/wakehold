@@ -13,6 +13,7 @@
 
 /* Begin PBXFileReference section */
 		000000000000000000000004 /* Wakehold.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wakehold.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		000000000000000000000018 /* WakeholdTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WakeholdTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -34,6 +35,11 @@
 			path = Wakehold;
 			sourceTree = "<group>";
 		};
+		000000000000000000000017 /* WakeholdTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = WakeholdTests;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000005 /* Wakehold */,
+				000000000000000000000017 /* WakeholdTests */,
 				000000000000000000000003 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000004 /* Wakehold.app */,
+				000000000000000000000018 /* WakeholdTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -92,6 +100,27 @@
 			productReference = 000000000000000000000004 /* Wakehold.app */;
 			productType = "com.apple.product-type.application";
 		};
+		000000000000000000000019 /* WakeholdTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 000000000000000000000023 /* Build configuration list for PBXNativeTarget "WakeholdTests" */;
+			buildPhases = (
+				000000000000000000000020 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				000000000000000000000021 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				000000000000000000000017 /* WakeholdTests */,
+			);
+			name = WakeholdTests;
+			packageProductDependencies = (
+			);
+			productName = WakeholdTests;
+			productReference = 000000000000000000000018 /* WakeholdTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -104,6 +133,10 @@
 				TargetAttributes = {
 					000000000000000000000006 = {
 						CreatedOnToolsVersion = 26.6;
+					};
+					000000000000000000000019 = {
+						CreatedOnToolsVersion = 26.6;
+						TestTargetID = 000000000000000000000006;
 					};
 				};
 			};
@@ -127,6 +160,7 @@
 			projectRoot = "";
 			targets = (
 				000000000000000000000006 /* Wakehold */,
+				000000000000000000000019 /* WakeholdTests */,
 			);
 		};
 /* End PBXProject section */
@@ -149,7 +183,32 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		000000000000000000000020 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		000000000000000000000021 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 000000000000000000000006 /* Wakehold */;
+			targetProxy = 000000000000000000000022 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXContainerItemProxy section */
+		000000000000000000000022 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 000000000000000000000001 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 000000000000000000000006;
+			remoteInfo = Wakehold;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin XCBuildConfiguration section */
 		00000000000000000000000C /* Debug */ = {
@@ -312,6 +371,36 @@
 			};
 			name = Release;
 		};
+		000000000000000000000024 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.wakehold.WakeholdTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wakehold.app/Contents/MacOS/Wakehold";
+			};
+			name = Debug;
+		};
+		000000000000000000000025 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = app.wakehold.WakeholdTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Wakehold.app/Contents/MacOS/Wakehold";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -329,6 +418,15 @@
 			buildConfigurations = (
 				00000000000000000000000C /* Debug */,
 				00000000000000000000000D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		000000000000000000000023 /* Build configuration list for PBXNativeTarget "WakeholdTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				000000000000000000000024 /* Debug */,
+				000000000000000000000025 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
