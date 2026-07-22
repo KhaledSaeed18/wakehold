@@ -11,9 +11,11 @@ final class DurationStore {
 
     private let durationsKey = "wakeDurations"
     private let defaultKey = "defaultDurationID"
+    private let defaults: UserDefaults
 
-    init() {
-        let defaults = UserDefaults.standard
+    // defaults is injectable so tests run against a throwaway suite, never the user's real store.
+    init(defaults: UserDefaults = .standard) {
+        self.defaults = defaults
         let list: [WakeDuration]
         if let data = defaults.data(forKey: durationsKey),
            let saved = try? JSONDecoder().decode([WakeDuration].self, from: data), !saved.isEmpty {
@@ -55,7 +57,6 @@ final class DurationStore {
     }
 
     private func persist() {
-        let defaults = UserDefaults.standard
         if let data = try? JSONEncoder().encode(durations) {
             defaults.set(data, forKey: durationsKey)
         }
