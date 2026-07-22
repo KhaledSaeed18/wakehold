@@ -54,6 +54,8 @@ On top of the sources:
 - **Power guardrails**: release on battery, below a battery percentage, or in Low Power Mode.
 - **Keep the display on** by default, with a one-switch opt-out.
 - **Custom durations**: define your own quick-pick durations and a default.
+- **English and Arabic**: the menu and settings are localized, with the layout mirrored for
+  right-to-left.
 - Global toggle shortcut, a live countdown in the menu bar, launch at login, and activate on launch.
 
 ## How it works

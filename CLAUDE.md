@@ -165,6 +165,24 @@ rule here if it changes one.
 - Do NOT enable App Sandbox: the process, port, and command features need access it forbids.
 - `LSUIElement = true`: menu bar only, no Dock icon.
 
+## Localization
+
+The app ships English and Arabic. Strings live in String Catalogs, not in code.
+
+- App UI: `Wakehold/Resources/Localizable.xcstrings`. Usage prompts: `Wakehold/Supporting/InfoPlist.xcstrings`.
+  Kit-owned user-facing strings (post-session action titles, the grace notice) live in
+  `WakeholdKit/Sources/WakeholdKit/Resources/Localizable.xcstrings` and are read with
+  `String(localized:bundle:.module)`; the package sets `defaultLocalization: "en"`.
+- Add a UI string as a source-language literal in a SwiftUI `Text`/`Label`/`Toggle` (auto-localized),
+  then add its `ar` value to the catalog. Duration labels use the catalog's plural variations, so
+  the six Arabic plural forms live there, not in a Swift `switch`.
+- SwiftUI mirrors layout to RTL for Arabic on its own; do not hand-flip. Keep brand tokens
+  (`Wakehold`) and bare numbers verbatim (`Text(verbatim:)`).
+- Arabic is Modern Standard Arabic. The marketing site's Lebanese Arabic is a separate choice; do
+  not assume the app follows it without asking.
+- `xcodebuild` compiles the catalogs (including the kit's, into its resource bundle). `swift build`
+  copies but does not compile them, which is fine: the CLI shows none of these strings.
+
 ## Code conventions
 
 - **Access control and finality.** Every type is `final` unless designed for subclassing. Default to
