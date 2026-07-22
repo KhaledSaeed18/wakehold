@@ -1,0 +1,17 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "NSAppleEventsUsageDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : { "state" : "translated", "value" : "يستخدم Wakehold أحداث النظام لإيقاف التشغيل أو إعادة التشغيل عند انتهاء آخر جلسة، إذا فعّلت هذا الإجراء." }
+        },
+        "en" : {
+          "stringUnit" : { "state" : "translated", "value" : "Wakehold uses System Events to shut down or restart when your last session ends, if you arm that action." }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}
