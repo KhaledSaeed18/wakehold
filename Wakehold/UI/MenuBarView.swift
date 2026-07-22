@@ -10,9 +10,12 @@ struct MenuBarView: View {
     let endActions: EndActionController
     let apps: AppSessionController
     let durations: DurationStore
+    let inspector: AssertionInspector
 
     var body: some View {
         status
+
+        otherHolds
 
         Divider()
 
@@ -60,6 +63,19 @@ struct MenuBarView: View {
             Button("Cancel: \(pending.menuTitle)") { endActions.cancelPending() }
         } else if endActions.armed != .none {
             Text("When done: \(endActions.armed.menuTitle)")
+        }
+    }
+
+    // Every other process holding the Mac awake, so the menu answers "why won't it sleep" for the
+    // whole machine, not just Wakehold's own holds. Informational rows, shown only when present.
+    @ViewBuilder
+    private var otherHolds: some View {
+        if !inspector.holds.isEmpty {
+            Section("Also keeping it awake") {
+                ForEach(inspector.holds) { hold in
+                    Label(hold.processName, systemImage: hold.keepsDisplayAwake ? "sun.max" : "cpu")
+                }
+            }
         }
     }
 

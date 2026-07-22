@@ -13,6 +13,7 @@ struct WakeholdApp: App {
     @State private var durations = DurationStore()
     @State private var endActions = EndActionController()
     @State private var launch = LaunchAtLogin()
+    @State private var inspector = AssertionInspector()
     @State private var server: ControlServer?
 
     init() {
@@ -32,7 +33,7 @@ struct WakeholdApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            MenuBarView(controller: controller, manual: manual, endActions: endActions, apps: apps, durations: durations)
+            MenuBarView(controller: controller, manual: manual, endActions: endActions, apps: apps, durations: durations, inspector: inspector)
         } label: {
             MenuBarLabel(controller: controller, clock: clock)
                 .task { startup() }
@@ -47,6 +48,7 @@ struct WakeholdApp: App {
     private func startup() {
         startEndpoint()
         guardrails.start()
+        inspector.start()
         Hotkey.register(manual: manual, durations: durations)
         manual.onChange = { [clock] in clock.sync() }
         clock.sync()

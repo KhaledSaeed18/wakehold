@@ -209,6 +209,16 @@
         }
       }
     },
+    "Also keeping it awake" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يُبقيه مستيقظًا أيضًا"
+          }
+        }
+      }
+    },
     "Awake" : {
       "localizations" : {
         "ar" : {
