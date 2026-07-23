@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="https://shieldcn.dev/header/graph.svg?title=Wakehold&subtitle=Session-aware%20wake%20control%20for%20macOS&theme=cyan&logo=lu:Eye&size=lg&align=center" width="820" alt="Wakehold" />
+<img src="https://shieldcn.dev/header/graph.svg?title=Wakehold&subtitle=Session-aware%20wake%20control%20for%20macOS&theme=cyan&logo=https%3A%2F%2Fraw.githubusercontent.com%2FKhaledSaeed18%2Fwakehold%2Fmain%2FWakehold%2FResources%2FAssets.xcassets%2FAppIcon.appiconset%2Ficon_256.png&size=lg&align=center" width="820" alt="Wakehold" />
 
 <p>
   <img src="https://shieldcn.dev/badge/platform-macOS%2014%2B-cyan.svg?variant=secondary&logo=apple&logoColor=ffffff" alt="Platform: macOS 14+" />
