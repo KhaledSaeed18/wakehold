@@ -6,6 +6,7 @@
   <img src="https://shieldcn.dev/badge/platform-macOS%2014%2B-cyan.svg?variant=secondary&logo=apple&logoColor=ffffff" alt="Platform: macOS 14+" />
   <img src="https://shieldcn.dev/badge/Swift-5.10-orange.svg?variant=secondary&logo=swift&logoColor=ffffff" alt="Swift 5.10" />
   <img src="https://shieldcn.dev/badge/interface-menu%20bar%20%2B%20CLI-cyan.svg?variant=secondary" alt="Interface: menu bar + CLI" />
+  <a href="https://github.com/KhaledSaeed18/wakehold/actions/workflows/ci.yml"><img src="https://shieldcn.dev/github/ci/KhaledSaeed18/wakehold.svg?workflow=ci.yml&branch=main&variant=secondary" alt="CI status" /></a>
   <a href="LICENSE"><img src="https://shieldcn.dev/badge/license-MIT-green.svg?variant=secondary" alt="License: MIT" /></a>
   <a href="https://github.com/KhaledSaeed18/wakehold/stargazers"><img src="https://shieldcn.dev/github/stars/KhaledSaeed18/wakehold.svg" alt="GitHub stars" /></a>
 </p>
