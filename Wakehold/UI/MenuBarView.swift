@@ -12,7 +12,7 @@ struct MenuBarView: View {
     let durations: DurationStore
     let inspector: AssertionInspector
     let ender: SessionEnder
-    @Environment(\.openSettings) private var openSettings
+    @Environment(\.openWindow) private var openWindow
 
     var body: some View {
         status
@@ -68,7 +68,7 @@ struct MenuBarView: View {
             // Activate first: an app with no Dock icon is never active when its menu is used, and
             // the window would open behind the frontmost app.
             NSApp.activate()
-            openSettings()
+            openWindow(id: SettingsView.windowID)
         }
         .keyboardShortcut(",")
 

@@ -25,17 +25,21 @@ struct SettingsSnapshotTests {
                 lid: ClosedLidSettings()))),
             ("integrations", AnyView(IntegrationsSettingsTab(integrations: IntegrationStatus()))),
             ("about", AnyView(AboutSettingsTab())),
+            ("window", AnyView(SettingsView(
+                controller: controller, launch: LaunchAtLogin(), durations: DurationStore(defaults: defaults),
+                guardrails: GuardrailController(controller: controller, monitor: PowerMonitor()),
+                lid: ClosedLidSettings(), integrations: IntegrationStatus()))),
         ]
         for (name, view) in tabs {
             for appearance in [NSAppearance.Name.aqua, .darkAqua] {
                 let suffix = appearance == .aqua ? "light" : "dark"
-                try render(view, appearance: appearance, to: "\(directory)/\(name)-\(suffix).png")
+                let size = name == "window" ? NSSize(width: 820, height: 680) : NSSize(width: 640, height: 680)
+                try render(view, size: size, appearance: appearance, to: "\(directory)/\(name)-\(suffix).png")
             }
         }
     }
 
-    private func render(_ view: AnyView, appearance: NSAppearance.Name, to path: String) throws {
-        let size = NSSize(width: 640, height: 680)
+    private func render(_ view: AnyView, size: NSSize, appearance: NSAppearance.Name, to path: String) throws {
         // cacheDisplay captures the view, not the window, so paint the window background in.
         let host = NSHostingView(rootView: view
             .frame(width: size.width, height: size.height)

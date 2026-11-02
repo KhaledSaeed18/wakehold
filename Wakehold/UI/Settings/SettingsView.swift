@@ -1,37 +1,58 @@
 import SwiftUI
 import WakeholdKit
 
-// The ⌘, settings window. Each tab is a pure observer: it reads models and preferences and sends
-// intent, never touching wake state directly.
+// The settings window: a sidebar of panes beside the selected one. Each pane is a pure
+// observer: it reads models and preferences and sends intent, never touching wake state directly.
 struct SettingsView: View {
+    static let windowID = "settings"
+
     let controller: WakeController
     let launch: LaunchAtLogin
     let durations: DurationStore
     let guardrails: GuardrailController
     let lid: ClosedLidSettings
     let integrations: IntegrationStatus
+    @AppStorage("settingsPane") private var pane: SettingsPane = .general
 
     var body: some View {
-        TabView {
-            GeneralSettingsTab(launch: launch)
-                .tabItem { Label("General", systemImage: "gearshape") }
-            DurationsSettingsTab(durations: durations)
-                .tabItem { Label("Durations", systemImage: "timer") }
-            PowerSettingsTab(controller: controller, guardrails: guardrails, lid: lid)
-                .tabItem { Label("Power", systemImage: "bolt") }
-            IntegrationsSettingsTab(integrations: integrations)
-                .tabItem { Label("Integrations", systemImage: "terminal") }
-            AboutSettingsTab()
-                .tabItem { Label("About", systemImage: "info.circle") }
+        NavigationSplitView {
+            List(SettingsPane.allCases, selection: Binding<SettingsPane?>(
+                get: { pane },
+                set: { if let new = $0 { pane = new } }
+            )) { item in
+                Label(item.title, systemImage: item.symbol)
+            }
+            .navigationSplitViewColumnWidth(190)
+            .toolbar(removing: .sidebarToggle)
+        } detail: {
+            detail
+                .navigationTitle(pane.title)
         }
-        .frame(width: Self.size.width, height: Self.size.height)
+        // The floor that keeps every pane usable; the window resizes freely above it.
+        .frame(minWidth: 680, minHeight: 460)
         .background(BringWindowToFront())
     }
 
-    // Roomy on a normal display, capped to the screen it opens on so it still fits a small one.
-    // Every tab is a scrolling form, so a capped height still reaches every row.
-    private static var size: CGSize {
+    @ViewBuilder
+    private var detail: some View {
+        switch pane {
+        case .general:
+            GeneralSettingsTab(launch: launch)
+        case .durations:
+            DurationsSettingsTab(durations: durations)
+        case .power:
+            PowerSettingsTab(controller: controller, guardrails: guardrails, lid: lid)
+        case .integrations:
+            IntegrationsSettingsTab(integrations: integrations)
+        case .about:
+            AboutSettingsTab()
+        }
+    }
+
+    // The opening size: roomy on a normal display, capped to the screen it opens on so it still
+    // fits a small one. Every pane is a scrolling form, so a capped height still reaches every row.
+    static var defaultSize: CGSize {
         let visible = NSScreen.main?.visibleFrame.size ?? CGSize(width: 1280, height: 800)
-        return CGSize(width: min(640, visible.width - 80), height: min(680, visible.height - 100))
+        return CGSize(width: min(820, visible.width - 80), height: min(680, visible.height - 100))
     }
 }

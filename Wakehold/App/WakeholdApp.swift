@@ -49,11 +49,15 @@ struct WakeholdApp: App {
                 .task { startup() }
         }
 
-        Settings {
+        // A plain Window rather than the Settings scene: Settings windows are fixed-size with the
+        // minimize and zoom buttons greyed out, and SwiftUI strips any resizable style added to them.
+        Window("Wakehold Settings", id: SettingsView.windowID) {
             SettingsView(
                 controller: controller, launch: launch, durations: durations, guardrails: guardrails,
                 lid: lidSettings, integrations: integrations)
         }
+        .defaultSize(SettingsView.defaultSize)
+        .windowResizability(.contentMinSize)
     }
 
     @MainActor
