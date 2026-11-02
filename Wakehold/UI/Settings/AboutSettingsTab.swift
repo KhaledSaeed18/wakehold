@@ -22,6 +22,18 @@ struct AboutSettingsTab: View {
                 .foregroundStyle(.secondary)
                 .textSelection(.enabled)
 
+            Text("Wakehold keeps your Mac awake for exactly as long as your work is alive, then lets it sleep. A timer, a running process, a listening port, a wrapped command, an agent session, or an open app: each one is a session that holds the Mac awake. When the last session ends, the hold releases on its own.")
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 440)
+                .padding(.top, 12)
+            Text("The menu bar, the wakehold command, and any agent or script all open sessions through the same local endpoint.")
+                .font(.callout)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .fixedSize(horizontal: false, vertical: true)
+                .frame(maxWidth: 440)
+
             HStack(spacing: 16) {
                 link("Source code", "https://github.com/KhaledSaeed18/wakehold")
                 link("Report an issue", "https://github.com/KhaledSaeed18/wakehold/issues")

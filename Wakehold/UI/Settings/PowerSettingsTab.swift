@@ -26,6 +26,9 @@ struct PowerSettingsTab: View {
                 LabeledContent("Hold") {
                     holdStatus
                 }
+                LabeledContent("Lid closed") {
+                    Text(controller.isHoldingWithLidClosed ? "Stays awake" : "Sleeps as usual")
+                }
             }
 
             Section {

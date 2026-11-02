@@ -17,7 +17,10 @@ struct ClosedLidSection: View {
         } header: {
             Text("Lid closed")
         } footer: {
-            Text("Turns system sleep off while a session holds, so closing the lid does not sleep the Mac. Setup asks for an admin password once. A closed Mac in a bag can run hot; the battery rules still apply.")
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Extends your sessions, never replaces them: sleep stays off only while a session holds. A 2-hour timer keeps a closed Mac awake for those 2 hours; a command or process, until it exits. When the last session ends, normal sleep returns and a closed Mac sleeps right away. With nothing holding, closing the lid sleeps as usual.")
+                Text("Setup asks for an admin password once. A closed Mac in a bag can run hot; the battery rules still apply.")
+            }
         }
         .task { lid.refresh() }
     }

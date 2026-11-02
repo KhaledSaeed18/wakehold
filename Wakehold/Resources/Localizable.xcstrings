@@ -439,6 +439,16 @@
         }
       }
     },
+    "Extends your sessions, never replaces them: sleep stays off only while a session holds. A 2-hour timer keeps a closed Mac awake for those 2 hours; a command or process, until it exits. When the last session ends, normal sleep returns and a closed Mac sleeps right away. With nothing holding, closing the lid sleeps as usual." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يمدّ جلساتك ولا يحلّ محلها: يبقى السكون متوقفًا ما دامت جلسة نشطة فقط. مؤقت الساعتين يُبقي الماك المغلق مستيقظًا طوال الساعتين، والأمر أو العملية حتى تنتهي. وحين تنتهي آخر جلسة يعود السكون المعتاد وينام الماك المغلق فورًا. وإن لم تكن هناك جلسة، فإن إغلاق الغطاء يُنيم الماك كالمعتاد."
+          }
+        }
+      }
+    },
     "General" : {
       "localizations" : {
         "ar" : {
@@ -939,6 +949,16 @@
         }
       }
     },
+    "Setup asks for an admin password once. A closed Mac in a bag can run hot; the battery rules still apply." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يطلب الإعداد كلمة سر المسؤول مرة واحدة. قد يسخن الماك المغلق داخل حقيبة؛ وتبقى قواعد البطارية سارية."
+          }
+        }
+      }
+    },
     "Setup did not finish." : {
       "localizations" : {
         "ar" : {
@@ -955,6 +975,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "عرض ما يُبقيه مستيقظًا"
+          }
+        }
+      }
+    },
+    "Sleeps as usual" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ينام كالمعتاد"
           }
         }
       }
@@ -1019,12 +1049,32 @@
         }
       }
     },
+    "Stays awake" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يبقى مستيقظًا"
+          }
+        }
+      }
+    },
     "Stays awake with the lid closed" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "يبقى مستيقظًا والغطاء مغلق"
+          }
+        }
+      }
+    },
+    "The menu bar, the wakehold command, and any agent or script all open sessions through the same local endpoint." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شريط القوائم وأمر wakehold وأي وكيل أو سكربت، جميعها تفتح الجلسات عبر نقطة التحكم المحلية نفسها."
           }
         }
       }
@@ -1059,22 +1109,22 @@
         }
       }
     },
-    "Turns system sleep off while a session holds, so closing the lid does not sleep the Mac. Setup asks for an admin password once. A closed Mac in a bag can run hot; the battery rules still apply." : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "يوقف سكون النظام ما دامت جلسة نشطة، فلا يدخل الماك في السكون عند إغلاق الغطاء. يطلب الإعداد كلمة سر المسؤول مرة واحدة. قد يسخن الماك المغلق داخل حقيبة؛ وتبقى قواعد البطارية سارية."
-          }
-        }
-      }
-    },
     "Version %@" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "الإصدار %@"
+          }
+        }
+      }
+    },
+    "Wakehold keeps your Mac awake for exactly as long as your work is alive, then lets it sleep. A timer, a running process, a listening port, a wrapped command, an agent session, or an open app: each one is a session that holds the Mac awake. When the last session ends, the hold releases on its own." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يُبقي Wakehold جهاز الماك مستيقظًا ما دام عملك قائمًا بالضبط، ثم يتركه ينام. المؤقت، والعملية الجارية، والمنفذ المستمع، والأمر المُغلَّف، وجلسة الوكيل، والتطبيق المفتوح: كل منها جلسة تُبقي الماك مستيقظًا. وحين تنتهي آخر جلسة، يُفلت الإبقاء من تلقاء نفسه."
           }
         }
       }
