@@ -44,6 +44,9 @@ WakeholdKit/                         local Swift package; builds and tests headl
       PowerGuardrail.swift           pure policy: does the current power state suppress the hold
       PostSessionAction.swift        the end-of-session action enum (notify, sleep, shut down, ...)
       SystemActions.swift            user-space mechanisms for those actions (IOPMSleepSystem, ...)
+      LidHolding.swift               the closed-lid hold the controller drives (protocol, for tests)
+      ClosedLidHold.swift            turns system sleep off via `sudo -n pmset -a disablesleep`
+      ClosedLidSetup.swift           installs / removes the one-time sudoers rule (admin prompt)
       EndActionController.swift      arms, counts down, and fires the post-session action once
       WakeholdError.swift            typed errors, one enum for the subsystem
       Log.swift                      shared os.Logger factory
@@ -75,6 +78,7 @@ Wakehold/                            app target: SwiftUI, menu bar only (LSUIEle
     GuardrailController.swift        bridges power preferences to the controller (suppress, display)
     AppSessionController.swift       NSWorkspace watcher for app sessions
     AssertionInspector.swift         polls SystemAssertions for other processes' holds, for the menu
+    ClosedLidSettings.swift          closed-lid setup state and actions for Settings
     Hotkey.swift                     global toggle shortcut (KeyboardShortcuts package)
     StatusItemClicks.swift           click toggles, right-click or Option-click opens the menu
     LaunchAtLogin.swift              SMAppService wrapper
@@ -132,7 +136,8 @@ test` before pushing.
 - Prefer event-driven over polling: `DispatchSource.makeProcessSource(.exit)` over `kill(pid,0)`
   loops. Suspend any coarse poll (ports) when no session of that kind exists.
 - The assertion dies with the process, and that is correct. Do not persist a "was awake" flag.
-  Reconstruct intent from live session sources on launch.
+  Reconstruct intent from live session sources on launch. The closed-lid hold is the one exception:
+  `disablesleep` outlives the process, so it is cleared on quit, on SIGTERM, and on launch.
 - Keeping the display on is the default. A preference can let the display sleep while the system
   stays awake. `PreventSystemSleep` is never used.
 
@@ -145,8 +150,14 @@ The durable design choices and the why behind them. History is in git.
 - **Unix-socket endpoint.** The control endpoint is a Unix domain socket, not a TCP port. A
   localhost port is reachable from the browser (DNS rebinding, form-POST CSRF) and from any local
   process; a UDS is not, and the filesystem scopes it to the user (mode 0600, `getpeereid` check).
-- **No PreventSystemSleep.** It is AC-only and fights user intent. Keep-awake with the lid closed
-  and no external display is out of scope; it needs a privileged root helper and is deferred.
+- **No PreventSystemSleep.** It is AC-only and fights user intent, and it does not stop lid-close
+  sleep either.
+- **Closed-lid hold through a sudoers rule.** Lid-close sleep ignores every power assertion; only the
+  root-only `pmset -a disablesleep 1` keeps a Mac awake with the lid shut and no external display.
+  A one-time admin prompt installs `/etc/sudoers.d/wakehold`, checked by `visudo` first, letting this
+  user run exactly `pmset -a disablesleep 0` and `1`. That is simpler than a privileged helper
+  (no signing team, no XPC), and the narrow rule is the whole attack surface. Opt-in, off by default,
+  derived in `reconcile()` like the assertion, and subject to the battery guardrails.
 - **Leased agent sessions.** Agent and remote sessions are leases with a TTL, renewed on activity.
   End hooks do not fire on a crash or SIGKILL, so the lease, not the goodbye, is the source of truth.
 - **User-space end actions.** Post-session actions are user-space or one-time-TCC only; nothing

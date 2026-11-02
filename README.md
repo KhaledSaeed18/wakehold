@@ -55,6 +55,9 @@ On top of the sources:
   last session ends. Armed per occasion, shown in the menu, cancelable.
 - **Power guardrails**: release on battery, below a battery percentage, or in Low Power Mode.
 - **Keep the display on** by default, with a one-switch opt-out.
+- **Stay awake with the lid closed**: opt in and Wakehold turns system sleep off while a session
+  holds, so a build, agent, or remote session keeps running in a closed laptop with no external
+  display. Sleep comes back the moment the last session ends.
 - **See what's keeping it awake**: the menu lists every other process holding the Mac open, not just
   Wakehold's own sessions, so you can tell why it will not sleep.
 - **Custom durations**: define your own quick-pick durations and a default.
@@ -150,9 +153,21 @@ session with the working directory, so the same commands work across tools.
 
 Settings has four tabs:
 
-- **General**: keep the display on (default on), launch at login, activate on launch (open the
-  default hold when Wakehold starts), the global toggle shortcut, and a shortcut to the macOS
-  notification settings.
+- **General**: keep the display on (default on), stay awake with the lid closed, launch at login,
+  activate on launch (open the default hold when Wakehold starts), the global toggle shortcut, and a
+  shortcut to the macOS notification settings.
+
+### Lid closed
+
+macOS sleeps on lid close no matter what any app asks, unless an external display is attached. The
+only switch past that is the root-only `pmset -a disablesleep 1`. **Set up…** in Settings asks for
+an admin password once and installs `/etc/sudoers.d/wakehold`, a rule that lets your user run
+exactly `pmset -a disablesleep 0` and `pmset -a disablesleep 1` and nothing else. **Remove setup**
+turns sleep back on and deletes the rule.
+
+Unlike Wakehold's own hold, this setting survives the app, so Wakehold clears it on quit and on the
+next launch. If the app is gone and the Mac will not sleep, run `sudo pmset -a disablesleep 0`.
+A closed laptop in a bag can run hot; the battery rules still apply.
 - **Durations**: add and remove quick-pick durations, and set the default.
 - **Battery**: release on battery, release below a battery percentage, and release in Low Power Mode.
 - **About**: version and links.
