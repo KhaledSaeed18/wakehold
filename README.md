@@ -101,8 +101,8 @@ The CLI and the agent hooks talk to that running app, so keep it running for the
 ### Menu bar
 
 Click the eye to start the default duration, or to turn off the running one. Right-click (or
-Option-click) the eye to open the menu: pick a duration, keep awake while an app runs, arm a
-post-session action, or open Settings. The mark carries a diagonal slash when nothing is holding the
+Option-click) the eye to open the menu: see and end what is holding, pick a duration, keep awake
+while an app runs, arm a post-session action, or open Settings. The mark carries a diagonal slash when nothing is holding the
 Mac awake.
 
 ### CLI
@@ -151,11 +151,19 @@ session with the working directory, so the same commands work across tools.
 
 ## Configuration
 
-Settings has four tabs:
+Settings has five tabs:
 
-- **General**: keep the display on (default on), stay awake with the lid closed, launch at login,
-  activate on launch (open the default hold when Wakehold starts), the global toggle shortcut, and a
-  shortcut to the macOS notification settings.
+- **General**: launch at login, activate on launch (open the default hold when Wakehold starts), the
+  global toggle shortcut, keep the display on (default on), and a shortcut to the macOS notification
+  settings.
+- **Durations**: the default duration, the quick picks shown in the menu, adding a custom one, and
+  restoring the defaults.
+- **Power**: the live power state (source, battery, Low Power Mode, whether the hold is active or
+  paused, and whether a closed lid stays awake), the battery rules (release on battery, below a
+  battery percentage, or in Low Power Mode), and the lid-closed setup.
+- **Integrations**: whether the `wakehold` CLI is installed, whether Claude Code's hooks are
+  connected, copyable commands and hooks config, and the control socket path.
+- **About**: what Wakehold is, the version, and links.
 
 ### Lid closed
 
@@ -165,12 +173,13 @@ an admin password once and installs `/etc/sudoers.d/wakehold`, a rule that lets 
 exactly `pmset -a disablesleep 0` and `pmset -a disablesleep 1` and nothing else. **Remove setup**
 turns sleep back on and deletes the rule.
 
+The lid hold extends your sessions and never replaces them: sleep stays off only while a session
+holds. A 2-hour timer keeps a closed Mac awake for those 2 hours; a command or process, until it
+exits. When the last session ends, normal sleep returns and a closed Mac sleeps right away.
+
 Unlike Wakehold's own hold, this setting survives the app, so Wakehold clears it on quit and on the
 next launch. If the app is gone and the Mac will not sleep, run `sudo pmset -a disablesleep 0`.
 A closed laptop in a bag can run hot; the battery rules still apply.
-- **Durations**: add and remove quick-pick durations, and set the default.
-- **Battery**: release on battery, release below a battery percentage, and release in Low Power Mode.
-- **About**: version and links.
 
 ## Architecture
 

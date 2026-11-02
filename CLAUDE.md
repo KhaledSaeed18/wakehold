@@ -79,6 +79,8 @@ Wakehold/                            app target: SwiftUI, menu bar only (LSUIEle
     AppSessionController.swift       NSWorkspace watcher for app sessions
     AssertionInspector.swift         polls SystemAssertions for other processes' holds, for the menu
     ClosedLidSettings.swift          closed-lid setup state and actions for Settings
+    IntegrationStatus.swift          CLI and Claude Code hook detection for Settings
+    SessionEnder.swift               ends a session through the coordinator that owns it
     Hotkey.swift                     global toggle shortcut (KeyboardShortcuts package)
     StatusItemClicks.swift           click toggles, right-click or Option-click opens the menu
     LaunchAtLogin.swift              SMAppService wrapper
@@ -87,7 +89,9 @@ Wakehold/                            app target: SwiftUI, menu bar only (LSUIEle
     MenuBarLabel.swift               the menu-bar icon + optional countdown title
     MenuBarClock.swift               1s tick that drives the live countdown title
     EyeIcon.swift                    maps awake / idle to the eye asset names
-    SettingsView.swift               tabbed settings (General, Durations, Battery, About)
+    BringWindowToFront.swift         activates the app and raises a window (no Dock icon)
+    Settings/                        SettingsView plus one file per tab (General, Durations, Power,
+                                     Integrations, About) and ClosedLidSection
   Resources/Assets.xcassets         AppIcon, AccentColor, EyeOpen / EyeClosed template marks
   Supporting/Info.plist             LSUIElement=true, usage strings
 
