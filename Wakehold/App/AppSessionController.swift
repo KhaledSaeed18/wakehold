@@ -35,6 +35,12 @@ final class AppSessionController {
             .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
     }
 
+    func stopWatching(bundleID: String) {
+        guard let session = sessions.removeValue(forKey: bundleID) else { return }
+        wake.remove(session.id)
+        stopObservingIfIdle()
+    }
+
     func toggle(bundleID: String, name: String) {
         if let session = sessions[bundleID] {
             wake.remove(session.id)
