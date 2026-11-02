@@ -23,6 +23,8 @@ Most keep-awake tools are a coffee-cup switch you flip on and forget to flip off
 the actual intent. You do not tell it "stay awake"; you tell it what to watch, and it stays awake
 while that thing runs.
 
+![The Wakehold menu open over Settings: a build, a dev server port, a Claude Code session, and a timer holding the Mac awake](Design/screenshots/menu.png)
+
 ## Why Wakehold
 
 - **It follows your work, not a timer.** Keep the Mac awake while `pnpm build` runs, while your dev
@@ -64,6 +66,23 @@ On top of the sources:
 - **English and Arabic**: the menu and settings are localized, with the layout mirrored for
   right-to-left.
 - Global toggle shortcut, a live countdown in the menu bar, launch at login, and activate on launch.
+
+## Screenshots
+
+<table>
+  <tr>
+    <td width="50%"><img src="Design/screenshots/power.png" alt="Power: the live power state, battery rules, and the lid-closed hold" /><br /><sub><b>Power.</b> Live power state, battery rules, and the lid-closed hold.</sub></td>
+    <td width="50%"><img src="Design/screenshots/integrations.png" alt="Integrations: the CLI, Claude Code hooks, and other agents" /><br /><sub><b>Integrations.</b> The CLI, Claude Code hooks, and other agents.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="Design/screenshots/general.png" alt="General: startup, the toggle shortcut, and the display" /><br /><sub><b>General.</b> Startup, the toggle shortcut, and the display.</sub></td>
+    <td width="50%"><img src="Design/screenshots/durations.png" alt="Durations: the default and the quick picks" /><br /><sub><b>Durations.</b> The default and the quick picks in the menu.</sub></td>
+  </tr>
+  <tr>
+    <td width="50%"><img src="Design/screenshots/arabic.png" alt="Settings in Arabic, mirrored right to left" /><br /><sub><b>Arabic.</b> Every screen is localized and mirrored right to left.</sub></td>
+    <td width="50%"><img src="Design/screenshots/about.png" alt="About: what Wakehold is" /><br /><sub><b>About.</b> What Wakehold is.</sub></td>
+  </tr>
+</table>
 
 ## How it works
 
