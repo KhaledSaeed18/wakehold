@@ -1,3 +1,4 @@
+import KeyboardShortcuts
 import SwiftUI
 import WakeholdKit
 
@@ -43,6 +44,11 @@ private struct GeneralTab: View {
                 Toggle("Activate on launch", isOn: $activateOnLaunch)
             } footer: {
                 Text("Activate on launch opens a hold with the default duration each time Wakehold starts.")
+            }
+            Section {
+                KeyboardShortcuts.Recorder("Toggle shortcut", name: .toggleWakehold)
+            } footer: {
+                Text("Starts the default duration, or turns off the running one.")
             }
             Button("Open notification settings…") {
                 if let url = URL(string: "x-apple.systempreferences:com.apple.Notifications-Settings.extension") {

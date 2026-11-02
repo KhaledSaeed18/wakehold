@@ -403,6 +403,26 @@
         }
       }
     },
+    "Starts the default duration, or turns off the running one." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يبدأ المدة الافتراضية، أو يوقف المدة الجارية."
+          }
+        }
+      }
+    },
+    "Toggle shortcut" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختصار التبديل"
+          }
+        }
+      }
+    },
     "Turn off" : {
       "localizations" : {
         "ar" : {
