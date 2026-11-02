@@ -55,9 +55,30 @@ final class StatusItemClicks: NSObject {
         }
     }
 
+    // With several displays, macOS mirrors the status item onto every menu bar but keeps one real
+    // button, on the active display (the one holding the key window, often Settings). Popping up
+    // relative to that button lands on the wrong screen after a click on another display's copy, so
+    // place the menu in screen coordinates, under the icon the pointer actually clicked.
     private func showMenu() {
         guard let button = item?.button, let menu else { return }
-        menu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.height + 4), in: button)
+        menu.popUp(positioning: nil, at: Self.menuOrigin(for: button, event: NSApp.currentEvent), in: nil)
+    }
+
+    private static func menuOrigin(for button: NSStatusBarButton, event: NSEvent?) -> NSPoint {
+        let mouse = NSEvent.mouseLocation
+        let size = button.bounds.size
+        var offset = NSPoint(x: size.width / 2, y: size.height / 2)
+        if let event, event.window === button.window {
+            let local = button.convert(event.locationInWindow, from: nil)
+            if (0...size.width).contains(local.x), (0...size.height).contains(local.y) {
+                offset = NSPoint(x: local.x, y: button.isFlipped ? size.height - local.y : local.y)
+            }
+        }
+        // Left edge of the icon, just below the menu bar of the screen under the pointer.
+        let iconBottom = mouse.y - offset.y
+        let screen = NSScreen.screens.first { NSMouseInRect(mouse, $0.frame, false) }
+        let barBottom = screen.map { min(iconBottom, $0.visibleFrame.maxY) } ?? iconBottom
+        return NSPoint(x: mouse.x - offset.x, y: barBottom - 2)
     }
 
     // NSStatusBarWindow is private AppKit with no public handle to the item MenuBarExtra creates.
