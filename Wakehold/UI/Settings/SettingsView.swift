@@ -24,7 +24,14 @@ struct SettingsView: View {
             AboutSettingsTab()
                 .tabItem { Label("About", systemImage: "info.circle") }
         }
-        .frame(width: 500, height: 500)
+        .frame(width: Self.size.width, height: Self.size.height)
         .background(BringWindowToFront())
+    }
+
+    // Roomy on a normal display, capped to the screen it opens on so it still fits a small one.
+    // Every tab is a scrolling form, so a capped height still reaches every row.
+    private static var size: CGSize {
+        let visible = NSScreen.main?.visibleFrame.size ?? CGSize(width: 1280, height: 800)
+        return CGSize(width: min(640, visible.width - 80), height: min(680, visible.height - 100))
     }
 }

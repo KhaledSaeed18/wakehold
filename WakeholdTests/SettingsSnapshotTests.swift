@@ -35,7 +35,7 @@ struct SettingsSnapshotTests {
     }
 
     private func render(_ view: AnyView, appearance: NSAppearance.Name, to path: String) throws {
-        let size = NSSize(width: 500, height: 640)
+        let size = NSSize(width: 640, height: 680)
         // cacheDisplay captures the view, not the window, so paint the window background in.
         let host = NSHostingView(rootView: view
             .frame(width: size.width, height: size.height)
