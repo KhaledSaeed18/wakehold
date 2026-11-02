@@ -56,4 +56,13 @@ struct DurationStoreTests {
         let reloaded = DurationStore(defaults: defaults)
         #expect(reloaded.durations.contains { $0.seconds == 1800 })
     }
+
+    @Test func restoreBuiltInsResetsTheListAndDefault() {
+        let store = DurationStore(defaults: freshDefaults())
+        store.add(seconds: 1800)
+        store.setDefault(store.durations[0].id)
+        store.restoreBuiltIns()
+        #expect(store.durations.map(\.seconds) == WakeDuration.builtIns.map(\.seconds))
+        #expect(store.defaultDuration.seconds == 7200)
+    }
 }

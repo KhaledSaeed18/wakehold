@@ -50,6 +50,13 @@ final class DurationStore {
         persist()
     }
 
+    // Back to the first-run list, with two hours as the default.
+    func restoreBuiltIns() {
+        durations = WakeDuration.builtIns
+        defaultID = (durations.first { $0.seconds == 7200 } ?? durations[0]).id
+        persist()
+    }
+
     func setDefault(_ id: WakeDuration.ID) {
         guard durations.contains(where: { $0.id == id }) else { return }
         defaultID = id
