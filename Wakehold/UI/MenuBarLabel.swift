@@ -9,7 +9,11 @@ struct MenuBarLabel: View {
     var body: some View {
         let icon = EyeIcon.imageName(isAwake: controller.isAwake)
         if let title = clock.title {
-            Label(title, image: icon)
+            // A menu-bar label draws only a Label's icon, so lay the countdown out explicitly.
+            HStack(spacing: 4) {
+                Image(icon)
+                Text(verbatim: title).monospacedDigit()
+            }
         } else {
             Image(icon)
         }
