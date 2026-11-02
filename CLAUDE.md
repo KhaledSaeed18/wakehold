@@ -96,7 +96,8 @@ Wakehold/                            app target: SwiftUI, menu bar only (LSUIEle
   Supporting/Info.plist             LSUIElement=true, usage strings
 
 Wakehold.xcodeproj                  app target; links WakeholdKit
-Design/                             render-icon.swift, render-menubar.swift (icon generators)
+Design/                             render-icon.swift, render-menubar.swift (icon generators),
+                                    screenshots/ (README and portfolio captures, 2880x1800)
 ```
 
 The `.xcodeproj` uses file-system-synchronized groups: a new `.swift` file under `Wakehold/`
