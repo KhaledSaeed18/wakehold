@@ -14,6 +14,7 @@ struct WakeholdApp: App {
     @State private var endActions = EndActionController()
     @State private var launch = LaunchAtLogin()
     @State private var inspector = AssertionInspector()
+    @State private var clicks = StatusItemClicks()
     @State private var server: ControlServer?
 
     init() {
@@ -49,13 +50,20 @@ struct WakeholdApp: App {
         startEndpoint()
         guardrails.start()
         inspector.start()
-        Hotkey.register(manual: manual, durations: durations)
+        Hotkey.register(onToggle: toggleDefault)
+        clicks.start(onToggle: toggleDefault)
         manual.onChange = { [clock] in clock.sync() }
         clock.sync()
         controller.onSessionsEmptied = { [endActions] in endActions.fire() }
         controller.onSessionsResumed = { [endActions] in endActions.cancelPending() }
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { _, _ in }
         activateOnLaunchIfEnabled()
+    }
+
+    @MainActor
+    private func toggleDefault() {
+        let duration = durations.defaultDuration
+        manual.toggle(label: duration.label, seconds: duration.seconds)
     }
 
     // Activate on launch: open the default-duration hold as the app starts, the same as picking the
