@@ -44,9 +44,14 @@ final class DurationStore {
         persist()
     }
 
+    // Removing the default hands it to the duration that moves into its place, the nearest
+    // neighbour, rather than jumping to the shortest one.
     func remove(_ id: WakeDuration.ID) {
-        durations.removeAll { $0.id == id }
-        if defaultID == id { defaultID = durations.first?.id ?? defaultID }
+        guard let index = durations.firstIndex(where: { $0.id == id }) else { return }
+        durations.remove(at: index)
+        if defaultID == id, !durations.isEmpty {
+            defaultID = durations[min(index, durations.count - 1)].id
+        }
         persist()
     }
 

@@ -37,6 +37,15 @@ struct DurationStoreTests {
         #expect(store.durations.contains { $0.id == store.defaultID })
     }
 
+    @Test func removingTheDefaultHandsItToTheNextDuration() {
+        let store = DurationStore(defaults: freshDefaults())
+        store.add(seconds: 5400)                          // 1h 30m, between 1 hour and 2 hours
+        let added = store.durations.first { $0.seconds == 5400 }!.id
+        store.setDefault(added)
+        store.remove(added)
+        #expect(store.defaultDuration.seconds == 7200)
+    }
+
     @Test func setDefaultOnlyAcceptsAKnownID() {
         let store = DurationStore(defaults: freshDefaults())
         let current = store.defaultID
