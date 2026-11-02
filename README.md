@@ -97,8 +97,10 @@ The CLI and the agent hooks talk to that running app, so keep it running for the
 
 ### Menu bar
 
-Click the eye to open the menu: pick a duration, keep awake while an app runs, arm a post-session
-action, or open Settings. The mark carries a diagonal slash when nothing is holding the Mac awake.
+Click the eye to start the default duration, or to turn off the running one. Right-click (or
+Option-click) the eye to open the menu: pick a duration, keep awake while an app runs, arm a
+post-session action, or open Settings. The mark carries a diagonal slash when nothing is holding the
+Mac awake.
 
 ### CLI
 
@@ -149,7 +151,8 @@ session with the working directory, so the same commands work across tools.
 Settings has four tabs:
 
 - **General**: keep the display on (default on), launch at login, activate on launch (open the
-  default hold when Wakehold starts), and a shortcut to the macOS notification settings.
+  default hold when Wakehold starts), the global toggle shortcut, and a shortcut to the macOS
+  notification settings.
 - **Durations**: add and remove quick-pick durations, and set the default.
 - **Battery**: release on battery, release below a battery percentage, and release in Low Power Mode.
 - **About**: version and links.

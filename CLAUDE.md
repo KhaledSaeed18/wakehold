@@ -76,6 +76,7 @@ Wakehold/                            app target: SwiftUI, menu bar only (LSUIEle
     AppSessionController.swift       NSWorkspace watcher for app sessions
     AssertionInspector.swift         polls SystemAssertions for other processes' holds, for the menu
     Hotkey.swift                     global toggle shortcut (KeyboardShortcuts package)
+    StatusItemClicks.swift           click toggles, right-click or Option-click opens the menu
     LaunchAtLogin.swift              SMAppService wrapper
   UI/
     MenuBarView.swift                the dropdown; pure observer, sends intent only
