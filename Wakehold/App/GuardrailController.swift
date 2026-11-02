@@ -1,4 +1,5 @@
 import Foundation
+import Observation
 import WakeholdKit
 
 enum GuardrailKeys {
@@ -16,15 +17,19 @@ enum GuardrailKeys {
 // on. It lives in the app because it reads UI preferences; the guardrail policy itself
 // (PowerGuardrail) is in the kit and is unit-tested.
 @MainActor
+@Observable
 final class GuardrailController {
-    private let controller: WakeController
-    private let monitor: PowerMonitor
-    private var defaultsObserver: NSObjectProtocol?
-    private var started = false
+    // The latest power reading, published for the Power settings tab.
+    private(set) var power: PowerState
+    @ObservationIgnored private let controller: WakeController
+    @ObservationIgnored private let monitor: PowerMonitor
+    @ObservationIgnored private var defaultsObserver: NSObjectProtocol?
+    @ObservationIgnored private var started = false
 
     init(controller: WakeController, monitor: PowerMonitor) {
         self.controller = controller
         self.monitor = monitor
+        power = monitor.state
     }
 
     func start() {
@@ -39,6 +44,7 @@ final class GuardrailController {
     }
 
     private func evaluate() {
+        if power != monitor.state { power = monitor.state }
         let defaults = UserDefaults.standard
         controller.setKeepDisplayAwake(defaults.bool(forKey: GuardrailKeys.keepDisplayAwake))
         controller.setHoldsWithLidClosed(defaults.bool(forKey: GuardrailKeys.holdWithLidClosed))
