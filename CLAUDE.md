@@ -90,8 +90,8 @@ Wakehold/                            app target: SwiftUI, menu bar only (LSUIEle
     MenuBarClock.swift               1s tick that drives the live countdown title
     EyeIcon.swift                    maps awake / idle to the eye asset names
     BringWindowToFront.swift         activates the app and raises a window (no Dock icon)
-    Settings/                        SettingsView plus one file per tab (General, Durations, Power,
-                                     Integrations, About) and ClosedLidSection
+    Settings/                        SettingsView (sidebar window), SettingsPane, one file per pane
+                                     (General, Durations, Power, Integrations, About), ClosedLidSection
   Resources/Assets.xcassets         AppIcon, AccentColor, EyeOpen / EyeClosed template marks
   Supporting/Info.plist             LSUIElement=true, usage strings
 

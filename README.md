@@ -151,7 +151,7 @@ session with the working directory, so the same commands work across tools.
 
 ## Configuration
 
-Settings has five tabs:
+Settings has five panes in a sidebar:
 
 - **General**: launch at login, activate on launch (open the default hold when Wakehold starts), the
   global toggle shortcut, keep the display on (default on), and a shortcut to the macOS notification
