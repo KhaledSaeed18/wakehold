@@ -9,6 +9,17 @@ struct AboutSettingsTab: View {
     }
 
     var body: some View {
+        // A scroll view like the form panes: a bare stack filling the detail column left the split
+        // view's sidebar list blank.
+        ScrollView {
+            content
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 48)
+                .padding(.horizontal)
+        }
+    }
+
+    private var content: some View {
         VStack(spacing: 8) {
             Image(nsImage: NSApplication.shared.applicationIconImage)
                 .resizable()
@@ -45,8 +56,6 @@ struct AboutSettingsTab: View {
                 .font(.caption)
                 .foregroundStyle(.tertiary)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .padding()
     }
 
     @ViewBuilder
