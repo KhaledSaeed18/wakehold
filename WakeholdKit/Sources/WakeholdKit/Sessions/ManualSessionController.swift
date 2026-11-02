@@ -36,7 +36,16 @@ public final class ManualSessionController {
         onChange?()
     }
 
-    // Whether a manual session is currently running, for the toggle hotkey.
+    // The one-gesture toggle shared by the hotkey and a plain click on the menu-bar icon: stop the
+    // running manual session, or start the given one.
+    public func toggle(label: String, seconds: TimeInterval?) {
+        if isRunning {
+            stop()
+        } else {
+            start(label: label, seconds: seconds)
+        }
+    }
+
     public var isRunning: Bool { currentID != nil }
 
     private func clear() {

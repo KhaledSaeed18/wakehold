@@ -50,6 +50,17 @@ struct ManualSessionControllerTests {
         #expect(!manual.isRunning)
     }
 
+    @Test func toggleStartsThenStops() {
+        let wake = WakeController()
+        let manual = ManualSessionController(wake: wake)
+        manual.toggle(label: "1 hour", seconds: 3600)
+        #expect(manual.isRunning)
+        #expect(wake.isHoldingAssertion)
+        manual.toggle(label: "1 hour", seconds: 3600)
+        #expect(!manual.isRunning)
+        #expect(wake.sessions.isEmpty)
+    }
+
     @Test func timedSessionExpiresAtTarget() async throws {
         let wake = WakeController()
         let manual = ManualSessionController(wake: wake)
