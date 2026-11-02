@@ -14,6 +14,9 @@ struct MenuBarView: View {
 
     var body: some View {
         status
+        if controller.isHoldingWithLidClosed {
+            Text("Stays awake with the lid closed")
+        }
 
         otherHolds
 
