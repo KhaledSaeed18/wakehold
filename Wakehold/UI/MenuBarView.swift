@@ -84,20 +84,15 @@ struct MenuBarView: View {
     }
 
     // Wakehold's own sessions, each with a submenu to end it. Labels come from the session source
-    // (a pid, a port, an agent's directory), so they are never treated as localization keys.
+    // (a pid, a port, an agent's directory), so they are never treated as localization keys. The
+    // kind is spelled out because a submenu row in a status menu draws no icon.
     @ViewBuilder
     private var holding: some View {
         if !controller.sessions.isEmpty {
             Section("Holding") {
                 ForEach(controller.sessions, id: \.id) { session in
-                    Menu {
+                    Menu(sessionTitle(session)) {
                         Button("End") { ender.end(session) }
-                    } label: {
-                        Label {
-                            Text(verbatim: sessionTitle(session))
-                        } icon: {
-                            Image(systemName: Self.symbol(for: session.kind))
-                        }
                     }
                 }
             }
@@ -105,18 +100,16 @@ struct MenuBarView: View {
     }
 
     private func sessionTitle(_ session: any WakeSession) -> String {
-        guard !session.isActive else { return session.label }
-        return String(localized: "\(session.label) (waiting)")
-    }
-
-    static func symbol(for kind: SessionKind) -> String {
-        switch kind {
-        case .manual: "timer"
-        case .process: "gearshape.2"
-        case .port: "network"
-        case .agent: "sparkle"
-        case .app: "macwindow"
+        let label = session.label
+        let title = switch session.kind {
+        case .manual: String(localized: "Timer: \(label)")
+        case .process: String(localized: "Process: \(label)")
+        case .port: String(localized: "Port \(label)")
+        case .agent: String(localized: "Agent: \(label)")
+        case .app: String(localized: "App: \(label)")
         }
+        guard !session.isActive else { return title }
+        return String(localized: "\(title) (waiting)")
     }
 
     // Every other process holding the Mac awake, so the menu answers "why won't it sleep" for the
@@ -156,10 +149,11 @@ struct MenuBarView: View {
 
     @ViewBuilder
     private var status: some View {
-        if let range = countdownRange {
-            // A Date-anchored, self-updating countdown: SwiftUI recomputes remaining each tick, so
-            // there is no drifting counter to trust.
-            Text(timerInterval: range, countsDown: true)
+        if let until = timedUntil {
+            // The end time, not a live countdown: a self-updating Text in an open menu makes SwiftUI
+            // rebuild the menu every tick, recursively, until the stack overflows. The live
+            // countdown lives in the menu-bar title instead.
+            Text("Until \(until, style: .time)")
         } else if controller.isSuppressed && controller.sessions.contains(where: \.isActive) {
             Text("Paused by a battery rule")
         } else if controller.isAwake {
@@ -173,10 +167,8 @@ struct MenuBarView: View {
         controller.sessions.compactMap { $0 as? ManualSession }.first
     }
 
-    private var countdownRange: ClosedRange<Date>? {
-        guard let session = manualSession, let until = session.until, Date.now < until else {
-            return nil
-        }
-        return session.startedAt...until
+    private var timedUntil: Date? {
+        guard let until = manualSession?.until, Date.now < until else { return nil }
+        return until
     }
 }

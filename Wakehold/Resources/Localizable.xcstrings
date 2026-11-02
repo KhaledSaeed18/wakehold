@@ -259,12 +259,32 @@
         }
       }
     },
+    "Agent: %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وكيل: %@"
+          }
+        }
+      }
+    },
     "Also keeping it awake" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "يُبقيه مستيقظًا أيضًا"
+          }
+        }
+      }
+    },
+    "App: %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تطبيق: %@"
           }
         }
       }
@@ -789,6 +809,16 @@
         }
       }
     },
+    "Port %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المنفذ %@"
+          }
+        }
+      }
+    },
     "Power" : {
       "localizations" : {
         "ar" : {
@@ -815,6 +845,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "مصدر الطاقة"
+          }
+        }
+      }
+    },
+    "Process: %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عملية: %@"
           }
         }
       }
@@ -1089,6 +1129,16 @@
         }
       }
     },
+    "Timer: %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مؤقت: %@"
+          }
+        }
+      }
+    },
     "Toggle shortcut" : {
       "localizations" : {
         "ar" : {
@@ -1109,6 +1159,16 @@
         }
       }
     },
+    "Until %@" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "حتى %@"
+          }
+        }
+      }
+    },
     "Version %@" : {
       "localizations" : {
         "ar" : {
@@ -1125,6 +1185,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "يُبقي Wakehold جهاز الماك مستيقظًا ما دام عملك قائمًا بالضبط، ثم يتركه ينام. المؤقت، والعملية الجارية، والمنفذ المستمع، والأمر المُغلَّف، وجلسة الوكيل، والتطبيق المفتوح: كل منها جلسة تُبقي الماك مستيقظًا. وحين تنتهي آخر جلسة، يُفلت الإبقاء من تلقاء نفسه."
+          }
+        }
+      }
+    },
+    "Wakehold Settings" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إعدادات Wakehold"
           }
         }
       }
