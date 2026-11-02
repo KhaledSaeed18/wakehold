@@ -10,6 +10,10 @@ public final class WakeController {
     public private(set) var sessions: [any WakeSession] = []
     public private(set) var isSuppressed = false
     public private(set) var keepDisplayAwake = true
+    public private(set) var holdsWithLidClosed = false
+    // Whether sleep is currently turned off so the Mac stays awake with the lid closed. Derived like
+    // the assertion: awake and holdsWithLidClosed.
+    public private(set) var isHoldingWithLidClosed = false
 
     // Fired when the last session is removed while sessions were active (some-active to
     // none-active, with no sessions left present), so the app can run a post-session action. A
@@ -25,8 +29,11 @@ public final class WakeController {
     private var wasActive = false
     private let assertionName = "Wakehold"
     private let log = Log.make("WakeController")
+    private let lid: LidHolding?
 
-    public init() {}
+    public init(lid: LidHolding? = nil) {
+        self.lid = lid
+    }
 
     public var isAwake: Bool { !isSuppressed && sessions.contains { $0.isActive } }
 
@@ -72,6 +79,14 @@ public final class WakeController {
         reconcile()
     }
 
+    // Whether the hold also keeps the Mac awake with the lid closed. Off by default: it turns system
+    // sleep off, which needs the one-time setup and can run hot in a bag.
+    public func setHoldsWithLidClosed(_ enabled: Bool) {
+        guard enabled != holdsWithLidClosed else { return }
+        holdsWithLidClosed = enabled
+        reconcile()
+    }
+
     // Single choke point. Acquire on the first active session, release when the last one ends or a
     // guardrail suppresses, refresh the reason while held, and fire the end hook on the last exit.
     private func reconcile() {
@@ -88,6 +103,7 @@ public final class WakeController {
         } else {
             release()
         }
+        reconcileLid(awake: active && !isSuppressed)
         if wasActive && !active && sessions.isEmpty {
             onSessionsEmptied?()
         }
@@ -95,6 +111,14 @@ public final class WakeController {
             onSessionsResumed?()
         }
         wasActive = active
+    }
+
+    // Edge-triggered, so the root-backed setting is only touched when the derived value changes.
+    private func reconcileLid(awake: Bool) {
+        let held = awake && holdsWithLidClosed
+        guard held != isHoldingWithLidClosed else { return }
+        isHoldingWithLidClosed = held
+        lid?.setHeld(held)
     }
 
     private var scope: PowerAssertion.Scope { keepDisplayAwake ? .display : .system }
