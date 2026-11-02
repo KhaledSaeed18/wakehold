@@ -1,4 +1,5 @@
 import Foundation
+import os
 import IOKit.pwr_mgt
 import UserNotifications
 
