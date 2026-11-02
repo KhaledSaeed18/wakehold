@@ -383,12 +383,32 @@
         }
       }
     },
+    "Remove setup" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إزالة الإعداد"
+          }
+        }
+      }
+    },
     "Set default" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "تعيين كافتراضي"
+          }
+        }
+      }
+    },
+    "Set up…" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إعداد…"
           }
         }
       }
@@ -403,12 +423,42 @@
         }
       }
     },
+    "Setup did not finish." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لم يكتمل الإعداد."
+          }
+        }
+      }
+    },
     "Starts the default duration, or turns off the running one." : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "يبدأ المدة الافتراضية، أو يوقف المدة الجارية."
+          }
+        }
+      }
+    },
+    "Stay awake with the lid closed" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "البقاء مستيقظًا والغطاء مغلق"
+          }
+        }
+      }
+    },
+    "Stays awake with the lid closed" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يبقى مستيقظًا والغطاء مغلق"
           }
         }
       }
@@ -429,6 +479,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "إيقاف"
+          }
+        }
+      }
+    },
+    "Turns system sleep off while a session holds, so closing the lid does not sleep the Mac. Setup asks for an admin password once. A closed Mac in a bag can run hot; the battery rules still apply." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يوقف سكون النظام ما دامت جلسة نشطة، فلا يدخل الماك في السكون عند إغلاق الغطاء. يطلب الإعداد كلمة سر المسؤول مرة واحدة. قد يسخن الماك المغلق داخل حقيبة؛ وتبقى قواعد البطارية سارية."
           }
         }
       }

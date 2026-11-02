@@ -7,10 +7,11 @@ import WakeholdKit
 struct SettingsView: View {
     let launch: LaunchAtLogin
     let durations: DurationStore
+    let lid: ClosedLidSettings
 
     var body: some View {
         TabView {
-            GeneralTab(launch: launch)
+            GeneralTab(launch: launch, lid: lid)
                 .tabItem { Label("General", systemImage: "gearshape") }
             DurationsTab(durations: durations)
                 .tabItem { Label("Durations", systemImage: "timer") }
@@ -19,12 +20,13 @@ struct SettingsView: View {
             AboutTab()
                 .tabItem { Label("About", systemImage: "info.circle") }
         }
-        .frame(width: 440, height: 340)
+        .frame(width: 440, height: 420)
     }
 }
 
 private struct GeneralTab: View {
     let launch: LaunchAtLogin
+    let lid: ClosedLidSettings
     @AppStorage(GuardrailKeys.keepDisplayAwake) private var keepDisplayAwake = true
     @AppStorage(LaunchKeys.activateOnLaunch) private var activateOnLaunch = false
     @Environment(\.openURL) private var openURL
@@ -45,6 +47,7 @@ private struct GeneralTab: View {
             } footer: {
                 Text("Activate on launch opens a hold with the default duration each time Wakehold starts.")
             }
+            ClosedLidSection(lid: lid)
             Section {
                 KeyboardShortcuts.Recorder("Toggle shortcut", name: .toggleWakehold)
             } footer: {
@@ -57,6 +60,31 @@ private struct GeneralTab: View {
             }
         }
         .formStyle(.grouped)
+    }
+}
+
+private struct ClosedLidSection: View {
+    let lid: ClosedLidSettings
+    @AppStorage(GuardrailKeys.holdWithLidClosed) private var holdWithLidClosed = false
+
+    var body: some View {
+        Section {
+            Toggle("Stay awake with the lid closed", isOn: $holdWithLidClosed)
+                .disabled(lid.isAuthorized != true)
+            if lid.isAuthorized == true {
+                Button("Remove setup") { lid.remove() }
+                    .disabled(lid.isWorking)
+            } else {
+                Button("Set up…") { lid.install() }
+                    .disabled(lid.isWorking || lid.isAuthorized == nil)
+            }
+            if lid.didFail {
+                Text("Setup did not finish.").foregroundStyle(.secondary)
+            }
+        } footer: {
+            Text("Turns system sleep off while a session holds, so closing the lid does not sleep the Mac. Setup asks for an admin password once. A closed Mac in a bag can run hot; the battery rules still apply.")
+        }
+        .task { lid.refresh() }
     }
 }
 

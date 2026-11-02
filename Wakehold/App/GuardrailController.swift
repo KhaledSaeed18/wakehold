@@ -7,6 +7,8 @@ enum GuardrailKeys {
     static let batteryThreshold = "batteryThreshold"
     // Not a guardrail: whether the hold keeps the screen lit. Registered to true (see WakeholdApp).
     static let keepDisplayAwake = "keepDisplayAwake"
+    // Not a guardrail: whether the hold also keeps the Mac awake with the lid closed.
+    static let holdWithLidClosed = "holdWithLidClosed"
 }
 
 // Applies the power preferences to the controller: watches the PowerMonitor and the preferences,
@@ -39,6 +41,7 @@ final class GuardrailController {
     private func evaluate() {
         let defaults = UserDefaults.standard
         controller.setKeepDisplayAwake(defaults.bool(forKey: GuardrailKeys.keepDisplayAwake))
+        controller.setHoldsWithLidClosed(defaults.bool(forKey: GuardrailKeys.holdWithLidClosed))
         let threshold = defaults.integer(forKey: GuardrailKeys.batteryThreshold)
         let guardrail = PowerGuardrail(
             releaseOnBattery: defaults.bool(forKey: GuardrailKeys.releaseOnBattery),

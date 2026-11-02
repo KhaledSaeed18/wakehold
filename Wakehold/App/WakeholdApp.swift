@@ -15,13 +15,18 @@ struct WakeholdApp: App {
     @State private var launch = LaunchAtLogin()
     @State private var inspector = AssertionInspector()
     @State private var clicks = StatusItemClicks()
+    @State private var lidSettings = ClosedLidSettings()
+    @State private var lidHold: ClosedLidHold
+    @State private var terminationSignal: DispatchSourceSignal?
     @State private var server: ControlServer?
 
     init() {
         // Keeping the display on is the default; UserDefaults.bool reads unset keys as false, so
         // register the true default before anything reads it.
         UserDefaults.standard.register(defaults: [GuardrailKeys.keepDisplayAwake: true])
-        let controller = WakeController()
+        let lidHold = ClosedLidHold()
+        let controller = WakeController(lid: lidHold)
+        _lidHold = State(initialValue: lidHold)
         let monitor = PowerMonitor()
         _controller = State(initialValue: controller)
         _manual = State(initialValue: ManualSessionController(wake: controller))
@@ -41,13 +46,17 @@ struct WakeholdApp: App {
         }
 
         Settings {
-            SettingsView(launch: launch, durations: durations)
+            SettingsView(launch: launch, durations: durations, lid: lidSettings)
         }
     }
 
     @MainActor
     private func startup() {
         startEndpoint()
+        // Before guardrails.start() applies the lid preference, so a leftover from a crash is cleared
+        // first on the same serial queue.
+        lidHold.clearStaleHold()
+        releaseLidHoldOnQuit()
         guardrails.start()
         inspector.start()
         Hotkey.register(onToggle: toggleDefault)
@@ -64,6 +73,21 @@ struct WakeholdApp: App {
     private func toggleDefault() {
         let duration = durations.defaultDuration
         manual.toggle(label: duration.label, seconds: duration.seconds)
+    }
+
+    // Sleep stays off after the process ends unless it is turned back on, so release it on a normal
+    // quit, and route SIGTERM (kill, pkill) through the same quit path instead of dying outright.
+    @MainActor
+    private func releaseLidHoldOnQuit() {
+        NotificationCenter.default.addObserver(
+            forName: NSApplication.willTerminateNotification, object: nil, queue: .main) { [lidHold] _ in
+            MainActor.assumeIsolated { lidHold.releaseNow() }
+        }
+        signal(SIGTERM, SIG_IGN)
+        let source = DispatchSource.makeSignalSource(signal: SIGTERM, queue: .main)
+        source.setEventHandler { NSApplication.shared.terminate(nil) }
+        source.resume()
+        terminationSignal = source
     }
 
     // Activate on launch: open the default-duration hold as the app starts, the same as picking the
