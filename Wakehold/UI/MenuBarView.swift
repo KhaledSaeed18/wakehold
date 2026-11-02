@@ -11,6 +11,8 @@ struct MenuBarView: View {
     let apps: AppSessionController
     let durations: DurationStore
     let inspector: AssertionInspector
+    let ender: SessionEnder
+    @Environment(\.openSettings) private var openSettings
 
     var body: some View {
         status
@@ -18,15 +20,21 @@ struct MenuBarView: View {
             Text("Stays awake with the lid closed")
         }
 
+        holding
+
         otherHolds
 
         Divider()
 
-        ForEach(durations.durations) { duration in
-            Button(duration.label) { manual.start(label: duration.label, seconds: duration.seconds) }
+        Section("Keep awake for") {
+            ForEach(durations.durations) { duration in
+                Button(durationTitle(duration)) {
+                    manual.start(label: duration.label, seconds: duration.seconds)
+                }
+            }
         }
 
-        if controller.isAwake {
+        if manualSession != nil {
             Button("Turn off") { manual.stop() }
         }
 
@@ -41,18 +49,28 @@ struct MenuBarView: View {
             }
         }
 
-        Menu("When last session ends") {
+        Picker("When last session ends", selection: Binding(
+            get: { endActions.armed },
+            set: { endActions.arm($0) }
+        )) {
             ForEach(PostSessionAction.allCases) { action in
-                Button(action.menuTitle) { endActions.arm(action) }
+                Text(action.menuTitle).tag(action)
             }
         }
-        endActionStatus
+        .pickerStyle(.menu)
+        if let pending = endActions.pending {
+            Button("Cancel: \(pending.menuTitle)") { endActions.cancelPending() }
+        }
 
         Divider()
 
-        SettingsLink {
-            Text("Settings…")
+        Button("Settings…") {
+            // Activate first: an app with no Dock icon is never active when its menu is used, and
+            // the window would open behind the frontmost app.
+            NSApp.activate()
+            openSettings()
         }
+        .keyboardShortcut(",")
 
         Button("Quit Wakehold") {
             NSApplication.shared.terminate(nil)
@@ -60,12 +78,44 @@ struct MenuBarView: View {
         .keyboardShortcut("q")
     }
 
+    private func durationTitle(_ duration: WakeDuration) -> String {
+        guard duration.id == durations.defaultID else { return duration.label }
+        return String(localized: "\(duration.label) (default)")
+    }
+
+    // Wakehold's own sessions, each with a submenu to end it. Labels come from the session source
+    // (a pid, a port, an agent's directory), so they are never treated as localization keys.
     @ViewBuilder
-    private var endActionStatus: some View {
-        if let pending = endActions.pending {
-            Button("Cancel: \(pending.menuTitle)") { endActions.cancelPending() }
-        } else if endActions.armed != .none {
-            Text("When done: \(endActions.armed.menuTitle)")
+    private var holding: some View {
+        if !controller.sessions.isEmpty {
+            Section("Holding") {
+                ForEach(controller.sessions, id: \.id) { session in
+                    Menu {
+                        Button("End") { ender.end(session) }
+                    } label: {
+                        Label {
+                            Text(verbatim: sessionTitle(session))
+                        } icon: {
+                            Image(systemName: Self.symbol(for: session.kind))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func sessionTitle(_ session: any WakeSession) -> String {
+        guard !session.isActive else { return session.label }
+        return String(localized: "\(session.label) (waiting)")
+    }
+
+    static func symbol(for kind: SessionKind) -> String {
+        switch kind {
+        case .manual: "timer"
+        case .process: "gearshape.2"
+        case .port: "network"
+        case .agent: "sparkle"
+        case .app: "macwindow"
         }
     }
 
@@ -110,6 +160,8 @@ struct MenuBarView: View {
             // A Date-anchored, self-updating countdown: SwiftUI recomputes remaining each tick, so
             // there is no drifting counter to trust.
             Text(timerInterval: range, countsDown: true)
+        } else if controller.isSuppressed && controller.sessions.contains(where: \.isActive) {
+            Text("Paused by a battery rule")
         } else if controller.isAwake {
             Text("Awake")
         } else {

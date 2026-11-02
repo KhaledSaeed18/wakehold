@@ -1,6 +1,26 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ (default)" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (افتراضي)"
+          }
+        }
+      }
+    },
+    "%@ (waiting)" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (بانتظار)"
+          }
+        }
+      }
+    },
     "%lld h" : {
       "localizations" : {
         "ar" : {
@@ -159,6 +179,36 @@
         }
       }
     },
+    "A click on the eye, the toggle shortcut, and activate on launch use the default." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "النقر على العين واختصار التبديل والتفعيل عند التشغيل تستخدم المدة الافتراضية."
+          }
+        }
+      }
+    },
+    "A rule pauses the hold without ending sessions; the hold resumes when the rule clears." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "توقف القاعدة الإبقاء مؤقتًا دون إنهاء الجلسات، ويُستأنف الإبقاء حين تزول."
+          }
+        }
+      }
+    },
+    "A Unix socket readable only by you. Scripts can open sessions with curl --unix-socket." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مقبس Unix لا يقرؤه أحد غيرك. يمكن للسكربتات فتح الجلسات عبر curl --unix-socket."
+          }
+        }
+      }
+    },
     "About" : {
       "localizations" : {
         "ar" : {
@@ -239,6 +289,26 @@
         }
       }
     },
+    "Battery rules" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قواعد البطارية"
+          }
+        }
+      }
+    },
+    "Build the CLI from the repository and link it onto your PATH, as the README shows." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ابنِ أداة سطر الأوامر من المستودع واربطها في PATH كما يوضح ملف README."
+          }
+        }
+      }
+    },
     "Cancel: %@" : {
       "localizations" : {
         "ar" : {
@@ -249,12 +319,92 @@
         }
       }
     },
-    "default" : {
+    "Click to toggle, right-click for the menu" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "انقر للتبديل، وانقر بالزر الأيمن للقائمة"
+          }
+        }
+      }
+    },
+    "Codex CLI, Gemini CLI, and Cursor: point each tool's hooks at these commands." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex CLI وGemini CLI وCursor: وجّه خطافات كل أداة إلى هذه الأوامر."
+          }
+        }
+      }
+    },
+    "Command line" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "سطر الأوامر"
+          }
+        }
+      }
+    },
+    "Connected" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متصل"
+          }
+        }
+      }
+    },
+    "Control endpoint" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نقطة التحكم"
+          }
+        }
+      }
+    },
+    "Controls" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عناصر التحكم"
+          }
+        }
+      }
+    },
+    "Copy" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "نسخ"
+          }
+        }
+      }
+    },
+    "Default" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "افتراضي"
+          }
+        }
+      }
+    },
+    "Display" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الشاشة"
           }
         }
       }
@@ -269,6 +419,26 @@
         }
       }
     },
+    "End" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إنهاء"
+          }
+        }
+      }
+    },
+    "End-of-session notices" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إشعارات نهاية الجلسة"
+          }
+        }
+      }
+    },
     "General" : {
       "localizations" : {
         "ar" : {
@@ -279,9 +449,75 @@
         }
       }
     },
-    "github.com/KhaledSaeed18/wakehold" : {
-      "comment" : "A link to the repository for Wakehold.",
-      "isCommentAutoGenerated" : true
+    "Hold" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإبقاء"
+          }
+        }
+      }
+    },
+    "Hold while a command runs" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإبقاء ما دام أمر يعمل"
+          }
+        }
+      }
+    },
+    "Hold while a port listens" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإبقاء ما دام منفذ يستمع"
+          }
+        }
+      }
+    },
+    "Holding" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قيد الإبقاء"
+          }
+        }
+      }
+    },
+    "Holds. Then lets go." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يُبقي. ثم يُفلت."
+          }
+        }
+      }
+    },
+    "Hooks config" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إعداد الخطافات"
+          }
+        }
+      }
+    },
+    "Idle" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خامل"
+          }
+        }
+      }
     },
     "Indefinite" : {
       "localizations" : {
@@ -289,6 +525,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "غير محدد"
+          }
+        }
+      }
+    },
+    "Integrations" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التكاملات"
+          }
+        }
+      }
+    },
+    "Keep awake for" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإبقاء مستيقظًا لمدة"
           }
         }
       }
@@ -313,12 +569,162 @@
         }
       }
     },
+    "Length" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المدة"
+          }
+        }
+      }
+    },
+    "License" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الرخصة"
+          }
+        }
+      }
+    },
+    "Lid closed" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الغطاء مغلق"
+          }
+        }
+      }
+    },
+    "Low Power Mode" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وضع الطاقة المنخفضة"
+          }
+        }
+      }
+    },
+    "Menu-bar icon" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "أيقونة شريط القوائم"
+          }
+        }
+      }
+    },
+    "MIT License" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رخصة MIT"
+          }
+        }
+      }
+    },
+    "Not connected" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "غير متصل"
+          }
+        }
+      }
+    },
+    "Not installed" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "غير مثبّت"
+          }
+        }
+      }
+    },
     "Nothing's keeping you awake." : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "لا شيء يُبقيك مستيقظًا."
+          }
+        }
+      }
+    },
+    "Notifications" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإشعارات"
+          }
+        }
+      }
+    },
+    "Now" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الآن"
+          }
+        }
+      }
+    },
+    "Off" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متوقف"
+          }
+        }
+      }
+    },
+    "On" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "يعمل"
+          }
+        }
+      }
+    },
+    "On each action or turn end" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عند كل إجراء أو نهاية دور"
+          }
+        }
+      }
+    },
+    "On session end" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عند نهاية الجلسة"
+          }
+        }
+      }
+    },
+    "On session start" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عند بدء الجلسة"
           }
         }
       }
@@ -343,12 +749,92 @@
         }
       }
     },
+    "Other agents" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "وكلاء آخرون"
+          }
+        }
+      }
+    },
+    "Paste the hooks config into ~/.claude/settings.json. An agent's lease expires on its own if it exits without ending." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الصق إعداد الخطافات في ‎~/.claude/settings.json. تنتهي مهلة الوكيل وحدها إن خرج دون إنهاء."
+          }
+        }
+      }
+    },
+    "Paused by a battery rule" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "موقوف مؤقتًا بقاعدة بطارية"
+          }
+        }
+      }
+    },
+    "Power" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الطاقة"
+          }
+        }
+      }
+    },
+    "Power adapter" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "محوّل الطاقة"
+          }
+        }
+      }
+    },
+    "Power source" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مصدر الطاقة"
+          }
+        }
+      }
+    },
+    "Quick picks" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اختيارات سريعة"
+          }
+        }
+      }
+    },
     "Quit Wakehold" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "إنهاء Wakehold"
+          }
+        }
+      }
+    },
+    "Ready" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "جاهز"
           }
         }
       }
@@ -383,6 +869,16 @@
         }
       }
     },
+    "Remove" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إزالة"
+          }
+        }
+      }
+    },
     "Remove setup" : {
       "localizations" : {
         "ar" : {
@@ -393,12 +889,22 @@
         }
       }
     },
-    "Set default" : {
+    "Report an issue" : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "تعيين كافتراضي"
+            "value" : "الإبلاغ عن مشكلة"
+          }
+        }
+      }
+    },
+    "Restore defaults" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "استعادة الافتراضيات"
           }
         }
       }
@@ -423,6 +929,16 @@
         }
       }
     },
+    "Setup" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الإعداد"
+          }
+        }
+      }
+    },
     "Setup did not finish." : {
       "localizations" : {
         "ar" : {
@@ -433,12 +949,62 @@
         }
       }
     },
+    "Show what is holding" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عرض ما يُبقيه مستيقظًا"
+          }
+        }
+      }
+    },
+    "Socket" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المقبس"
+          }
+        }
+      }
+    },
+    "Source code" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الشيفرة المصدرية"
+          }
+        }
+      }
+    },
     "Starts the default duration, or turns off the running one." : {
       "localizations" : {
         "ar" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "يبدأ المدة الافتراضية، أو يوقف المدة الجارية."
+          }
+        }
+      }
+    },
+    "Startup" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "بدء التشغيل"
+          }
+        }
+      }
+    },
+    "Status" : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الحالة"
           }
         }
       }
@@ -459,6 +1025,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "يبقى مستيقظًا والغطاء مغلق"
+          }
+        }
+      }
+    },
+    "These appear in the menu." : {
+      "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تظهر هذه في القائمة."
           }
         }
       }
@@ -499,16 +1075,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "الإصدار %@"
-          }
-        }
-      }
-    },
-    "When done: %@" : {
-      "localizations" : {
-        "ar" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "عند الانتهاء: %@"
           }
         }
       }

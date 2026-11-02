@@ -16,6 +16,7 @@ struct WakeholdApp: App {
     @State private var inspector = AssertionInspector()
     @State private var clicks = StatusItemClicks()
     @State private var lidSettings = ClosedLidSettings()
+    @State private var integrations = IntegrationStatus()
     @State private var lidHold: ClosedLidHold
     @State private var terminationSignal: DispatchSourceSignal?
     @State private var server: ControlServer?
@@ -39,14 +40,19 @@ struct WakeholdApp: App {
 
     var body: some Scene {
         MenuBarExtra {
-            MenuBarView(controller: controller, manual: manual, endActions: endActions, apps: apps, durations: durations, inspector: inspector)
+            MenuBarView(
+                controller: controller, manual: manual, endActions: endActions, apps: apps,
+                durations: durations, inspector: inspector,
+                ender: SessionEnder(manual: manual, apps: apps, registry: registry))
         } label: {
             MenuBarLabel(controller: controller, clock: clock)
                 .task { startup() }
         }
 
         Settings {
-            SettingsView(launch: launch, durations: durations, lid: lidSettings)
+            SettingsView(
+                controller: controller, launch: launch, durations: durations, guardrails: guardrails,
+                lid: lidSettings, integrations: integrations)
         }
     }
 
