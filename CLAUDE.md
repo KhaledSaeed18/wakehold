@@ -197,7 +197,9 @@ The app ships English and Arabic. Strings live in String Catalogs, not in code.
 - Add a UI string as a source-language literal in a SwiftUI `Text`/`Label`/`Toggle` (auto-localized),
   then add its `ar` value to the catalog. Duration labels use the catalog's plural variations, so
   the six Arabic plural forms live there, not in a Swift `switch`.
-- SwiftUI mirrors layout to RTL for Arabic on its own; do not hand-flip. Keep brand tokens
+- Do not hand-flip individual views. The menu mirrors on its own (the system draws it), but AppKit
+  reports left-to-right when the app runs in Arabic through a per-app language, so the settings
+  window sets its layout direction once from the running localization. Keep brand tokens
   (`Wakehold`) and bare numbers verbatim (`Text(verbatim:)`).
 - Arabic is Modern Standard Arabic. The marketing site's Lebanese Arabic is a separate choice; do
   not assume the app follows it without asking.

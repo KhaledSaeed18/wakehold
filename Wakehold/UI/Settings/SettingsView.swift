@@ -31,6 +31,7 @@ struct SettingsView: View {
         // The floor that keeps every pane usable; the window resizes freely above it.
         .frame(minWidth: 680, minHeight: 460)
         .background(BringWindowToFront())
+        .environment(\.layoutDirection, Self.layoutDirection)
     }
 
     @ViewBuilder
@@ -49,6 +50,15 @@ struct SettingsView: View {
         }
     }
 
+    // The direction of the language the app is running in. AppKit reports left-to-right even when
+    // the app runs in Arabic through a per-app language choice, so SwiftUI would not mirror the
+    // window on its own; the menu mirrors because the system draws it.
+    private static var layoutDirection: LayoutDirection {
+        let language = Bundle.main.preferredLocalizations.first ?? "en"
+        return Locale.Language(identifier: language).characterDirection == .rightToLeft
+            ? .rightToLeft : .leftToRight
+    }
+
     // The opening size: roomy on a normal display, capped to the screen it opens on so it still
     // fits a small one. Every pane is a scrolling form, so a capped height still reaches every row.
     static var defaultSize: CGSize {
@@ -56,3 +66,4 @@ struct SettingsView: View {
         return CGSize(width: min(820, visible.width - 80), height: min(680, visible.height - 100))
     }
 }
+
