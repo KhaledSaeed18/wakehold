@@ -92,12 +92,15 @@ struct WakeholdCLI {
         do {
             switch action {
             case "start":
-                let cwd = firstString(json, ["cwd", "workingDirectory", "working_dir", "project_dir"])
-                let label = cwd.map { ($0 as NSString).lastPathComponent } ?? "agent"
-                let ttl = TimeInterval(ProcessInfo.processInfo.environment["WAKEHOLD_TTL"] ?? "") ?? 900
-                _ = try client.startAgent(key: key, label: label, ttl: ttl)
+                try startLease(key: key, json: json, client: client)
             case "renew":
-                try client.renew(key: key)
+                do {
+                    try client.renew(key: key)
+                } catch WakeholdError.controlError(status: 404, _) {
+                    // The lease expired during a long pause, or was ended from the menu. The agent
+                    // is evidently still working, so open it again rather than fail every hook.
+                    try startLease(key: key, json: json, client: client)
+                }
             case "end":
                 try client.end(key: key)
             default:
@@ -106,6 +109,13 @@ struct WakeholdCLI {
         } catch WakeholdError.endpointUnreachable {
             // Wakehold is not running; a hook stays out of the way.
         }
+    }
+
+    static func startLease(key: String, json: [String: Any], client: ControlClient) throws {
+        let cwd = firstString(json, ["cwd", "workingDirectory", "working_dir", "project_dir"])
+        let label = cwd.map { ($0 as NSString).lastPathComponent } ?? "agent"
+        let ttl = TimeInterval(ProcessInfo.processInfo.environment["WAKEHOLD_TTL"] ?? "") ?? 900
+        _ = try client.startAgent(key: key, label: label, ttl: ttl)
     }
 
     static func firstString(_ json: [String: Any], _ keys: [String]) -> String? {

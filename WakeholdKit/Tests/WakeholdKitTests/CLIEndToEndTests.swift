@@ -56,6 +56,22 @@ struct CLIEndToEndTests {
         _ = try await Task.detached { try runCLI(["hook", "end"], socket: path, stdin: event) }.value
         #expect(!wake.isAwake)
     }
+
+    // A renew after the lease expired (or was ended from the menu) must not fail the agent's hook;
+    // it opens the lease again.
+    @Test func hookRenewReopensAnUnknownLease() async throws {
+        let wake = WakeController()
+        let registry = SessionRegistry(wake: wake)
+        let path = "/tmp/wh-\(UUID().uuidString.prefix(8)).sock"
+        let server = ControlServer(path: path, wake: wake, registry: registry)
+        try server.start()
+        defer { server.stop() }
+
+        let event = #"{"session_id":"gone42","cwd":"/Users/me/project","hook_event_name":"PostToolUse"}"#
+        _ = try await Task.detached { try runCLI(["hook", "renew"], socket: path, stdin: event) }.value
+        #expect(wake.isAwake)
+        #expect(wake.sessions.contains { $0.label == "project" })
+    }
 }
 
 private func runCLI(_ args: [String], socket: String, stdin: String? = nil) throws -> String {
